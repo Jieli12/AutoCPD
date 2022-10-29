@@ -28,7 +28,7 @@ Note: You can only see the plotted figure using Ipython.
 
 ## HASC data analysis
 
-The HASC data downloaded from [here](http://hasc.jp/hc2011/index-en.html) is in folder ”./datasets/HASC/”. The architecture details of residual neural network can be found in supplementary material. The script “RealDataKS25.py” train the model and save the trained model in the folder ”./Code/tensorboard_logs/Trial/”. **Note:** it costs several hours to train the residual neural network in GPU server. For convenience, I also put the trained model ``RealDataKS25’’ in folder ”./Code/tensorboard_logs/Trial/”. To obtain the Figure 4 in the main text, please run the file “RealDataCPDTestNewSeq1.py”.
+The HASC data downloaded from [here](http://hasc.jp/hc2011/index-en.html) is in folder ”./datasets/HASC/”. The architecture details of residual neural network can be found in supplementary material. The script “RealDataKS25.py” trains the model and saves the trained model in the folder ”./Code/tensorboard_logs/Trial/”. **Note:** it costs several hours to train the residual neural network in GPU server. For convenience, I also put the trained model ``RealDataKS25’’ in folder ”./Code/tensorboard_logs/Trial/”. To obtain the Figure 4 in the main text, please run the file “RealDataCPDTestNewSeq1.py”.
 
 ## Extra Simulation for Multiple Change-types
 
