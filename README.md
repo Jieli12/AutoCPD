@@ -4,7 +4,7 @@
 
 We use TensorFlow 2.7.0 with Python 3.9.0. To save the logs and trained model of TensorFlow, we also need to install [tensorflow-docs](https://github.com/tensorflow/docs) by running
 
-```python
+```bash
 pip install git+<https://github.com/tensorflow/docs>
 ```
 
@@ -28,7 +28,9 @@ Note: You can only see the plotted figure using Ipython.
 
 ## HASC data analysis
 
-The HASC data downloaded from [here](http://hasc.jp/hc2011/index-en.html) is in folder ”./datasets/HASC/”. The architecture details of residual neural network can be found in supplementary material. The script “RealDataKS25.py” trains the model and saves the trained model in the folder ”./Code/tensorboard_logs/Trial/”. **Note:** it costs several hours to train the residual neural network in GPU server. For convenience, I also put the trained model ``RealDataKS25’’ in folder ”./Code/tensorboard_logs/Trial/”. To obtain the Figure 4 in the main text, please run the file “RealDataCPDTestNewSeq1.py”.
+The HASC data downloaded from [here](http://hasc.jp/hc2011/index-en.html) is in folder ”./datasets/HASC/”. The architecture details of residual neural network can be found in supplementary material. The script “RealDataKS25.py” trains the model and saves the trained model in the folder ”./Code/tensorboard_logs/Trial/”.
+
+**Note:** it costs several hours to train the residual neural network in GPU server. For convenience, I also put the trained model ``RealDataKS25’’ in folder ”./Code/tensorboard_logs/Trial/”. To obtain the Figure 4 in the main text, please run the file “RealDataCPDTestNewSeq1.py”.
 
 ## Extra Simulation for Multiple Change-types
 
@@ -38,11 +40,11 @@ For likelihood-ratio-based methods, we employ the Pruned Exact Linear Time (PELT
 
 The scripts “ResNetN1kE8tanhDecay10kScale.py” and “ResNetN1kE8tanhStrongDecay10kScale.py” can produce Figures 3(c) and 3(d) in supplementary material for weak and strong signal scenarios respectively. For convenience, the trained models are also available in ”./Code/tensorboard_logs/Trial/”.
 
-For likelihood-ratio-based classifiers, please run the following scripts:
+For likelihood-ratio-based classifiers, please run the following scripts in order:
 
-	- DataGenForRStrong.py;
-	- DataGenForRWeak.py;
-	- BIC-Strong.py;
-	- BIC-Weak.py;
-	- BICStrongPlot.py;
-	- BICWeakPlot.py;
+* DataGenForRStrong.py;
+* DataGenForRWeak.py;
+* BIC-Strong.py;
+* BIC-Weak.py;
+* BICStrongPlot.py;
+* BICWeakPlot.py;
