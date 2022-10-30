@@ -38,7 +38,7 @@ In supplementary material, we also provide an extra simulation for one-change-po
 
 For likelihood-ratio-based methods, we employ the Pruned Exact Linear Time (PELT) (Killick et al., 2012) and Narrowest-Over-Threshold (NOT) (Baranowski et al., 2019) algorithms to detect the change in mean, slope and variance respectively. The algorithms are available in **R** packages: [not](https://CRAN.R-project.org/package=not) and [changepoint](https://CRAN.R-project.org/package=changepoint).
 
-The scripts “ResNetN1kE8tanhDecay10kScale.py” and “ResNetN1kE8tanhStrongDecay10kScale.py” can produce Figures 3(c) and 3(d) in supplementary material for weak and strong signal scenarios respectively. For convenience, the trained models are also available in ”./Code/tensorboard_logs/Trial/”.
+The scripts “ResNetN1kE8tanhDecay10kScale.py” and “ResNetN1kE8tanhStrongDecay10kScale.py” can produce confusion matrices for weak and strong signal scenarios respectively. For convenience, the trained models are also available in ”./Code/tensorboard_logs/Trial/”.
 
 For likelihood-ratio-based classifiers, please run the following scripts in order:
 
@@ -48,3 +48,13 @@ For likelihood-ratio-based classifiers, please run the following scripts in orde
 * BIC-Weak.py;
 * BICStrongPlot.py;
 * BICWeakPlot.py;
+
+To generate Table 1 in main text, please run the following scripts in order:
+
+* DataGenForRWeakRep30.py;
+* BIC-Weak-rep30.r;
+* ResNetWeakRep30.py;
+* DataGenForRStrongRep30.py;
+* BIC-Strong-rep30.r;
+* ResNetStrongRep30.py;
+
