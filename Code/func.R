@@ -72,7 +72,7 @@ adjust_filtered <- function(mat) {
     bic_S <- rep(0, n)
     label <- rep(0, n)
     for (i in 1:n) {
-        print(i)
+        # print(i)
         x <- mat[i, ]
 
         # for change in mean
