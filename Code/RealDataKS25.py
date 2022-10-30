@@ -1,10 +1,10 @@
 """
 Author         : Jie Li, Department of Statistics, London School of Economics.
 Date           : 2022-10-18 16:01:59
-Last Revision  : 2022-10-29 23:09:54
+Last Revision  : 2022-10-30 08:28:05
 Last Author    : Jie Li
 File Path      : /AutoCPD/Code/RealDataKS25.py
-Description    : 
+Description    :
 
 
 
@@ -13,8 +13,8 @@ Description    :
 
 
 
-Copyright (c) 2022 by Jie Li, j.li196@lse.ac.uk 
-All Rights Reserved. 
+Copyright (c) 2022 by Jie Li, j.li196@lse.ac.uk
+All Rights Reserved.
 """
 # %%
 import pathlib
@@ -196,22 +196,7 @@ kernel_size = (3, 25)
 num_classes = len(counts)
 num_tran = TS_train.shape[-1]
 
-
 # %%
-def resblock(x, kernel_size, filters, strides=1):
-	x1 = layers.Conv2D(filters, kernel_size, strides=strides, padding='same')(x)
-	x1 = layers.BatchNormalization()(x1)
-	x1 = layers.ReLU()(x1)
-	x1 = layers.Conv2D(filters, kernel_size, padding='same')(x1)
-	x1 = layers.BatchNormalization()(x1)
-	if strides != 1:
-		x = layers.Conv2D(filters, 1, strides=strides, padding='same')(x)
-		x = layers.BatchNormalization()(x)
-
-	x1 = layers.Add()([x, x1])
-	x1 = layers.ReLU()(x1)
-	return x1
-
 
 input = layers.Input(shape=(num_tran, n), name="Input")
 x = layers.Reshape((num_tran, n, 1))(input)
