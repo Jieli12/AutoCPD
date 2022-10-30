@@ -362,3 +362,4 @@ temp/
 # igonore data files
 # only for this project
 .history
+__pycache__
