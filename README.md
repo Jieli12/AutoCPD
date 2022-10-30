@@ -57,4 +57,3 @@ To generate Table 1 in main text, please run the following scripts in order:
 * DataGenForRStrongRep30.py;
 * BIC-Strong-rep30.r;
 * ResNetStrongRep30.py;
-
