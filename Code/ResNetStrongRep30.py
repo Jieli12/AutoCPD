@@ -1,7 +1,7 @@
 """
 Author         : Jie Li, Department of Statistics, London School of Economics.
 Date           : 2022-10-30 17:25:02
-Last Revision  : 2022-10-30 17:26:38
+Last Revision  : 2022-11-01 01:02:32
 Last Author    : Jie Li
 File Path      : /AutoCPD/Code/ResNetStrongRep30.py
 Description    :
@@ -59,6 +59,7 @@ model.summary()
 rep = 30
 n = 1000
 acc = np.zeros((rep,))
+pred_all = np.zeros((n, rep))
 for i in range(rep):
 	ind_temp = range(i * n, (i + 1) * n)
 	x_test_temp = x_test[ind_temp, :, :]
@@ -67,7 +68,10 @@ for i in range(rep):
 	y_pred_temp = np.argmax(model.predict(x_test_temp), axis=1)
 	confusion_mtx = tf.math.confusion_matrix(y_test_temp, y_pred_temp)
 	acc[i] = np.sum(np.diag(confusion_mtx)) / n
+	pred_all[:, i] = y_pred_temp
 
 np.mean(acc, axis=0)
 fname_y_strong_acc = datapath + "y_strong_rep30.npy"
 np.save(fname_y_strong_acc, acc)
+fname_y_strong_pred_all = datapath + "y_strong_pred_all_rep30.npy"
+np.save(fname_y_strong_pred_all, pred_all)

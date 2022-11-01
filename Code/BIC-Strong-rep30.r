@@ -1,7 +1,7 @@
 #
 # Author         : Jie Li, Department of Statistics, London School of Economics.
 # Date           : 2022-10-30 15:45:33
-# Last Revision  : 2022-10-30 15:48:14
+# Last Revision  : 2022-11-01 00:54:08
 # Last Author    : Jie Li
 # File Path      : /AutoCPD/Code/BIC-Strong-rep30.r
 # Description    :
@@ -34,6 +34,7 @@ r <- 30
 x_test <- npyLoad("../datasets/BIC/x_test_rstrong_rep30.npy")
 y_test <- npyLoad("../datasets/BIC/y_test_rstrong_rep30.npy", type = "integer")
 acc <- rep(0, r)
+pred_all <- matrix(0, nrow = n, ncol = r)
 for (i in 1:r) {
     print(i)
     ind_temp <- ((i - 1) * n + 1):(i * n)
@@ -42,5 +43,7 @@ for (i in 1:r) {
     y_test_true <- y_test[ind_temp]
     result <- confusionMatrix(as.factor(y_pred_bic), as.factor(y_test_true))
     acc[i] <- result$overall[1]
+    pred_all[, i] <- y_pred_bic
 }
 npySave("../datasets/BIC/y_pred_bic_rstrong_rep30.npy", acc)
+npySave("../datasets/BIC/y_pred_allbic_rstrong_rep30.npy", pred_all)
