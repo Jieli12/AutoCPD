@@ -1,7 +1,7 @@
 """
 Author         : Jie Li, Department of Statistics, London School of Economics.
 Date           : 2022-11-01 10:53:56
-Last Revision  : 2022-11-01 11:52:00
+Last Revision  : 2022-11-01 19:47:31
 Last Author    : Jie Li
 File Path      : /AutoCPD/Code/classification_report.py
 Description    :
@@ -90,16 +90,5 @@ for i in range(r):
 	recall_rep30[0:5, 3, i] = [result_temp[j]['recall'] for j in target_names]
 	recall_rep30[5, 3, i] = result_temp['accuracy']
 
-table=np.mean(recall_rep30, axis=2, keepdims=False)
+table = np.mean(recall_rep30, axis=2, keepdims=False)
 a2l.to_clp(table, frmt='{:6.4f}', arraytype='bmatrix')
-\begin{bmatrix}
-  0.9548 &  0.8428 &  0.9559 &  0.9551\\
-  0.8021 &  0.8012 &  0.6496 &  0.9498\\
-  0.7973 &  1.0000 &  0.9779 &  1.0000\\
-  0.9431 &  0.8813 &  0.9431 &  0.9358\\
-  0.8362 &  0.8752 &  0.9750 &  0.9548\\
-  0.8667 &  0.8801 &  0.9003 &  0.9591
-\end{bmatrix}
-	
-	
-	
