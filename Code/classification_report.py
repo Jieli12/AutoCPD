@@ -1,7 +1,7 @@
 """
 Author         : Jie Li, Department of Statistics, London School of Economics.
 Date           : 2022-11-01 10:53:56
-Last Revision  : 2022-11-01 19:47:31
+Last Revision  : 2022-11-06 10:50:17
 Last Author    : Jie Li
 File Path      : /AutoCPD/Code/classification_report.py
 Description    :
@@ -28,6 +28,11 @@ fname_ypred_weak_LR = datapath + "y_pred_allbic_rweak_rep30.npy"
 ypred_weak_LR = np.load(fname_ypred_weak_LR)
 fname_ypred_strong_LR = datapath + "y_pred_allbic_rstrong_rep30.npy"
 ypred_strong_LR = np.load(fname_ypred_strong_LR)
+
+fname_ypred_weak_LR_or = datapath + "y_pred_bic_rweak_rep30oracle.npy"
+ypred_weak_LR_or = np.load(fname_ypred_weak_LR_or)
+fname_ypred_strong_LR_or = datapath + "y_pred_bic_rstrong_rep30oracle.npy"
+ypred_strong_LR_or = np.load(fname_ypred_strong_LR_or)
 
 fname_ypred_weak_NN = datapath + "y_weak_pred_all_rep30.npy"
 ypred_weak_NN = np.load(fname_ypred_weak_NN)
@@ -90,5 +95,9 @@ for i in range(r):
 	recall_rep30[0:5, 3, i] = [result_temp[j]['recall'] for j in target_names]
 	recall_rep30[5, 3, i] = result_temp['accuracy']
 
-table = np.mean(recall_rep30, axis=2, keepdims=False)
-a2l.to_clp(table, frmt='{:6.4f}', arraytype='bmatrix')
+table_temp = np.mean(recall_rep30, axis=2, keepdims=False)
+table1 = np.zeros((6, 6))
+table1[:, 0] = np.mean(ypred_weak_LR_or, 1)
+table1[:, 1:3] = table_temp[:, 0:2]
+table1[:, 3] = np.mean(ypred_strong_LR_or, 1)
+table1[:, 4:6] = table_temp[:, 2:4]

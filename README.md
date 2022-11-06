@@ -62,6 +62,8 @@ For likelihood-ratio-based classifiers, please run the following scripts in orde
 * BIC-Weak.py;
 * BICStrongPlot.py;
 * BICWeakPlot.py;
+* BIC-Strong-rep30-oracle.r;
+* BIC-Weak-rep30-oracle.r;
 
 To generate Table 1 in main text, please run the following scripts in order:
 
@@ -71,3 +73,4 @@ To generate Table 1 in main text, please run the following scripts in order:
 * DataGenForRStrongRep30.py;
 * BIC-Strong-rep30.r;
 * ResNetStrongRep30.py;
+* classification_report.py;
