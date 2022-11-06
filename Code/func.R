@@ -1,7 +1,7 @@
 #
 # Author         : Jie Li, Department of Statistics, London School of Economics.
 # Date           : 2022-09-22 21:54:36
-# Last Revision  : 2022-10-29 23:08:34
+# Last Revision  : 2022-11-02 14:14:10
 # Last Author    : Jie Li
 # File Path      : /AutoCPD/Code/func.R
 # Description    :
@@ -189,4 +189,68 @@ compute_bic <- function(x, cp = 0, flag = "mean") {
 
     return(bic)
 }
+oracle_LR <- function(mat, y_true) {
+    n <- nrow(mat)
+    cp_mean_not <- rep(10, n)
+    cp_var <- rep(10, n)
+    cp_slope_not <- rep(10, n)
+    cp_loc_mean <- rep(0, n)
+    cp_loc_var <- rep(0, n)
+    cp_loc_slope <- rep(0, n)
+    for (i in 1:n) {
+        # print(i)
+        x <- mat[i, ]
+        y <- y_true[i]
+        # for change in mean
+        if (y == 0 | y == 1) {
+            ans <- not(x, contrast = "pcwsConstMean")
+            cp_temp <- features(ans)[4]
+            if (cp_temp == "NA") {
+                cp_mean_not[i] <- 0
+            } else if (length(cp_temp) == 1) {
+                cp_mean_not[i] <- 1
+                cp_loc_mean[i] <- cp_temp$cpt[1]
+            }
+        }
 
+
+        
+        # for change in var
+        if (y == 2) {
+            ans <- cpt.var(x, penalty = "SIC", pen.value = 0.01, method = "AMOC")
+            cp_temp <- cpts(ans)
+            if (length(cp_temp) == 1 & cp_temp[1] > 10 & cp_temp[1] < length(x) - 10) {
+                cp_var[i] <- 2
+                cp_loc_var[i] <- cp_temp
+            }
+        }
+
+
+        # for change in slope
+        if (y == 3 | y == 4) {
+            ans <- not(x, contrast = "pcwsLinContMean")
+            cp_temp <- features(ans)[4]
+            if (cp_temp == "NA") {
+                cp_slope_not[i] <- 3
+            } else if (length(cp_temp) == 1) {
+                cp_slope_not[i] <- 4
+                cp_loc_slope[i] <- cp_temp$cpt[1]
+            }
+        }
+    }
+    # compute recall for change in mean
+    a1 <- sum(cp_mean_not == 0 & y_true == 0)
+    a2 <- sum(cp_mean_not == 1 & y_true == 1)
+    a3 <- sum(cp_var == 2 & y_true == 2)
+    a4 <- sum(cp_slope_not == 3 & y_true == 3)
+    a5 <- sum(cp_slope_not == 4 & y_true == 4)
+    recall_1 <- a1 / sum(y_true == 0)
+    recall_2 <- a2 / sum(y_true == 1)
+    recall_3 <- a3 / sum(y_true == 2)
+    recall_4 <- a4 / sum(y_true == 3)
+    recall_5 <- a5 / sum(y_true == 4)
+    acc <- (a1 + a2 + a3 + a4 + a5) / n
+
+    result <- c(recall_1, recall_2, recall_3, recall_4, recall_5, acc)
+    return(result)
+}
