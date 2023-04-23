@@ -1,9 +1,9 @@
 #
 # Author         : Jie Li, Department of Statistics, London School of Economics.
 # Date           : 2022-09-22 21:54:36
-# Last Revision  : 2022-11-02 14:14:10
+# Last Revision  : 2023-04-23 14:28:14
 # Last Author    : Jie Li
-# File Path      : /AutoCPD/Code/func.R
+# File Path      : /AI-assisstedChangePointDetection/Users/Jie/Documents/AutoCPD/Code/func.R
 # Description    :
 #
 #
@@ -202,7 +202,7 @@ oracle_LR <- function(mat, y_true) {
         x <- mat[i, ]
         y <- y_true[i]
         # for change in mean
-        if (y == 0 | y == 1) {
+        if (y == 0 || y == 1) {
             ans <- not(x, contrast = "pcwsConstMean")
             cp_temp <- features(ans)[4]
             if (cp_temp == "NA") {
@@ -214,12 +214,12 @@ oracle_LR <- function(mat, y_true) {
         }
 
 
-        
+
         # for change in var
         if (y == 2) {
             ans <- cpt.var(x, penalty = "SIC", pen.value = 0.01, method = "AMOC")
             cp_temp <- cpts(ans)
-            if (length(cp_temp) == 1 & cp_temp[1] > 10 & cp_temp[1] < length(x) - 10) {
+            if (length(cp_temp) == 1 && cp_temp[1] > 10 && cp_temp[1] < length(x) - 10) {
                 cp_var[i] <- 2
                 cp_loc_var[i] <- cp_temp
             }
@@ -227,7 +227,7 @@ oracle_LR <- function(mat, y_true) {
 
 
         # for change in slope
-        if (y == 3 | y == 4) {
+        if (y == 3 || y == 4) {
             ans <- not(x, contrast = "pcwsLinContMean")
             cp_temp <- features(ans)[4]
             if (cp_temp == "NA") {
