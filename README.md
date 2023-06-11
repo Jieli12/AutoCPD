@@ -54,23 +54,9 @@ For likelihood-ratio-based methods, we employ the Pruned Exact Linear Time (PELT
 
 The scripts “ResNetN1kE8tanhDecay10kScale.py” and “ResNetN1kE8tanhStrongDecay10kScale.py” can produce confusion matrices for weak and strong signal scenarios respectively. For convenience, the trained models are also available in ”./Code/tensorboard_logs/Trial/”.
 
-For likelihood-ratio-based classifiers, please run the following scripts in order:
-
-* DataGenForRStrong.py;
-* DataGenForRWeak.py;
-* BIC-Strong.py;
-* BIC-Weak.py;
-* BICStrongPlot.py;
-* BICWeakPlot.py;
-* BIC-Strong-rep30-oracle.r;
-* BIC-Weak-rep30-oracle.r;
-
 To generate Table 1 in main text, please run the following scripts in order:
 
-* DataGenForRWeakRep30.py;
-* BIC-Weak-rep30.r;
-* ResNetWeakRep30.py;
-* DataGenForRStrongRep30.py;
-* BIC-Strong-rep30.r;
-* ResNetStrongRep30.py;
-* classification_report.py;
+* RNWeak21T2N2500R10SaveForR.py;
+* RNStrong21T2N2500R10SaveForR.py;
+* RNWeakoracle-revisionTestR10.r;
+* RNStrongoracle-revisionTestR10.r;
