@@ -50,7 +50,7 @@ The HASC data downloaded from [here](http://hasc.jp/hc2011/index-en.html) is in 
 
 In supplementary material, we also provide an extra simulation for one-change-point but with multiple change-types: change in mean, change in slope and change in variance.
 
-For likelihood-ratio-based methods, we employ the Pruned Exact Linear Time (PELT) (Killick et al., 2012) and Narrowest-Over-Threshold (NOT) (Baranowski et al., 2019) algorithms to detect the change in mean, slope and variance respectively. The algorithms are available in **R** packages: [not](https://CRAN.R-project.org/package=not) and [changepoint](https://CRAN.R-project.org/package=changepoint).
+For likelihood-ratio-based methods, we employ the Narrowest-Over-Threshold (NOT) (Baranowski et al., 2019) and single variance change-point detection (Chen and Gupta, 2012) algorithms to detect the change in mean, slope and variance respectively. The algorithms are available in **R** packages: [not](https://CRAN.R-project.org/package=not) and [changepoint](https://CRAN.R-project.org/package=changepoint).
 
 The scripts “ResNetN1kE8tanhDecay10kScale.py” and “ResNetN1kE8tanhStrongDecay10kScale.py” can produce confusion matrices for weak and strong signal scenarios respectively. For convenience, the trained models are also available in ”./Code/tensorboard_logs/Trial/”.
 
