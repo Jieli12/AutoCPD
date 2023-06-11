@@ -1,7 +1,7 @@
 """
 Author         : Jie Li, Department of Statistics, London School of Economics.
 Date           : 2022-10-30 16:44:10
-Last Revision  : 2022-11-01 19:40:52
+Last Revision  : 2023-06-11 20:24:51
 Last Author    : Jie Li
 File Path      : /AutoCPD/Code/ResNetWeakRep30.py
 Description    :
@@ -26,15 +26,11 @@ import matplotlib.pyplot as plt
 import numpy as np
 import seaborn as sns
 import tensorflow as tf
-import tensorflow_docs as tfdocs
-import tensorflow_docs.modeling
-import tensorflow_docs.plots
+from DataSetGen import *
 from keras import layers, losses, metrics, models
 # %%
 from sklearn.metrics import auc, roc_curve
 from sklearn.model_selection import train_test_split
-
-from DataSetGen import *
 from utils import *
 
 # %%

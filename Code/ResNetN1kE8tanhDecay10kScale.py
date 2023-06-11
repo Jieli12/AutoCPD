@@ -26,27 +26,23 @@ import matplotlib.pyplot as plt
 import numpy as np
 import seaborn as sns
 import tensorflow as tf
-import tensorflow_docs as tfdocs
-import tensorflow_docs.modeling
-import tensorflow_docs.plots
+from DataSetGen import *
 from keras import layers, losses, metrics, models
 # %%
 from sklearn.metrics import auc, roc_curve
 from sklearn.model_selection import train_test_split
-
-from DataSetGen import *
 from utils import *
 
 # %%
 # set the random seed
 np.random.seed(2022)  # numpy seed fixing
 tf.random.set_seed(2022)  # tensorflow seed fixing
-N_sub = 1000
+N_sub = 2500
 n = 400
 n_trim = 40
 mean_arg = np.array([0.7, 5, -5, 0.5, 0.25])
-var_arg = np.array([20, 0.7, 0.3, 0.25, 0.12])
-slope_arg = np.array([0.5, 0.025, -0.025, 0.012, 0.005])
+var_arg = np.array([0, 0.7, 0.3, 0.24, 0.12])
+slope_arg = np.array([0.5, 0.025, -0.025, 0.012, 0.006])
 
 dataset = DataSetGen0(N_sub, n, mean_arg, var_arg, slope_arg, n_trim)
 
@@ -58,13 +54,7 @@ cp_var = dataset["cp_var"]
 cp_slope = dataset["cp_slope"]
 cp_mean = dataset["cp_mean"]
 # %% normalization
-data_x = Transform2D(data_x, rescale=True, cumsum=False)
-data_x = Standardize(data_x)
-
-datamin = data_x.min(axis=2, keepdims=True)
-datamax = data_x.max(axis=2, keepdims=True)
-data_x = 2 * (data_x - datamin) / (datamax - datamin) - 1
-
+data_x = Transform2D2TR(data_x, rescale=True, times=3)
 num_dataset = 5
 labels = [0, 1, 2, 3, 4]
 num_classes = len(set(labels))
@@ -73,7 +63,7 @@ cp_non = np.zeros((N_sub,))
 cp_all = np.concatenate((cp_non, cp_mean, cp_var, cp_non, cp_slope))
 range = np.arange(N_sub * num_dataset)
 x_train, x_test, y_train, y_test, cp_train, cp_test, ind_train, ind_test= train_test_split(
-	data_x, data_y, cp_all, range, train_size=0.6, random_state=42
+	data_x, data_y, cp_all, range, train_size=0.8, random_state=42
 )
 # %%
 current_file = Path(__file__).stem
@@ -82,14 +72,30 @@ model_name = current_file
 logdir = Path("tensorboard_logs", "Trial")
 # %%
 learning_rate = 1e-3
-epochs = 800
-batch_size = 32
+epochs = 500
+batch_size = 64
 dropout_rate = 0.3
 n_filter = 16
 n = x_train.shape[-1]
 num_tran = x_train.shape[1]
-kernel_size = (num_tran, 30)
+kernel_size = (num_tran // 2, 30)
 num_classes = 5
+
+
+def resblock(x, kernel_size, filters, strides=1):
+	x1 = layers.Conv2D(filters, kernel_size, strides=strides, padding='same')(x)
+	x1 = layers.BatchNormalization()(x1)
+	x1 = layers.ReLU()(x1)
+	x1 = layers.Conv2D(filters, kernel_size, padding='same')(x1)
+	x1 = layers.BatchNormalization()(x1)
+	if strides != 1:
+		x = layers.Conv2D(filters, 1, strides=strides, padding='same')(x)
+		x = layers.BatchNormalization()(x)
+
+	x1 = layers.Add()([x, x1])
+	x1 = layers.ReLU()(x1)
+	return x1
+
 
 input = layers.Input(shape=(num_tran, n), name="Input")
 x = layers.Reshape((num_tran, n, 1))(input)
@@ -154,7 +160,6 @@ def get_optimizer():
 def get_callbacks(name):
 	name1 = name + '/log.csv'
 	return [
-		tfdocs.modeling.EpochDots(),
 		tf.keras.callbacks.EarlyStopping(
 			monitor='val_sparse_categorical_crossentropy',
 			patience=800,
@@ -172,10 +177,10 @@ def compile_and_fit(model, name, optimizer=None, max_epochs=10000):
 		optimizer=optimizer,
 		loss=losses.SparseCategoricalCrossentropy(from_logits=True),
 		metrics=[
+			"accuracy",
 			metrics.SparseCategoricalCrossentropy(
 				from_logits=True, name='sparse_categorical_crossentropy'
-			),
-			"accuracy"
+			)
 		]
 	)
 	model.summary()
@@ -184,7 +189,7 @@ def compile_and_fit(model, name, optimizer=None, max_epochs=10000):
 		y_train,
 		epochs=max_epochs,
 		batch_size=batch_size,
-		validation_split=0.2,
+		validation_split=0.25,
 		callbacks=get_callbacks(name),
 		verbose=2
 	)
@@ -198,11 +203,32 @@ size_histories[model_name] = compile_and_fit(
 	# optimizer=optimizers.Adam(learning_rate=learning_rate),
 	max_epochs=epochs
 )
-plotter = tfdocs.plots.HistoryPlotter(metric='accuracy', smoothing_std=10)
-plotter.plot(size_histories)
+
+# summarize history for accuracy
+plt.figure(figsize=(10, 8))
+plt.plot(size_histories[model_name].history['accuracy'])
+plt.plot(size_histories[model_name].history['val_accuracy'])
+plt.title('model accuracy')
+plt.ylabel('accuracy')
+plt.xlabel('epoch')
+plt.legend(['Train', 'Validation'])
 acc_name = model_name + '+acc.png'
 acc_path = Path(logdir, model_name, acc_name)
 plt.savefig(acc_path)
+plt.clf()
+
+# summarize history for loss
+plt.figure(figsize=(10, 8))
+plt.plot(size_histories[model_name].history['loss'])
+plt.plot(size_histories[model_name].history['val_loss'])
+plt.title('model loss')
+plt.ylabel('loss')
+plt.xlabel('epoch')
+plt.legend(['Train', 'Validation'])
+loss_name = model_name + '+loss.png'
+loss_path = Path(logdir, model_name, loss_name)
+plt.savefig(loss_path)
+plt.clf()
 
 model_path = Path(logdir, model_name, 'model')
 model.save(model_path)

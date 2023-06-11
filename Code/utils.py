@@ -2,7 +2,7 @@
 Author         : Jie Li, Department of Statistics, London School of Economics.
 Date           : 2022-01-12 15:19:50
 Last Author    : Jie Li
-Last Revision  : 2022-10-30 08:23:52
+Last Revision  : 2023-06-11 20:38:32
 File Path      : /AutoCPD/Code/utils.py
 Description    :  this script includes the utility function for multimode change points detection (single).
 
@@ -706,3 +706,35 @@ def MaxCUSUM(x, T0=None):
 		return np.max(y)
 	else:
 		return np.max(y[T0 - 1])
+
+def Transform2D2TR(data_y, rescale=False, times=2):
+	"""
+	Apply 2 transformations (original, squared) to the same dataset, each transformation is repeated user-specified times.
+
+	Parameters
+	----------
+	data_y : numpy array
+		the 2-D array
+	rescale : logical bool
+		default False
+	times : integer
+		the number of repetitions
+	Returns
+	-------
+	numpy array
+		3-D arrary with size (N, 2*times,  n)
+	"""
+	N, n = data_y.shape
+	if rescale is True:
+		data_y = (data_y - data_y.min(axis=1, keepdims=True)) / (
+			data_y.max(axis=1, keepdims=True) -
+			data_y.min(axis=1, keepdims=True)
+		)
+	data_y[data_y == 0.0] = 1e-8
+	m2 = np.square(data_y)
+	m2[m2 == 0.0] = 1e-8
+	y_new = data_y.reshape((N, 1, n))
+	m2 = m2.reshape((N, 1, n))
+	y_new = np.repeat(y_new, times, axis=1)
+	m2 = np.repeat(m2, times, axis=1)
+	return np.concatenate((y_new, m2), axis=1)
