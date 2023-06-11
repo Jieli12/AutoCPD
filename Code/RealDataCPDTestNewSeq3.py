@@ -1,10 +1,10 @@
 """
 Author         : Jie Li, Department of Statistics, London School of Economics.
 Date           : 2022-10-18 16:01:59
-Last Revision  : 2022-10-29 23:10:18
+Last Revision  : 2023-06-11 20:15:43
 Last Author    : Jie Li
 File Path      : /AutoCPD/Code/RealDataCPDTestNewSeq3.py
-Description    : 
+Description    :
 
 
 
@@ -13,8 +13,8 @@ Description    :
 
 
 
-Copyright (c) 2022 by Jie Li, j.li196@lse.ac.uk 
-All Rights Reserved. 
+Copyright (c) 2022 by Jie Li, j.li196@lse.ac.uk
+All Rights Reserved.
 """
 # %%
 import pathlib
@@ -32,10 +32,10 @@ import tensorflow_docs as tfdocs
 import tensorflow_docs.modeling
 import tensorflow_docs.plots
 from keras import layers, losses, metrics, models
+from scipy.signal import find_peaks
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import LabelEncoder
 from sympy import diff
-
 from utils import *
 
 # %%
@@ -155,9 +155,10 @@ def get_key(y_pred, label_dict):
 
 
 def get_label(model, x_test, label_dict):
-	y_pred = np.argmax(model.predict(x_test), axis=1)
+	pred_prob = tf.math.softmax(model.predict(x_test))
+	y_pred = np.argmax(pred_prob, axis=1)
 	label_str = get_key(y_pred, label_dict)
-	return label_str
+	return label_str, pred_prob.numpy()
 
 
 test2_seq_0 = np.square(test_seq_0)
@@ -167,43 +168,22 @@ datamax = TS_test.max(axis=(1, 2), keepdims=True)
 x_test = 2 * (TS_test - datamin) / (datamax - datamin) - 1
 # %% predict
 x_test = np.transpose(x_test, (0, 2, 1))
-label_list = get_label(model, x_test, label_dict)
+label_list, prob_list = get_label(model, x_test, label_dict)
 
+# label-based
 trans_sym = '->'
-num_each_group = []
-state = []
-for key, group in groupby(label_list):
-	print(key)
-	g = list(group)
-	state.append(g[0])
-	num_each_group.append(len(g))
-df = pd.DataFrame(state, num_each_group)
-Ind = np.cumsum(num_each_group)
+L = np.zeros((len(label_list),), dtype=np.int32)
+for i in range(len(label_list)):
+	if trans_sym in label_list[i]:
+		L[i] = 1
 
-state_filter = []
-ind_filter = []
-len_filter = []
-threshold = 100
-for s, ind, len0 in zip(state, Ind, num_each_group):
-	print([s, ind])
-	if trans_sym not in s and len0 > threshold:
-		state_filter.append(s)
-		ind_filter.append(ind)
-		len_filter.append(len0)
-int_est = np.zeros((12 - 1, 2))
-for i in range(12 - 1):
-	a = ind_filter[i] * step + length + step // 2
-	b = (ind_filter[i + 1] - len_filter[i + 1]) * step - step // 2
-	if a <= b:
-		int_est[i, :] = [a, b]
-	else:
-		int_est[i, :] = [b, a]
+width = 700
+L_bar = np.convolve(L, np.ones(width) / width, mode='valid')
+plt.plot(L_bar)
+peaks, _ = find_peaks(L_bar, height=0.5, distance=500)
+cp_est = peaks + width
+cp_est
 
-# %%
-print(int_est)
-print(np.mean(int_est, axis=1))
-np.cumsum(cp)
-cp_est = np.round(np.mean(int_est, axis=1), decimals=0)
 # %%
 seq1 = sequences_list[index_csv]
 y_pos = 0.93
@@ -229,3 +209,15 @@ plt.ylabel('Signal', fontsize=20)
 plt.xticks(fontsize=15)
 plt.yticks(fontsize=15)
 plt.legend(fontsize=15, loc="upper right")
+project_path = '/Users/Jie/Documents/AI-assisstedChangePointDetection/'
+print(project_path)
+fig_name = Path(
+	project_path,
+	'Latex/JRSSB-Discussion-Manuscript/figures/RealDataCPDEst3.eps'
+)
+plt.savefig(fig_name, format='eps')
+# %%
+mad = np.mean(np.abs(cp_est - cp[1:-1]))
+n_min = min(np.diff(cp[1:]))
+mad / n_min
+# %%
