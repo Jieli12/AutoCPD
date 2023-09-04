@@ -2,7 +2,7 @@
 Author         : Jie Li, Department of Statistics, London School of Economics.
 Date           : 2022-01-12 15:19:50
 Last Author    : Jie Li
-Last Revision  : 2023-09-04 12:48:02
+Last Revision  : 2023-09-04 14:11:21
 File Path      : /AutoCPD/Code/utils.py
 Description    :  this script includes the utility function for multimode change points detection (single).
 
@@ -25,10 +25,12 @@ from re import I
 
 import numpy as np
 import pandas as pd
+import tensorflow as tf
 from keras import layers, losses, metrics, models
-from scipy.stats import cauchy, linregress, rankdata
 from scipy.special import gamma
+from scipy.stats import cauchy, linregress, rankdata
 from sklearn.isotonic import IsotonicRegression
+from sklearn.utils import shuffle
 from statsmodels.graphics.tsaplots import plot_acf
 from statsmodels.nonparametric.kernel_regression import KernelReg
 from statsmodels.tsa.arima_process import ArmaProcess
@@ -821,3 +823,91 @@ def get_asyvar_window(x, momentp=1):
 	cp = 2**(-momentp / 2) * np.sqrt(np.pi) / gamma((momentp + 1) / 2)
 	er = np.sum(s) / k * cp
 	return er**(2 / momentp)
+
+
+def DataGenScenarios(scenario, N, B, mu_L, n, rho, tau_bound, B_bound):
+	np.random.seed(2022)  # numpy seed fixing
+	tf.random.set_seed(2022)  # tensorflow seed fixing
+	if scenario == "A0":
+		result = DataGenAlternative(
+			N_sub=N,
+			B=B,
+			mu_L=mu_L,
+			n=n,
+			ARcoef=rho,
+			tau_bound=tau_bound,
+			B_bound=B_bound,
+			type='Gaussian'
+		)
+		data_alt = result["data"]
+		#  generate dataset for null hypothesis
+		data_null = GenDataMean(N, n, cp=None, mu=(mu_L, mu_L), sigma=1)
+		data_all = np.concatenate((data_alt, data_null), axis=0)
+		y_all = np.repeat((1, 0), N).reshape((2 * N, 1))
+		#  generate the training dataset and test dataset
+		data_all, y_all = shuffle(data_all, y_all, random_state=42)
+	elif scenario == "A07":
+		rho = 0.7
+		result = DataGenAlternative(
+			N_sub=N,
+			B=B,
+			mu_L=mu_L,
+			n=n,
+			ARcoef=rho,
+			tau_bound=tau_bound,
+			B_bound=B_bound,
+			type='AR0'
+		)
+		data_alt = result["data"]
+		#  generate dataset for null hypothesis
+		data_null = GenDataMeanAR(
+			N, n, cp=None, mu=(mu_L, mu_L), sigma=1, coef=rho
+		)
+		data_all = np.concatenate((data_alt, data_null), axis=0)
+		y_all = np.repeat((1, 0), N).reshape((2 * N, 1))
+		#  generate the training dataset and test dataset
+		data_all, y_all = shuffle(data_all, y_all, random_state=42)
+	elif scenario == "C":
+		scale = 0.3
+		result = DataGenAlternative(
+			N_sub=N,
+			B=B,
+			mu_L=mu_L,
+			n=n,
+			ARcoef=rho,
+			tau_bound=tau_bound,
+			B_bound=B_bound,
+			type='ARH',
+			scale=scale
+		)
+		data_alt = result["data"]
+		#  generate dataset for null hypothesis
+		data_null = GenDataMeanARH(
+			N, n, cp=None, mu=(mu_L, mu_L), coef=rho, scale=scale
+		)
+		data_all = np.concatenate((data_alt, data_null), axis=0)
+		y_all = np.repeat((1, 0), N).reshape((2 * N, 1))
+		#  generate the training dataset and test dataset
+		data_all, y_all = shuffle(data_all, y_all, random_state=42)
+	elif scenario == "D":
+		sigma = np.sqrt(2)
+		result = DataGenAlternative(
+			N_sub=N,
+			B=B,
+			mu_L=mu_L,
+			n=n,
+			tau_bound=tau_bound,
+			B_bound=B_bound,
+			type='ARrho',
+			sigma=sigma,
+		)
+		data_alt = result["data"]
+		#  generate dataset for null hypothesis
+		data_null = GenDataMeanARrho(
+			N, n, cp=None, mu=(mu_L, mu_L), sigma=sigma
+		)
+		data_all = np.concatenate((data_alt, data_null), axis=0)
+		y_all = np.repeat((1, 0), N).reshape((2 * N, 1))
+		#  generate the training dataset and test dataset
+		data_all, y_all = shuffle(data_all, y_all, random_state=42)
+	return data_all, y_all
