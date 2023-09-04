@@ -2,7 +2,7 @@
 Author         : Jie Li, Department of Statistics, London School of Economics.
 Date           : 2022-01-12 15:19:50
 Last Author    : Jie Li
-Last Revision  : 2023-09-04 14:47:26
+Last Revision  : 2023-09-04 15:34:41
 File Path      : /AutoCPD/Code/utils.py
 Description    :  this script includes the utility function for multimode change points detection (single).
 
@@ -21,6 +21,7 @@ import pathlib
 import posixpath
 import warnings
 from cmath import tanh
+from itertools import groupby
 from re import I
 
 import numpy as np
@@ -912,6 +913,7 @@ def DataGenScenarios(scenario, N, B, mu_L, n, rho, tau_bound, B_bound):
 		data_all, y_all = shuffle(data_all, y_all, random_state=42)
 	return data_all, y_all
 
+
 def GenerateARAll(N, n, coef_left, coef_right, sigma, tau_bound):
 	"""This function generates N the AR(1) signal
 
@@ -942,6 +944,7 @@ def GenerateARAll(N, n, coef_left, coef_right, sigma, tau_bound):
 		data[i + N, :] = GenerateAR(n, coef_left, coef_right, tau[i], sigma)
 
 	return data, tau
+
 
 def GenerateAR(n, coef_left, coef_right, tau, sigma):
 	"""This function generates the signal of AR(1) model
@@ -975,3 +978,171 @@ def GenerateAR(n, coef_left, coef_right, tau, sigma):
 			else:
 				x[i + 1] = coef_right * x[i] + np.random.normal(0, sigma, 1)
 	return x[1:]
+
+
+def get_cusum_location(x):
+	"""This function return the estimation of change-point location based on CUSUM.
+
+	Parameters
+	----------
+	x : numpy array
+		The time series
+
+	Returns
+	-------
+	int
+		change-point location
+	"""
+	y = np.abs(ComputeCUSUM(x))
+	return np.argmax(y) + 1
+
+
+def ComputeMosum(x, G):
+	"""
+		Compute the mosum statistic, rewitten according to mosum.stat function in mosum R package.
+	"""
+	n = len(x)
+	G = int(G)
+	sums_left = np.convolve(x, np.ones((G,)), 'valid')
+	sums_right = sums_left
+	unscaled0 = np.repeat(np.nan, G - 1)
+	unscaled2 = np.repeat(np.nan, G)
+	unscaled1 = (sums_right[G:] - sums_left[0:-G]) / np.sqrt(2 * G)
+	unscaledStatistic = np.concatenate((unscaled0, unscaled1, unscaled2))
+	# MOSUM-based variance estimators
+	summedSquares_left = np.convolve(x**2, np.ones((G,)), 'valid')
+	squaredSums_left = sums_left**2
+	var_tmp_left = summedSquares_left - 1 / G * squaredSums_left
+	var_left = np.concatenate((unscaled0, var_tmp_left)) / G
+	summedSquares_right = summedSquares_left
+	squaredSums_right = summedSquares_left
+	var_tmp_right = var_tmp_left
+	var_right = np.concatenate((var_tmp_right[1:], unscaled2)) / G
+	var = (var_right + var_left) / 2
+	weight_left = np.sqrt(
+		2 * G / np.arange(1, G + 1) / np.arange(2 * G - 1, G - 1, -1)
+	)
+	unscaledStatistic[0:G
+						] = np.cumsum(np.mean(x[0:2 * G]) - x[0:G]) * weight_left
+	var[0:G] = var[G - 1]
+	weight_right = np.sqrt(
+		2 * G / np.arange(G - 1, 0, -1) / np.arange(G + 1, 2 * G)
+	)
+	x_rev = x[-2 * G:]
+	unscaledStatistic[n - G:n - 1] = np.cumsum(np.mean(x_rev) -
+												x_rev)[-G:-1] * weight_right
+	unscaledStatistic[n - 1] = 0
+	var[-G:] = var[n - G - 1]
+	res = np.abs(unscaledStatistic) / np.sqrt(var)
+	return np.argmax(res) + 1
+
+
+def get_loc_3(model, x_test, n, width):
+	"""This function obtains locations of methods: NN, double mosum based on predicted label and probabilities.
+
+	Parameters
+	----------
+	model : model
+		The trained model
+	x_test : vector
+		The vector of time series
+	n : int
+		The  length of x_test
+	width : int
+		The width of second moving window.
+
+	Returns
+	-------
+	array
+		3 locations.
+	"""
+	pred, prob = get_label(model, x_test, n)
+	loc_nn = get_mosum_loc_nn(pred, n)
+	loc_label = get_mosum_loc_double(pred, n, width, False)
+	loc_prob = get_mosum_loc_double(prob, n, width, True)
+	return np.array([loc_nn, loc_label, loc_prob])
+
+
+def get_label(model, x_test, n):
+	"""This function gets the predicted label for the testing time series:x_test
+
+	Parameters
+	----------
+	model : tensorflow model
+		The trained tensorflow model
+	x_test : vector
+		The vector of time series
+	n : int
+		The width of moving window
+
+	Returns
+	-------
+	arrays
+		two arrays, one is predicted label, the other is probabilities.
+	"""
+	num_sliding_windows = len(x_test) - n + 1
+	x_test_mat = np.zeros((num_sliding_windows, n))
+	for i in range(num_sliding_windows):
+		x_test_mat[i, :] = x_test[i:i + n]
+
+	y_prob = model.predict(x_test_mat)
+	y_pred = np.argmax(y_prob, axis=1)
+	return y_pred, y_prob
+
+
+def get_mosum_loc_nn(pred, n):
+	"""This function return the estimation of change-point based on MOSUM using NN.
+
+	Parameters
+	----------
+	pred : vector
+		The vector of predicted labels
+	n : int
+		The width of moving window
+	Returns
+	-------
+	int
+		change-point location
+	"""
+	num_each_group = []
+	state = []
+	# get the states of consecutive groups and their length.
+	for key, group in groupby(pred):
+		# print(key)
+		g = list(group)
+		state.append(g[0])
+		num_each_group.append(len(g))
+
+	state = np.asarray(state, dtype=np.int32)
+	num_each_group = np.asarray(num_each_group, dtype=np.int32)
+	# get the interval of longest consecutive 1 (alarm)
+	index = state == 1
+	num_group = len(num_each_group)
+	aind = np.arange(num_group)[index]
+	max_ind = np.argmax(num_each_group[index])
+	interval = np.cumsum(num_each_group)
+	a = interval[aind[max_ind] - 1] + 1
+	b = interval[aind[max_ind]]
+	return int(np.round((a + b + n) / 2))
+
+
+def get_mosum_loc_double(x, n, width, use_prob):
+	"""This function return the estimation of change-point based on MOSUM by second moving average.
+
+	Parameters
+	----------
+	x : array
+		either the predicted labels or probabilities
+	n : int
+		The width of moving window
+	Returns
+	-------
+	int
+		change-point location
+	"""
+	if use_prob:
+		ma = np.convolve(x[:, 1], np.ones(width) / width, mode='valid')
+	else:
+		ma = np.convolve(x, np.ones(width) / width, mode='valid')
+
+	return np.argmax(ma) + int(np.round((width + n) / 2))
