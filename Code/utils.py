@@ -2,7 +2,7 @@
 Author         : Jie Li, Department of Statistics, London School of Economics.
 Date           : 2022-01-12 15:19:50
 Last Author    : Jie Li
-Last Revision  : 2023-09-04 11:10:22
+Last Revision  : 2023-09-04 12:48:02
 File Path      : /AutoCPD/Code/utils.py
 Description    :  this script includes the utility function for multimode change points detection (single).
 
@@ -26,7 +26,8 @@ from re import I
 import numpy as np
 import pandas as pd
 from keras import layers, losses, metrics, models
-from scipy.stats import cauchy, linregress
+from scipy.stats import cauchy, linregress, rankdata
+from scipy.special import gamma
 from sklearn.isotonic import IsotonicRegression
 from statsmodels.graphics.tsaplots import plot_acf
 from statsmodels.nonparametric.kernel_regression import KernelReg
@@ -707,6 +708,7 @@ def MaxCUSUM(x, T0=None):
 	else:
 		return np.max(y[T0 - 1])
 
+
 def Transform2D2TR(data_y, rescale=False, times=2):
 	"""
 	Apply 2 transformations (original, squared) to the same dataset, each transformation is repeated user-specified times.
@@ -739,6 +741,7 @@ def Transform2D2TR(data_y, rescale=False, times=2):
 	m2 = np.repeat(m2, times, axis=1)
 	return np.concatenate((y_new, m2), axis=1)
 
+
 def ComputeMeanVarNorm(x, minseglen=2):
 	"""
 		Compute the likelihood for change in variance. Rewritten by the R function single.var.norm.calc() in package changepoint.
@@ -760,3 +763,61 @@ def ComputeMeanVarNorm(x, minseglen=2):
 	tmp = null - taustar * np.log(sigma1) - (n - taustar) * np.log(sigman)
 
 	return np.sqrt(np.max(tmp))
+
+
+def get_wilcoxon_test(x):
+	y = wilcoxon(x) / np.sqrt(get_asyvar_window(x))
+	return np.max(y)
+
+
+def wilcoxon(x):
+	""" This function implements the Wilcoxon cumulative sum statistic (Dehling et al, 2013, Eq (20)) for nonparametric change point detection. The following code is translated from the C function "wilcoxsukz" in R package "robts". The accuracy of this function is already been tested.
+
+	Parameters
+	----------
+	x : array
+		time series
+
+	Returns
+	-------
+	1D array
+		the test statistic for each potential change point.
+	"""
+	n = len(x)
+	tn = np.repeat(0.0, n - 1)
+	for k in range(1, n):
+		# print(k)
+		tn_temp = 0
+		for i in range(0, k):
+			# print(i)
+			tn_temp = tn_temp + np.sum(x[k:n] > x[i]) - (n - k) / 2.0
+		tn[k - 1] = tn_temp * np.sqrt(k * (n - k)) / n * 2
+	return np.abs(tn / n**(3 / 2))
+
+
+def get_asyvar_window(x, momentp=1):
+	"""This function computes the asymptotic variance of long run dependence time series using "window" method. This function is translated from the R function "asymvar.window". This function is already been tested by letting "overlapping=F","obs="ranks".
+
+	Parameters
+	----------
+	x : 1D array
+		The time series
+	momentp : int, optional
+		which centered mean should be used, see Peligrad and Shao (1995) for details, by default 1
+
+	Returns
+	-------
+	scalar
+		The asymptotic variance of time series.
+	"""
+	n = len(x)
+	x = rankdata(x) / n
+	l = np.int32(np.round((3 * n)**(1 / 3) + 1))
+	phibar = np.mean(x)
+	k = np.int32(n // l)
+	xma = np.reshape(x[0:(k * l)], (k, l), order="c")
+	s = np.sum(xma, axis=1)
+	s = (np.abs(s - l * phibar) / np.sqrt(l))**momentp
+	cp = 2**(-momentp / 2) * np.sqrt(np.pi) / gamma((momentp + 1) / 2)
+	er = np.sum(s) / k * cp
+	return er**(2 / momentp)
