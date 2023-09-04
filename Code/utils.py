@@ -2,7 +2,7 @@
 Author         : Jie Li, Department of Statistics, London School of Economics.
 Date           : 2022-01-12 15:19:50
 Last Author    : Jie Li
-Last Revision  : 2023-09-04 14:11:21
+Last Revision  : 2023-09-04 14:47:26
 File Path      : /AutoCPD/Code/utils.py
 Description    :  this script includes the utility function for multimode change points detection (single).
 
@@ -911,3 +911,67 @@ def DataGenScenarios(scenario, N, B, mu_L, n, rho, tau_bound, B_bound):
 		#  generate the training dataset and test dataset
 		data_all, y_all = shuffle(data_all, y_all, random_state=42)
 	return data_all, y_all
+
+def GenerateARAll(N, n, coef_left, coef_right, sigma, tau_bound):
+	"""This function generates N the AR(1) signal
+
+	Parameters
+	----------
+	N : integer
+		The number of observations
+	n : integer
+		_description_
+	coef_left : float
+		The AR coefficient before the change-point
+	coef_right : float
+		The AR coefficient after the change-point
+	sigma : float
+		The standard deviation of noise
+	tau_bound : integer
+		The bound of change-point
+
+	Returns
+	-------
+	2D arrary and change-points
+		dataset with size (2*N, n), N change-points
+	"""
+	tau = np.random.randint(low=tau_bound, high=n - tau_bound, size=N)
+	data = np.zeros((2 * N, n))
+	for i in range(N):
+		data[i, :] = GenerateAR(n, coef_left, coef_right, None, sigma)
+		data[i + N, :] = GenerateAR(n, coef_left, coef_right, tau[i], sigma)
+
+	return data, tau
+
+def GenerateAR(n, coef_left, coef_right, tau, sigma):
+	"""This function generates the signal of AR(1) model
+
+	Parameters
+	----------
+	n : integer
+		The length of time series
+	coef_left : float
+		The AR coefficient before the change-point
+	coef_right : float
+		The AR coefficient after the change-point
+	tau : integer
+		The location of change-point
+	sigma : float
+		The standard deviation of noise
+
+	Returns
+	-------
+	array
+		The time series with length n.
+	"""
+	x = np.zeros((n + 1,))
+	if tau is None:
+		for i in range(n):
+			x[i + 1] = coef_left * x[i] + np.random.normal(0, sigma, 1)
+	else:
+		for i in range(n):
+			if i < tau:
+				x[i + 1] = coef_left * x[i] + np.random.normal(0, sigma, 1)
+			else:
+				x[i + 1] = coef_right * x[i] + np.random.normal(0, sigma, 1)
+	return x[1:]
