@@ -65,12 +65,39 @@ To generate Table 1 in main text, please run the following scripts in order:
 
 ### Simulation for simultaneous changes
 
+By running the following two Python scripts, we can get the results displayed in Table S2 of supplement.
+
+* DataGenForRStrong2ClassTesting.py;
+* DataGenForRWeak2ClassTesting.py;
 
 ### Simulation for heavy-tailed noise
 
+The trained models can be found in ”./Code/tensorboard_logs/Trial/”.
+
+By running the following two Python scripts, we can get the results displayed in Figure S1 of supplement.
+
+* S3R0Predict.py;
+* S3R0PredictPlot.py;
+
 ### Simulation for robustness study
 
+The trained models can be found in ”./Code/tensorboard_logs/Trial/”.
+
+By running the following two Python scripts, we can get the results displayed in Figure S2 of supplement.
+
+* SARhoToOthersPredict.py;
+* SARhoToOthersPredictReplot.py;
+
 ### Simulation for change in autocorrelation
+
+The trained models can be found in ”./Code/tensorboard_logs/Trial/”.
+
+By running the following four Python scripts, we can get the results displayed in Figure S3 of supplement.
+
+* SAPredict.py;
+* SASquarePredict.py;
+* SASquareResNetPredict.py;
+* SARPlot.py;
 
 ### Simulation on change-point location estimation
 
