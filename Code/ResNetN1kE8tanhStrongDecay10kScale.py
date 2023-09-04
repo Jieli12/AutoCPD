@@ -1,7 +1,7 @@
 """
 Author         : Jie Li, Department of Statistics, London School of Economics.
 Date           : 2022-10-18 16:01:59
-Last Revision  : 2023-06-11 20:36:21
+Last Revision  : 2023-09-04 10:39:58
 Last Author    : Jie Li
 File Path      : /AutoCPD/Code/ResNetN1kE8tanhStrongDecay10kScale.py
 Description    :
@@ -97,6 +97,7 @@ def resblock(x, kernel_size, filters, strides=1):
 	return x1
 
 
+# Note: the following network will cost several hours to train the residual neural network in GPU server.
 input = layers.Input(shape=(num_tran, n), name="Input")
 x = layers.Reshape((num_tran, n, 1))(input)
 x = layers.Conv2D(n_filter, 2, padding='same')(x)
