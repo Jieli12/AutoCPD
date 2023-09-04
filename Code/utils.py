@@ -2,7 +2,7 @@
 Author         : Jie Li, Department of Statistics, London School of Economics.
 Date           : 2022-01-12 15:19:50
 Last Author    : Jie Li
-Last Revision  : 2023-06-11 20:38:32
+Last Revision  : 2023-09-04 11:10:22
 File Path      : /AutoCPD/Code/utils.py
 Description    :  this script includes the utility function for multimode change points detection (single).
 
@@ -738,3 +738,25 @@ def Transform2D2TR(data_y, rescale=False, times=2):
 	y_new = np.repeat(y_new, times, axis=1)
 	m2 = np.repeat(m2, times, axis=1)
 	return np.concatenate((y_new, m2), axis=1)
+
+def ComputeMeanVarNorm(x, minseglen=2):
+	"""
+		Compute the likelihood for change in variance. Rewritten by the R function single.var.norm.calc() in package changepoint.
+	"""
+	n = len(x)
+	y = np.cumsum(x)
+	y2 = np.cumsum(x**2)
+	y = np.insert(y, 0, 0)
+	y2 = np.insert(y2, 0, 0)
+	null = n * np.log((y2[n] - y[n]**2 / n) / n)
+	taustar = np.arange(minseglen, n - minseglen + 2)
+	sigma1 = (y2[taustar] - y[taustar]**2 / taustar) / (taustar)
+	neg = sigma1 <= 0
+	sigma1[neg == True] = 1e-10
+	sigman = ((y2[n] - y2[taustar]) - (y[n] - y[taustar])**2 /
+				(n - taustar)) / (n - taustar)
+	neg = sigman <= 0
+	sigman[neg == True] = 1e-10
+	tmp = null - taustar * np.log(sigma1) - (n - taustar) * np.log(sigman)
+
+	return np.sqrt(np.max(tmp))
