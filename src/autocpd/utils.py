@@ -2,7 +2,7 @@
 Author         : Jie Li, Department of Statistics, London School of Economics.
 Date           : 2022-01-12 15:19:50
 Last Author    : Jie Li
-Last Revision  : 2023-09-14 22:42:53
+Last Revision  : 2023-09-16 22:40:35
 File Path      : /AutoCPD/src/autocpd/utils.py
 Description    :
 
@@ -79,7 +79,7 @@ def GenDataMeanAR(N, n, cp, mu, sigma, coef):
 		the piecewise mean
 	sigma : float
 		the standard deviation of Gaussian innovations in AR(1) noise
-	coef : float array
+	coef : float scalar
 		the coefficients of AR(1) model
 
 	Returns
@@ -87,7 +87,7 @@ def GenDataMeanAR(N, n, cp, mu, sigma, coef):
 	numpy array
 		2D array with size (N, n)
 	"""
-	arparams = coef
+	arparams = np.array([1,-coef])
 	maparams = np.array([1])
 	ar_process = ArmaProcess(arparams, maparams)
 	if cp is None:
