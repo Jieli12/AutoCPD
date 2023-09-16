@@ -2,7 +2,7 @@
 Author         : Jie Li, Department of Statistics, London School of Economics.
 Date           : 2022-01-12 15:19:50
 Last Author    : Jie Li
-Last Revision  : 2023-09-16 22:40:35
+Last Revision  : 2023-09-16 22:45:54
 File Path      : /AutoCPD/src/autocpd/utils.py
 Description    :
 
@@ -457,7 +457,7 @@ def extract(n1, n2, length, size, ntrim):
 	Returns
 	-------
 	dict
-		cp: is the set of change-points. sample is a matrix of indices
+		'cp' is the set of change-points. 'sample' is a matrix of indices
 	"""
 	n = n1 + n2
 	ts = np.arange(n)
@@ -671,13 +671,11 @@ def DataGenAlternative(
 	mu_R_all = np.zeros((N_sub,))
 	data = np.zeros((N_sub, n))
 	for i in range(N_sub):
-		mu_R = sign_all[i] * (
-			mu_L - np.random.uniform(
+		mu_R = mu_L - sign_all[i] * np.random.uniform(
 				low=B_bound[0] * mu_R_abs_lower[i],
 				high=B_bound[1] * mu_R_abs_lower[i],
 				size=1
 			)
-		)
 		mu_R_all[i] = mu_R
 		mu = np.array([mu_L, mu_R], dtype=np.float32)
 		if type == 'Gaussian':
