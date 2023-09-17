@@ -17,4 +17,5 @@ Copyright (c) 2023 by Jie Li, j.li196@lse.ac.uk
 All Rights Reserved.
 """
 from autocpd.utils import *
-DataGenAlternative(500,10,1,100)
+
+DataGenAlternative(500, 10, 1, 100)
