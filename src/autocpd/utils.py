@@ -2,7 +2,7 @@
 Author         : Jie Li, Department of Statistics, London School of Economics.
 Date           : 2022-01-12 15:19:50
 Last Author    : Jie Li
-Last Revision  : 2023-09-17 08:42:44
+Last Revision  : 2023-09-17 09:20:20
 File Path      : /AutoCPD/src/autocpd/utils.py
 Description    :
 
@@ -147,7 +147,9 @@ def GenDataMeanARH(N, n, cp, mu, coef, scale):
 
 def GenDataMeanARrho(N, n, cp, mu, sigma):
     """
-    The function  generates the data for change in mean with AR(1) noise. The autoregressive coefficient is generated from standard uniform distribution. When "cp" is None, it generates the data without change point.
+    The function  generates the data for change in mean with AR(1) noise. The
+    autoregressive coefficient is generated from standard uniform distribution.
+    When "cp" is None, it generates the data without change point.
 
     Parameters
     ----------
@@ -328,6 +330,28 @@ def Transform2D(data_y, rescale=False, cumsum=False):
 
 
 def labelTransition(data, label, ind, length, size, num_trim=100):
+    """_summary_
+
+    Parameters
+    ----------
+    data : _type_
+        _description_
+    label : _type_
+        _description_
+    ind : _type_
+        _description_
+    length : _type_
+        _description_
+    size : _type_
+        _description_
+    num_trim : int, optional
+        _description_, by default 100
+
+    Returns
+    -------
+    _type_
+        _description_
+    """
     s = label["start"][ind : ind + 2]
     e = label["end"][ind : ind + 2]
     state = label["state"][ind : ind + 2]
@@ -351,7 +375,6 @@ def labelTransition(data, label, ind, length, size, num_trim=100):
     return {"cp": cp_final, "ts": ts_final, "label": label_final}
 
 
-# define the function for the subject level
 def labelSubject(subject_path, length, size, num_trim=100):
     # get the csv files
     all_files = os.listdir(subject_path)
@@ -404,7 +427,14 @@ def labelSubject(subject_path, length, size, num_trim=100):
 
 
 def extract(n1, n2, length, size, ntrim):
-    """This function randomly extracts samples (consecutive segments) with length 'length' from a time series concatenated by two different time series with length 'n1' and 'n2' respectively. Argument 'ntrim' controls the minimum distance between change-point and start or end point of consecutive segment. It returns a dictionary containing two arrays: cp and sample. cp is an array of change points. sample is a 2D array where each row is the indices of consecutive segment .
+    """This function randomly extracts samples (consecutive segments) with
+    length 'length' from a time series concatenated by two different time
+    series with length 'n1' and 'n2' respectively. Argument 'ntrim' controls
+    the minimum distance between change-point and start or end point of
+    consecutive segment. It returns a dictionary containing two arrays: cp and
+    sample. cp is an array of change points. sample is a 2D array where each
+    row is the indices of consecutive segment .
+
 
     Parameters
     ----------
@@ -447,34 +477,33 @@ def extract(n1, n2, length, size, ntrim):
             sample[0,] = ts[s:length]
             if size == 1:
                 return {"cp": cp, "sample": sample}
-            else:
-                s_set = np.random.choice(
-                    range(max(1, n1 + ntrim - length), min(n1 - ntrim, n - length)),
-                    (size - 1,),
-                    replace=False,
-                )
-                for ind, s in enumerate(s_set):
-                    cp[ind + 1] = n1 - s
-                    sample[ind + 1, :] = ts[s : s + length]
 
-                return {"cp": cp, "sample": sample}
-        elif n1 > len_half:
+            s_set = np.random.choice(
+                range(max(1, n1 + ntrim - length), min(n1 - ntrim, n - length)),
+                (size - 1,),
+                replace=False,
+            )
+            for ind, s in enumerate(s_set):
+                cp[ind + 1] = n1 - s
+                sample[ind + 1, :] = ts[s : s + length]
+
+            return {"cp": cp, "sample": sample}
+        if n1 > len_half:
             cp[0] = len_half
             s = n1 - len_half
             sample[0,] = ts[n1 - len_half : n1 + len_half]
             if size == 1:
                 return {"cp": cp, "sample": sample}
-            else:
-                s_set = np.random.choice(
-                    range(max(0, n1 + ntrim - length), min(n1 - ntrim, n - length)),
-                    (size - 1,),
-                    replace=False,
-                )
-                for ind, s in enumerate(s_set):
-                    cp[ind + 1] = n1 - s
-                    sample[ind + 1, :] = ts[s : s + length]
+            s_set = np.random.choice(
+                range(max(0, n1 + ntrim - length), min(n1 - ntrim, n - length)),
+                (size - 1,),
+                replace=False,
+            )
+            for ind, s in enumerate(s_set):
+                cp[ind + 1] = n1 - s
+                sample[ind + 1, :] = ts[s : s + length]
 
-                return {"cp": cp, "sample": sample}
+            return {"cp": cp, "sample": sample}
     else:
         if n2 >= ntrim + size and n2 <= len_half:
             cp[0] = length - n2
@@ -482,34 +511,32 @@ def extract(n1, n2, length, size, ntrim):
             sample[0,] = ts[s:n]
             if size == 1:
                 return {"cp": cp, "sample": sample}
-            else:
-                s_set = np.random.choice(
-                    range(max(0, n1 + ntrim - length), min(n1 - ntrim, n - 1 - length)),
-                    (size - 1,),
-                    replace=False,
-                )
-                for ind, s in enumerate(s_set):
-                    cp[ind + 1] = n1 - s
-                    sample[ind + 1, :] = ts[s : s + length]
+            s_set = np.random.choice(
+                range(max(0, n1 + ntrim - length), min(n1 - ntrim, n - 1 - length)),
+                (size - 1,),
+                replace=False,
+            )
+            for ind, s in enumerate(s_set):
+                cp[ind + 1] = n1 - s
+                sample[ind + 1, :] = ts[s : s + length]
 
-                return {"cp": cp, "sample": sample}
-        elif n2 > len_half:
+            return {"cp": cp, "sample": sample}
+        if n2 > len_half:
             cp[0] = len_half
             s = n1 - len_half
             sample[0,] = ts[n1 - len_half : n1 + len_half]
             if size == 1:
                 return {"cp": cp, "sample": sample}
-            else:
-                s_set = np.random.choice(
-                    range(max(0, n1 + ntrim - length), min(n1 - ntrim, n - length)),
-                    (size - 1,),
-                    replace=False,
-                )
-                for ind, s in enumerate(s_set):
-                    cp[ind + 1] = n1 - s
-                    sample[ind + 1, :] = ts[s : s + length]
+            s_set = np.random.choice(
+                range(max(0, n1 + ntrim - length), min(n1 - ntrim, n - length)),
+                (size - 1,),
+                replace=False,
+            )
+            for ind, s in enumerate(s_set):
+                cp[ind + 1] = n1 - s
+                sample[ind + 1, :] = ts[s : s + length]
 
-                return {"cp": cp, "sample": sample}
+            return {"cp": cp, "sample": sample}
 
 
 # functions for  extracting null time series
@@ -668,8 +695,7 @@ def MaxCUSUM(x, T0=None):
     y = np.abs(ComputeCUSUM(x))
     if T0 is None:
         return np.max(y)
-    else:
-        return np.max(y[T0 - 1])
+    return np.max(y[T0 - 1])
 
 
 def Transform2D2TR(data_y, rescale=False, times=2):
@@ -707,7 +733,8 @@ def Transform2D2TR(data_y, rescale=False, times=2):
 
 def ComputeMeanVarNorm(x, minseglen=2):
     """
-    Compute the likelihood for change in variance. Rewritten by the R function single.var.norm.calc() in package changepoint.
+    Compute the likelihood for change in variance. Rewritten by the R function
+    single.var.norm.calc() in package changepoint.
     """
     n = len(x)
     y = np.cumsum(x)
@@ -735,7 +762,10 @@ def get_wilcoxon_test(x):
 
 
 def wilcoxon(x):
-    """This function implements the Wilcoxon cumulative sum statistic (Dehling et al, 2013, Eq (20)) for nonparametric change point detection. The following code is translated from the C function "wilcoxsukz" in R package "robts". The accuracy of this function is already been tested.
+    """This function implements the Wilcoxon cumulative sum statistic (Dehling
+    et al, 2013, Eq (20)) for nonparametric change point detection.
+    The following code is translated from the C function "wilcoxsukz" in R
+    package "robts". The accuracy of this function is already been tested.
 
     Parameters
     ----------
@@ -750,24 +780,26 @@ def wilcoxon(x):
     n = len(x)
     tn = np.repeat(0.0, n - 1)
     for k in range(1, n):
-        # print(k)
         tn_temp = 0
         for i in range(0, k):
-            # print(i)
             tn_temp = tn_temp + np.sum(x[k:n] > x[i]) - (n - k) / 2.0
         tn[k - 1] = tn_temp * np.sqrt(k * (n - k)) / n * 2
     return np.abs(tn / n ** (3 / 2))
 
 
 def get_asyvar_window(x, momentp=1):
-    """This function computes the asymptotic variance of long run dependence time series using "window" method. This function is translated from the R function "asymvar.window". This function is already been tested by letting "overlapping=F","obs="ranks".
+    """This function computes the asymptotic variance of long run dependence
+    time series using "window" method. This function is translated from the R
+    function "asymvar.window". This function is already been tested by letting
+    "overlapping=F","obs="ranks".
 
     Parameters
     ----------
     x : 1D array
         The time series
     momentp : int, optional
-        which centered mean should be used, see Peligrad and Shao (1995) for details, by default 1
+        which centered mean should be used, see Peligrad and Shao (1995) for
+        details, by default 1
 
     Returns
     -------
@@ -787,7 +819,7 @@ def get_asyvar_window(x, momentp=1):
     return er ** (2 / momentp)
 
 
-def DataGenScenarios(scenario, N, B, mu_L, n, rho, tau_bound, B_bound):
+def DataGenScenarios(scenario, N, B, mu_L, n, B_bound, rho, tau_bound):
     np.random.seed(2022)  # numpy seed fixing
     tf.random.set_seed(2022)  # tensorflow seed fixing
     if scenario == "A0":
@@ -796,9 +828,9 @@ def DataGenScenarios(scenario, N, B, mu_L, n, rho, tau_bound, B_bound):
             B=B,
             mu_L=mu_L,
             n=n,
+            B_bound=B_bound,
             ARcoef=rho,
             tau_bound=tau_bound,
-            B_bound=B_bound,
             ar_model="Gaussian",
         )
         data_alt = result["data"]
@@ -815,9 +847,9 @@ def DataGenScenarios(scenario, N, B, mu_L, n, rho, tau_bound, B_bound):
             B=B,
             mu_L=mu_L,
             n=n,
+            B_bound=B_bound,
             ARcoef=rho,
             tau_bound=tau_bound,
-            B_bound=B_bound,
             ar_model="AR0",
         )
         data_alt = result["data"]
@@ -834,9 +866,9 @@ def DataGenScenarios(scenario, N, B, mu_L, n, rho, tau_bound, B_bound):
             B=B,
             mu_L=mu_L,
             n=n,
+            B_bound=B_bound,
             ARcoef=rho,
             tau_bound=tau_bound,
-            B_bound=B_bound,
             ar_model="ARH",
             scale=scale,
         )
@@ -856,8 +888,8 @@ def DataGenScenarios(scenario, N, B, mu_L, n, rho, tau_bound, B_bound):
             B=B,
             mu_L=mu_L,
             n=n,
-            tau_bound=tau_bound,
             B_bound=B_bound,
+            tau_bound=tau_bound,
             ar_model="ARrho",
             sigma=sigma,
         )
@@ -956,7 +988,8 @@ def get_cusum_location(x):
 
 def ComputeMosum(x, G):
     """
-    Compute the mosum statistic, rewitten according to mosum.stat function in mosum R package.
+    Compute the mosum statistic, rewitten according to mosum.stat function in
+    mosum R package.
     """
     n = len(x)
     G = int(G)
@@ -989,7 +1022,8 @@ def ComputeMosum(x, G):
 
 
 def get_loc_3(model, x_test, n, width):
-    """This function obtains locations of methods: NN, double mosum based on predicted label and probabilities.
+    """This function obtains locations of methods: NN, double mosum based on
+    predicted label and probabilities.
 
     Parameters
     ----------
