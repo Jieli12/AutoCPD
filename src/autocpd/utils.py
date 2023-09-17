@@ -2,7 +2,7 @@
 Author         : Jie Li, Department of Statistics, London School of Economics.
 Date           : 2022-01-12 15:19:50
 Last Author    : Jie Li
-Last Revision  : 2023-09-16 23:40:27
+Last Revision  : 2023-09-17 08:42:44
 File Path      : /AutoCPD/src/autocpd/utils.py
 Description    :
 
@@ -20,12 +20,10 @@ import os
 import posixpath
 import warnings
 from itertools import groupby
-from re import I
 
 import numpy as np
 import pandas as pd
 import tensorflow as tf
-from keras import layers
 from scipy.special import gamma
 from scipy.stats import cauchy, rankdata
 from sklearn.utils import shuffle
@@ -34,7 +32,8 @@ from statsmodels.tsa.arima_process import ArmaProcess
 
 def GenDataMean(N, n, cp, mu, sigma):
     """
-    The function  generates the data for change in mean with Gaussian noise. When "cp" is None, it generates the data without change point.
+    The function  generates the data for change in mean with Gaussian noise.
+    When "cp" is None, it generates the data without change point.
 
     Parameters
     ----------
@@ -65,7 +64,8 @@ def GenDataMean(N, n, cp, mu, sigma):
 
 def GenDataMeanAR(N, n, cp, mu, sigma, coef):
     """
-    The function  generates the data for change in mean with AR(1) noise. When "cp" is None, it generates the data without change point.
+    The function  generates the data for change in mean with AR(1) noise.
+    When "cp" is None, it generates the data without change point.
 
     Parameters
     ----------
@@ -103,7 +103,9 @@ def GenDataMeanAR(N, n, cp, mu, sigma, coef):
 
 def GenDataMeanARH(N, n, cp, mu, coef, scale):
     """
-    The function  generates the data for change in mean + Cauchy noise with location parameter 0 and scale parameter 'scale'. When "cp" is None, it generates the data without change point.
+    The function  generates the data for change in mean + Cauchy noise with
+    location parameter 0 and scale parameter 'scale'. When "cp" is None, it
+    generates the data without change point.
 
     Parameters
     ----------
@@ -184,7 +186,9 @@ def GenDataMeanARrho(N, n, cp, mu, sigma):
 
 def GenDataVariance(N, n, cp, mu, sigma):
     """
-    The function  generates the data for change in variance with piecewise constant signal. When "cp" is None, it generates the data without change point in variance.
+    The function  generates the data for change in variance with piecewise
+    constant signal. When "cp" is None, it generates the data without change
+    point in variance.
 
     Parameters
     ----------
@@ -215,7 +219,8 @@ def GenDataVariance(N, n, cp, mu, sigma):
 
 def GenDataSlope(N, n, cp, slopes, sigma, start):
     """
-    The function  generates the data for change in slope with Gaussian noise. When "cp" is None, it generates the data without change point in slope.
+    The function  generates the data for change in slope with Gaussian noise.
+    When "cp" is None, it generates the data without change point in slope.
 
     Parameters
     ----------
@@ -320,44 +325,6 @@ def Transform2D(data_y, rescale=False, cumsum=False):
     m2log = m2log.reshape((N, 1, n))
     m_tanh = m_tanh.reshape((N, 1, n))
     return np.concatenate((y_new, m2, m2log, m_tanh), axis=1)
-
-
-# def plotsmooth(values, std):
-# 	"""Smooths a list of values by convolving with a Gaussian distribution.
-# 	Assumes equal spacing.
-# 	Args:
-# 		values: A 1D array of values to smooth.
-# 		std: The standard deviation of the Gaussian distribution. The units are
-# 		array elements.
-# 	Returns:
-# 		The smoothed array.
-# 	"""
-# 	width = std * 4
-# 	x = np.linspace(-width, width, min(2 * width + 1, len(values)))
-# 	kernel = np.exp(-(x / 5)**2)
-
-# 	values = np.array(values)
-# 	weights = np.ones_like(values)
-
-# 	smoothed_values = np.convolve(values, kernel, mode='same')
-# 	smoothed_weights = np.convolve(weights, kernel, mode='same')
-
-# 	return smoothed_values / smoothed_weights
-
-
-# def resblock(x, kernel_size, filters, strides=1):
-# 	x1 = layers.Conv2D(filters, kernel_size, strides=strides, padding='same')(x)
-# 	x1 = layers.BatchNormalization()(x1)
-# 	x1 = layers.ReLU()(x1)
-# 	x1 = layers.Conv2D(filters, kernel_size, padding='same')(x1)
-# 	x1 = layers.BatchNormalization()(x1)
-# 	if strides != 1:
-# 		x = layers.Conv2D(filters, 1, strides=strides, padding='same')(x)
-# 		x = layers.BatchNormalization()(x)
-
-# 	x1 = layers.Add()([x, x1])
-# 	x1 = layers.ReLU()(x1)
-# 	return x1
 
 
 def labelTransition(data, label, ind, length, size, num_trim=100):
@@ -578,7 +545,7 @@ def ExtractSubject(subject_path, length, size):
         dataset = pd.read_csv(
             fname, comment="#", delimiter=",", names=["time", "x", "y", "z"]
         )
-        ts = np.array([]).reshape(0, length, 3)
+        ts = np.array([]).reshape((0, length, 3))
         label = []
         for i in range(num_consecutive_states):
             s = label_dataset["start"][i]
@@ -609,10 +576,10 @@ def DataGenAlternative(
     B,
     mu_L,
     n,
+    B_bound,
     ARcoef=0.0,
     tau_bound=2,
-    B_bound=[0.5, 1.5],
-    type="Gaussian",
+    ar_model="Gaussian",
     scale=0.1,
     sigma=1.0,
 ):
@@ -628,14 +595,17 @@ def DataGenAlternative(
         The single at the left of change point.
     n : int
         The length of time series.
+    B_bound : list, optional
+        The upper and lower bound scalars of signal-to-noise.
     ARcoef : float, optional
         The autoregressive parameter of AR(p) model, by default 0.0
     tau_bound : int, optional
         The lower bound of change point, by default 2
-    B_bound : list, optional
-        The upper and lower bound scalars of signal-to-noise, by default [0.5, 1.5]
-    type : str, optional
-        The different models, by default 'Gaussian'. type="AR0" means AR(p) noise with autoregressive parameter 'ARcoef'; type="ARH" means Cauchy noise with scale parameter 'scale'; type="ARrho" means AR(p) noise with random autoregressive parameter 'scale';
+    ar_model : str, optional
+        The different models, by default 'Gaussian'. ar_model="AR0" means AR(1)
+        noise with autoregressive parameter 'ARcoef'; ar_model="ARH" means
+        Cauchy noise with scale parameter 'scale'; ar_model="ARrho" means AR(1)
+        noise with random autoregressive parameter 'scale';
     scale : float, optional
         The scale parameter of Cauchy distribution, by default 0.1
     sigma : float, optional
@@ -663,15 +633,15 @@ def DataGenAlternative(
         )
         mu_R_all[i] = mu_R
         mu = np.array([mu_L, mu_R], dtype=np.float32)
-        if type == "Gaussian":
+        if ar_model == "Gaussian":
             data[i, :] = GenDataMean(1, n, cp=tau_all[i], mu=mu, sigma=1)
-        elif type == "AR0":
+        elif ar_model == "AR0":
             data[i, :] = GenDataMeanAR(1, n, cp=tau_all[i], mu=mu, sigma=1, coef=ARcoef)
-        elif type == "ARH":
+        elif ar_model == "ARH":
             data[i, :] = GenDataMeanARH(
                 1, n, cp=tau_all[i], mu=mu, coef=ARcoef, scale=scale
             )
-        elif type == "ARrho":
+        elif ar_model == "ARrho":
             data[i, :] = GenDataMeanARrho(1, n, cp=tau_all[i], mu=mu, sigma=sigma)
 
     return {"data": data, "tau_alt": tau_all, "mu_R_alt": mu_R_all}
@@ -704,7 +674,8 @@ def MaxCUSUM(x, T0=None):
 
 def Transform2D2TR(data_y, rescale=False, times=2):
     """
-    Apply 2 transformations (original, squared) to the same dataset, each transformation is repeated user-specified times.
+    Apply 2 transformations (original, squared) to the same dataset, each
+    transformation is repeated user-specified times.
 
     Parameters
     ----------
@@ -828,7 +799,7 @@ def DataGenScenarios(scenario, N, B, mu_L, n, rho, tau_bound, B_bound):
             ARcoef=rho,
             tau_bound=tau_bound,
             B_bound=B_bound,
-            type="Gaussian",
+            ar_model="Gaussian",
         )
         data_alt = result["data"]
         #  generate dataset for null hypothesis
@@ -847,7 +818,7 @@ def DataGenScenarios(scenario, N, B, mu_L, n, rho, tau_bound, B_bound):
             ARcoef=rho,
             tau_bound=tau_bound,
             B_bound=B_bound,
-            type="AR0",
+            ar_model="AR0",
         )
         data_alt = result["data"]
         #  generate dataset for null hypothesis
@@ -866,7 +837,7 @@ def DataGenScenarios(scenario, N, B, mu_L, n, rho, tau_bound, B_bound):
             ARcoef=rho,
             tau_bound=tau_bound,
             B_bound=B_bound,
-            type="ARH",
+            ar_model="ARH",
             scale=scale,
         )
         data_alt = result["data"]
@@ -887,7 +858,7 @@ def DataGenScenarios(scenario, N, B, mu_L, n, rho, tau_bound, B_bound):
             n=n,
             tau_bound=tau_bound,
             B_bound=B_bound,
-            type="ARrho",
+            ar_model="ARrho",
             sigma=sigma,
         )
         data_alt = result["data"]
@@ -1000,8 +971,6 @@ def ComputeMosum(x, G):
     squaredSums_left = sums_left**2
     var_tmp_left = summedSquares_left - 1 / G * squaredSums_left
     var_left = np.concatenate((unscaled0, var_tmp_left)) / G
-    summedSquares_right = summedSquares_left
-    squaredSums_right = summedSquares_left
     var_tmp_right = var_tmp_left
     var_right = np.concatenate((var_tmp_right[1:], unscaled2)) / G
     var = (var_right + var_left) / 2
