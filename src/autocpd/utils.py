@@ -2,7 +2,7 @@
 Author         : Jie Li, Department of Statistics, London School of Economics.
 Date           : 2022-01-12 15:19:50
 Last Author    : Jie Li
-Last Revision  : 2023-09-17 09:20:20
+Last Revision  : 2023-09-17 15:08:33
 File Path      : /AutoCPD/src/autocpd/utils.py
 Description    :
 
@@ -745,12 +745,12 @@ def ComputeMeanVarNorm(x, minseglen=2):
     taustar = np.arange(minseglen, n - minseglen + 2)
     sigma1 = (y2[taustar] - y[taustar] ** 2 / taustar) / (taustar)
     neg = sigma1 <= 0
-    sigma1[neg == True] = 1e-10
+    sigma1[neg] = 1e-10
     sigman = ((y2[n] - y2[taustar]) - (y[n] - y[taustar]) ** 2 / (n - taustar)) / (
         n - taustar
     )
     neg = sigman <= 0
-    sigman[neg == True] = 1e-10
+    sigman[neg] = 1e-10
     tmp = null - taustar * np.log(sigma1) - (n - taustar) * np.log(sigman)
 
     return np.sqrt(np.max(tmp))
@@ -1092,8 +1092,7 @@ def get_mosum_loc_nn(pred, n):
     num_each_group = []
     state = []
     # get the states of consecutive groups and their length.
-    for key, group in groupby(pred):
-        # print(key)
+    for _, group in groupby(pred):
         g = list(group)
         state.append(g[0])
         num_each_group.append(len(g))
