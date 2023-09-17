@@ -363,3 +363,4 @@ temp/
 # only for this project
 .history
 __pycache__
+project-words.txt
