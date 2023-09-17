@@ -2,7 +2,7 @@
 Author         : Jie Li, Department of Statistics, London School of Economics.
 Date           : 2022-01-12 15:19:50
 Last Author    : Jie Li
-Last Revision  : 2023-09-17 15:08:33
+Last Revision  : 2023-09-17 16:22:17
 File Path      : /AutoCPD/src/autocpd/utils.py
 Description    :
 
@@ -798,7 +798,7 @@ def get_asyvar_window(x, momentp=1):
     x : 1D array
         The time series
     momentp : int, optional
-        which centered mean should be used, see Peligrad and Shao (1995) for
+        which centred mean should be used, see Peligrad and Shao (1995) for
         details, by default 1
 
     Returns
@@ -988,7 +988,7 @@ def get_cusum_location(x):
 
 def ComputeMosum(x, G):
     """
-    Compute the mosum statistic, rewitten according to mosum.stat function in
+    Compute the mosum statistic, rewritten according to mosum.stat function in
     mosum R package.
     """
     n = len(x)
