@@ -2,7 +2,7 @@
 Author         : Jie Li, Department of Statistics, London School of Economics.
 Date           : 2022-01-12 15:19:50
 Last Author    : Jie Li
-Last Revision  : 2023-09-17 16:22:17
+Last Revision  : 2023-09-19 14:05:01
 File Path      : /AutoCPD/src/autocpd/utils.py
 Description    :
 
@@ -330,27 +330,27 @@ def Transform2D(data_y, rescale=False, cumsum=False):
 
 
 def labelTransition(data, label, ind, length, size, num_trim=100):
-    """get the transition labels from HASC data
+    """get the transition labels, change-points and time series from one subject
 
     Parameters
     ----------
-    data : _type_
-        _description_
-    label : _type_
-        _description_
-    ind : _type_
-        _description_
-    length : _type_
-        _description_
-    size : _type_
-        _description_
+    data : DataFrame
+        the time series.
+    label : DataFrame
+        the states of the subject
+    ind : scalar
+        the index of state
+    length : int
+        the length of extracted time series
+    size : int
+        the sample size
     num_trim : int, optional
-        _description_, by default 100
+        the number of observations to be trimmed before and after the change-point, by default 100
 
     Returns
     -------
-    _type_
-        _description_
+    dictionary
+        cp: the change-points; ts: time series; label: the transition labels.
     """
     s = label["start"][ind : ind + 2]
     e = label["end"][ind : ind + 2]
@@ -376,6 +376,25 @@ def labelTransition(data, label, ind, length, size, num_trim=100):
 
 
 def labelSubject(subject_path, length, size, num_trim=100):
+    """
+    obtain the transition labels, change-points and time series from one subject.
+
+    Parameters
+    ----------
+    subject_path : string
+        the path of subject data
+    length : int
+        the length of extracted time series
+    size : int
+        the sample size
+    num_trim : int, optional
+        the number of observations to be trimmed before and after the change-point, by default 100
+
+    Returns
+    -------
+    dictionary
+        cp: the change-points; ts: time series; label: the transition labels.
+    """
     # get the csv files
     all_files = os.listdir(subject_path)
     csv_files = list(filter(lambda f: f.endswith(".csv"), all_files))
@@ -427,7 +446,8 @@ def labelSubject(subject_path, length, size, num_trim=100):
 
 
 def extract(n1, n2, length, size, ntrim):
-    """This function randomly extracts samples (consecutive segments) with
+    """
+    This function randomly extracts samples (consecutive segments) with
     length 'length' from a time series concatenated by two different time
     series with length 'n1' and 'n2' respectively. Argument 'ntrim' controls
     the minimum distance between change-point and start or end point of
@@ -541,6 +561,27 @@ def extract(n1, n2, length, size, ntrim):
 
 # functions for  extracting null time series
 def tsExtract(data_trim, new_label, length, size, len0):
+    """
+    To extract the labels without change-points
+
+    Parameters
+    ----------
+    data_trim : DataFrame
+        the dataset of one specific state
+    new_label : DataFrame
+        the label, not transition label.
+    length : int
+        the length of extracted time series
+    size : int
+        the sample size
+    len0 : int
+        the length of time series for one specific state
+
+    Returns
+    -------
+    dict
+        ts: time series; label: the labels.
+    """
     ts_final = np.zeros((size, length, 3))
     label_final = [new_label] * size
 
@@ -553,6 +594,23 @@ def tsExtract(data_trim, new_label, length, size, len0):
 
 
 def ExtractSubject(subject_path, length, size):
+    """
+    To extract the null labels without change-points from one subject
+
+    Parameters
+    ----------
+    subject_path : string
+        the path of subject data
+    length : int
+        the length of extracted time series
+    size : int
+        the sample size
+
+    Returns
+    -------
+    dict
+        ts: time series; label: the labels.
+    """
     # get the csv files
     all_files = os.listdir(subject_path)
     csv_files = list(filter(lambda f: f.endswith(".csv"), all_files))
@@ -610,7 +668,8 @@ def DataGenAlternative(
     scale=0.1,
     sigma=1.0,
 ):
-    """This function genearates the simulation data from alternative model of change in mean.
+    """
+    This function genearates the simulation data from alternative model of change in mean.
 
     Parameters
     ----------
@@ -625,7 +684,7 @@ def DataGenAlternative(
     B_bound : list, optional
         The upper and lower bound scalars of signal-to-noise.
     ARcoef : float, optional
-        The autoregressive parameter of AR(p) model, by default 0.0
+        The autoregressive parameter of AR(1) model, by default 0.0
     tau_bound : int, optional
         The lower bound of change point, by default 2
     ar_model : str, optional
@@ -676,7 +735,17 @@ def DataGenAlternative(
 
 def ComputeCUSUM(x):
     """
-    Compute the CUSUM with O(n) time complexity
+    Compute the CUSUM statistics with O(n) time complexity
+
+    Parameters
+    ----------
+    x : vector
+        the time series
+
+    Returns
+    -------
+    vector
+        a: the CUSUM statistics vector.
     """
     n = len(x)
     mean_left = x[0]
@@ -691,11 +760,22 @@ def ComputeCUSUM(x):
     return a
 
 
-def MaxCUSUM(x, T0=None):
+def MaxCUSUM(x):
+    """
+    To return the maximum of CUSUM
+
+    Parameters
+    ----------
+    x : vector
+        the time series
+
+    Returns
+    -------
+    scalar
+        the maximum of CUSUM
+    """
     y = np.abs(ComputeCUSUM(x))
-    if T0 is None:
-        return np.max(y)
-    return np.max(y[T0 - 1])
+    return np.max(y)
 
 
 def Transform2D2TR(data_y, rescale=False, times=2):
@@ -735,6 +815,18 @@ def ComputeMeanVarNorm(x, minseglen=2):
     """
     Compute the likelihood for change in variance. Rewritten by the R function
     single.var.norm.calc() in package changepoint.
+
+    Parameters
+    ----------
+    x : numpy array
+        the time series
+    minseglen : int
+        the minimum length of segment
+
+    Returns
+    -------
+    scalar
+        the likelihood ratio
     """
     n = len(x)
     y = np.cumsum(x)
@@ -757,6 +849,18 @@ def ComputeMeanVarNorm(x, minseglen=2):
 
 
 def get_wilcoxon_test(x):
+    """Compute the Wilcoxon statistics
+
+    Parameters
+    ----------
+    x : array
+        the time series
+
+    Returns
+    -------
+    scalar
+        the maximum Wilcoxon statistics
+    """
     y = wilcoxon(x) / np.sqrt(get_asyvar_window(x))
     return np.max(y)
 
@@ -820,6 +924,32 @@ def get_asyvar_window(x, momentp=1):
 
 
 def DataGenScenarios(scenario, N, B, mu_L, n, B_bound, rho, tau_bound):
+    """This function generates the data based  on  Scenarios 1, a and 3 in Automatic Change-point Detection in Time Series via Deep Learning (Jie et al. ,2023)
+
+    Parameters
+    ----------
+    scenario : string
+        the scenario label: 'A0' is the Scenarios 1 with 'rho=0', 'A07' is the Scenarios 1 with  'rho=0.7',  'C' is the Scenarios 2 and 'D' is the Scenarios 3 with heavy tailed noise.
+    N : int
+        the sample size
+    B : float
+        The signal-to-noise ratio of parameter space.
+    mu_L : float
+        The single at the left of change point.
+    n : int
+        The length of time series.
+    B_bound : list, optional
+        The upper and lower bound scalars of signal-to-noise.
+    rho : scalar
+        the autocorrelation of AR(1) model
+    tau_bound : int, optional
+        The lower bound of change point, by default 2
+
+    Returns
+    -------
+    dict
+        data_all: the time series; y_all: the label array.
+    """
     np.random.seed(2022)  # numpy seed fixing
     tf.random.set_seed(2022)  # tensorflow seed fixing
     if scenario == "A0":
@@ -904,7 +1034,8 @@ def DataGenScenarios(scenario, N, B, mu_L, n, B_bound, rho, tau_bound):
 
 
 def GenerateARAll(N, n, coef_left, coef_right, sigma, tau_bound):
-    """This function generates N the AR(1) signal
+    """
+    This function generates N the AR(1) signal
 
     Parameters
     ----------
@@ -970,7 +1101,8 @@ def GenerateAR(n, coef_left, coef_right, tau, sigma):
 
 
 def get_cusum_location(x):
-    """This function return the estimation of change-point location based on CUSUM.
+    """
+    This function return the estimation of change-point location based on CUSUM.
 
     Parameters
     ----------
@@ -990,6 +1122,18 @@ def ComputeMosum(x, G):
     """
     Compute the mosum statistic, rewritten according to mosum.stat function in
     mosum R package.
+
+    Parameters
+    ----------
+    x : numpy array
+        The time series
+    G : scalar
+        the width of moving window
+
+    Returns
+    -------
+    int
+        the location of maximum mosum statistics
     """
     n = len(x)
     G = int(G)
@@ -1022,7 +1166,8 @@ def ComputeMosum(x, G):
 
 
 def get_loc_3(model, x_test, n, width):
-    """This function obtains locations of methods: NN, double mosum based on
+    """
+    This function obtains locations of methods: NN, double mosum based on
     predicted label and probabilities.
 
     Parameters
@@ -1049,7 +1194,8 @@ def get_loc_3(model, x_test, n, width):
 
 
 def get_label(model, x_test, n):
-    """This function gets the predicted label for the testing time series:x_test
+    """
+    This function gets the predicted label for the testing time series:x_test
 
     Parameters
     ----------
@@ -1076,7 +1222,8 @@ def get_label(model, x_test, n):
 
 
 def get_mosum_loc_nn(pred, n):
-    """This function return the estimation of change-point based on MOSUM using NN.
+    """
+    This function return the estimation of change-point based on MOSUM using NN.
 
     Parameters
     ----------
@@ -1111,7 +1258,8 @@ def get_mosum_loc_nn(pred, n):
 
 
 def get_mosum_loc_double(x, n, width, use_prob):
-    """This function return the estimation of change-point based on MOSUM by second moving average.
+    """
+    This function return the estimation of change-point based on MOSUM by second moving average.
 
     Parameters
     ----------
