@@ -2,7 +2,7 @@
 Author         : Jie Li, Department of Statistics, London School of Economics.
 Date           : 2022-01-12 15:19:50
 Last Author    : Jie Li
-Last Revision  : 2023-09-19 14:09:36
+Last Revision  : 2023-09-19 22:03:13
 File Path      : /AutoCPD/src/autocpd/utils.py
 Description    :
 
@@ -716,8 +716,8 @@ def DataGenAlternative(
             high=B_bound[1] * mu_R_abs_lower[i],
             size=1,
         )
-        mu_R_all[i] = mu_R
-        mu = np.array([mu_L, mu_R], dtype=np.float32)
+        mu_R_all[i] = mu_R[0]
+        mu = np.array([mu_L, mu_R[0]], dtype=np.float32)
         if ar_model == "Gaussian":
             data[i, :] = GenDataMean(1, n, cp=tau_all[i], mu=mu, sigma=1)
         elif ar_model == "AR0":
