@@ -2,7 +2,7 @@
 Author         : Jie Li, Department of Statistics, London School of Economics.
 Date           : 2022-01-12 15:19:50
 Last Author    : Jie Li
-Last Revision  : 2023-09-19 14:05:01
+Last Revision  : 2023-09-19 14:09:36
 File Path      : /AutoCPD/src/autocpd/utils.py
 Description    :
 
@@ -23,7 +23,6 @@ from itertools import groupby
 
 import numpy as np
 import pandas as pd
-import tensorflow as tf
 from scipy.special import gamma
 from scipy.stats import cauchy, rankdata
 from sklearn.utils import shuffle
@@ -951,7 +950,6 @@ def DataGenScenarios(scenario, N, B, mu_L, n, B_bound, rho, tau_bound):
         data_all: the time series; y_all: the label array.
     """
     np.random.seed(2022)  # numpy seed fixing
-    tf.random.set_seed(2022)  # tensorflow seed fixing
     if scenario == "A0":
         result = DataGenAlternative(
             N_sub=N,
