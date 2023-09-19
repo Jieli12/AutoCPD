@@ -1,7 +1,7 @@
 """
 Author         : Jie Li, Department of Statistics, London School of Economics.
 Date           : 2023-09-19 14:18:47
-Last Revision  : 2023-09-19 21:29:42
+Last Revision  : 2023-09-19 22:51:34
 Last Author    : Jie Li
 File Path      : /AutoCPD/src/autocpd/neuralnetwork.py
 Description    :
@@ -21,7 +21,7 @@ from pathlib import Path
 
 import numpy as np
 import tensorflow as tf
-import tensorflow_docs as tfdocs
+import tensorflow_docs.modeling as tfdoc_model
 from keras import layers, losses, metrics, models
 
 
@@ -71,6 +71,7 @@ def simple_nn(n, l, m, num_classes, model_name="simple_nn"):
 
 
 # mymodel = simple_nn(n=100, l=1, m=10, num_classes=2)
+# mymodel = simple_nn(n=100, l=3, m=10, num_classes=2)
 # mymodel = simple_nn(n=100, l=3, m=[20, 20, 5], num_classes=2)
 
 # build the model, train and save it to disk
@@ -114,7 +115,7 @@ def get_callbacks(name, log_dir):
     """
     name1 = name + "/log.csv"
     return [
-        tfdocs.modeling.EpochDots(),
+        tfdoc_model.EpochDots(),
         tf.keras.callbacks.EarlyStopping(
             monitor="val_sparse_categorical_crossentropy", patience=800, min_delta=1e-3
         ),
