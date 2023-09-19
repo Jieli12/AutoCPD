@@ -4,10 +4,9 @@ build-backend = "hatchling.build"
 
 [project]
 name = "autocpd"
-version = "0.0.2"
+version = "0.0.5"
 authors = [
-  { name="Jie Li", email="j.li196@lse.ac.uk" },
-  { name="Piotr Fryzlewicz", email="p.fryzlewicz@lse.ac.uk" },
+    { name="Jie Li", email="j.li196@lse.ac.uk" }
 ]
 description = "The implementation of algorithm in AutoCPD"
 readme = "README.md"
