@@ -330,7 +330,7 @@ def Transform2D(data_y, rescale=False, cumsum=False):
 
 
 def labelTransition(data, label, ind, length, size, num_trim=100):
-    """_summary_
+    """get the transition labels from HASC data
 
     Parameters
     ----------
