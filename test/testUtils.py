@@ -1,9 +1,9 @@
 """
 Author         : Jie Li, Department of Statistics, London School of Economics.
 Date           : 2023-09-14 18:57:05
-Last Revision  : 2023-09-19 11:53:21
+Last Revision  : 2023-09-19 22:52:35
 Last Author    : Jie Li
-File Path      : /AutoCPD/testUtils.py
+File Path      : /AutoCPD/test/testUtils.py
 Description    :
 
 
@@ -17,58 +17,91 @@ Copyright (c) 2023 by Jie Li, j.li196@lse.ac.uk
 All Rights Reserved.
 """
 # %%
-import pathlib
-from collections import Counter
-
-# %%
-from itertools import groupby
 from pathlib import Path
 
-import matplotlib.colors as mcolors
 import matplotlib.pyplot as plt
 import numpy as np
-import seaborn as sns
 import tensorflow as tf
-import tensorflow_docs as tfdocs
-import tensorflow_docs.modeling
-import tensorflow_docs.plots
-from keras import layers, losses, metrics, models
-from scipy.signal import find_peaks
-from sklearn.model_selection import train_test_split
-from sklearn.preprocessing import LabelEncoder
-from sympy import diff
-from utils import *
+import tensorflow_docs.plots as tfdoc_plot
+from sklearn.utils import shuffle
+
+from autocpd.neuralnetwork import compile_and_fit, simple_nn
+from autocpd.utils import DataGenAlternative, GenDataMean
 
 # %%
+n = 100  # the length of time series
+epsilon = 0.05
+m = 50
+N_all = 400  # the sample size
+B = np.sqrt(8 * np.log(n / epsilon) / n)
+mu_L = 0
+tau_bound = 2
+B_bound = np.array([0.5, 1.5])
+rho = 0.7
+# parameters for neural network
+learning_rate = 1e-3
+epochs = 200
+batch_size = 32
+num_classes = 2
+#  setup the tensorboard
+file_path = Path(__file__)
+current_file = file_path.stem
+print(current_file)
+logdir = Path("tensorboard_logs", "Trial")
+
+# %% main double for loop
+N = int(N_all / 2)
+#  generate the dataset for alternative hypothesis
 np.random.seed(2022)  # numpy seed fixing
 tf.random.set_seed(2022)  # tensorflow seed fixing
-datapath = "../datasets/HASC/"
-subjects = [
-    "person101",
-    "person102",
-    "person103",
-    "person104",
-    "person105",
-    "person106",
-    "person107",
-]
-# %% load the trained model
-logdir = Path("tensorboard_logs", "Trial")
-model_name = "RealDataKS25"
-model_path = Path(logdir, model_name, "model")
-model = tf.keras.models.load_model(model_path)
+result = DataGenAlternative(
+    N_sub=N,
+    B=B,
+    mu_L=mu_L,
+    n=n,
+    B_bound=B_bound,
+    ARcoef=rho,
+    tau_bound=tau_bound,
+    ar_model="AR0",
+)
+data_alt = result["data"]
+tau_alt = result["tau_alt"]
+mu_R_alt = result["mu_R_alt"]
+#  generate dataset for null hypothesis
+data_null = GenDataMean(N, n, cp=None, mu=(mu_L, mu_L), sigma=1)
+data_all = np.concatenate((data_alt, data_null), axis=0)
+y_all = np.repeat((1, 0), N).reshape((2 * N, 1))
+tau_all = np.concatenate((tau_alt, np.repeat(0, N)), axis=0)
+mu_R_all = np.concatenate((mu_R_alt, np.repeat(mu_L, N)), axis=0)
+#  generate the training dataset and test dataset
+x_train, y_train, tau_train, mu_R_train = shuffle(
+    data_all, y_all, tau_all, mu_R_all, random_state=42
+)
+# %%
+model_name = current_file + "n" + str(n) + "N" + str(2 * N) + "m" + str(m)
+print(model_name)
+# build the model
+l = 2
+model = simple_nn(n=n, l=l, m=m, num_classes=2, model_name=model_name)
 model.summary()
-label_dict = np.load(Path(logdir, model_name, "label_dict.npy"), allow_pickle=True)
-label_dict = label_dict.item()
-# %%  load the sequences from subject 7, data preprocessing and plot with CPs
 
-# load the sequences, there are 3 sequences.
-subject = subjects[6]
-subject_path = datapath + subject
-# get the csv files
-all_files = os.listdir(subject_path)
-csv_files = list(filter(lambda f: f.endswith(".csv"), all_files))
-csv_files = list(filter(lambda f: f.startswith("HASC"), csv_files))
-sequences_list = list()
-cp_list = list()
-label_list = list()
+size_histories = {}
+size_histories[model_name] = compile_and_fit(
+    model,
+    x_train,
+    y_train,
+    batch_size,
+    learning_rate,
+    model_name,
+    logdir,
+    max_epochs=epochs,
+)
+plotter = tfdoc_plot.HistoryPlotter(metric="accuracy", smoothing_std=10)
+plt.figure(figsize=(10, 8))
+plotter.plot(size_histories)
+acc_name = model_name + "+acc.png"
+acc_path = Path(logdir, model_name, acc_name)
+plt.savefig(acc_path)
+
+model_path = Path(logdir, model_name, "model")
+model.save(model_path)
