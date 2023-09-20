@@ -1,9 +1,9 @@
 """
 Author         : Jie Li, Department of Statistics, London School of Economics.
 Date           : 2023-09-14 18:57:05
-Last Revision  : 2023-09-19 22:52:35
+Last Revision  : 2023-09-20 12:37:18
 Last Author    : Jie Li
-File Path      : /AutoCPD/test/testUtils.py
+File Path      : /AutoCPD/test/test_simple_nn.py
 Description    :
 
 
