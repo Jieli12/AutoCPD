@@ -2,7 +2,7 @@
 Author         : Jie Li, Department of Statistics, London School of Economics.
 Date           : 2022-01-12 15:19:50
 Last Author    : Jie Li
-Last Revision  : 2023-09-19 22:03:13
+Last Revision  : 2023-09-20 12:51:35
 File Path      : /AutoCPD/src/autocpd/utils.py
 Description    :
 
@@ -923,7 +923,7 @@ def get_asyvar_window(x, momentp=1):
 
 
 def DataGenScenarios(scenario, N, B, mu_L, n, B_bound, rho, tau_bound):
-    """This function generates the data based  on  Scenarios 1, a and 3 in Automatic Change-point Detection in Time Series via Deep Learning (Jie et al. ,2023)
+    """This function generates the data based  on  Scenarios 1, a and 3 in "Automatic Change-point Detection in Time Series via Deep Learning" (Jie et al. ,2023)
 
     Parameters
     ----------
@@ -1276,3 +1276,135 @@ def get_mosum_loc_double(x, n, width, use_prob):
         ma = np.convolve(x, np.ones(width) / width, mode="valid")
 
     return np.argmax(ma) + int(np.round((width + n) / 2))
+
+
+# %%
+def DataSetGen(N_sub, n, mean_arg, var_arg, slope_arg, n_trim, seed=2022):
+    """
+    This function generates the simulation dataset for change in mean, in variance and change in non-zero slope. For more details, see Table S1 in supplement of "Automatic Change-point Detection in Time Series via Deep Learning" (Jie et al. ,2023)
+
+    Parameters
+    ----------
+    N_sub : int
+        the sample size of each class
+    n : int
+        the length of time series
+    mean_arg : array
+        the hyperparameters for generating data of change in mean and null
+    var_arg : array
+        the hyperparameters for generating data of change in variance and null
+    slope_arg : array
+        the hyperparameters for generating data of change in slope and null
+    n_trim : int
+        the trim size
+    seed : int, optional
+        the random seed, by default 2022
+
+    Returns
+    -------
+    dictionary
+        the simulation data and corresponding changes
+    """
+    np.random.seed(seed)  # numpy seed fixing
+    sigma_1 = mean_arg[0]  # the standard deviation of noise
+    upper_bound_mean = mean_arg[1]
+    lower_bound_mean = mean_arg[2]
+    upper_bound_abs_mean_difference = mean_arg[3]
+    lower_bound_abs_mean_difference = mean_arg[4]
+    mu_1all = np.zeros((N_sub, 2))
+    i = 0
+    while i < N_sub:
+        temp = np.random.uniform(lower_bound_mean, upper_bound_mean, 2)
+        abs_diff = np.abs(temp[1] - temp[0])
+        if (
+            abs_diff >= lower_bound_abs_mean_difference
+            and abs_diff <= upper_bound_abs_mean_difference
+        ):
+            mu_1all[i, :] = temp
+            i = i + 1
+
+    mu_0all = np.column_stack((mu_1all[:, 0], np.repeat(0, N_sub)))
+    mu_para = np.concatenate((mu_0all, mu_1all))
+
+    n_range = np.arange(n_trim + 1, n - n_trim + 1)
+    cp_mean = np.random.choice(n_range, (N_sub,))
+    x_mean_0 = np.zeros((N_sub, n))
+    x_mean_1 = np.zeros((N_sub, n))
+    for i in range(N_sub):
+        mu_1 = mu_1all[i, :]
+        x_mean_0[i, :] = GenDataMean(1, n, cp=None, mu=mu_1, sigma=sigma_1)
+        x_mean_1[i, :] = GenDataMean(1, n, cp=cp_mean[i], mu=mu_1, sigma=sigma_1)
+
+    # one can manually change the parameters below to control the signal to noise ratio
+    mu_2 = var_arg[0]
+    upper_bound_std = var_arg[1]
+    lower_bound_std = var_arg[2]
+    upper_bound_abs_std_difference = var_arg[3]
+    lower_bound_abs_std_difference = var_arg[4]
+    sigma_2all = np.zeros((N_sub, 2))
+    i = 0
+    while i < N_sub:
+        temp = np.random.uniform(lower_bound_std, upper_bound_std, 2)
+        abs_diff = np.abs(temp[1] - temp[0])
+        if (
+            abs_diff >= lower_bound_abs_std_difference
+            and abs_diff <= upper_bound_abs_std_difference
+        ):
+            sigma_2all[i, :] = temp
+            i = i + 1
+
+    sigma_0all = np.column_stack((sigma_2all[:, 0], np.repeat(0, N_sub)))
+    sigma_para = np.concatenate((sigma_0all, sigma_2all))
+
+    cp_var = np.random.choice(n_range, (N_sub,))
+    x_var_0 = np.zeros((N_sub, n))
+    x_var_1 = np.zeros((N_sub, n))
+    for i in range(N_sub):
+        sigma_2 = sigma_2all[i, :]
+        x_var_0[i, :] = GenDataVariance(1, n, cp=None, mu=mu_2, sigma=sigma_2)
+        x_var_1[i, :] = GenDataVariance(1, n, cp=cp_var[i], mu=mu_2, sigma=sigma_2)
+
+    # one can manually change the parameters below to control the signal to noise ratio
+    sigma_2 = slope_arg[0]
+    upper_bound_slope = slope_arg[1]
+    lower_bound_slope = slope_arg[2]
+    upper_bound_abs_slope_difference = slope_arg[3]
+    lower_bound_abs_slope_difference = slope_arg[4]
+    slopes_all = np.zeros((N_sub, 2))
+    i = 0
+    while i < N_sub:
+        temp = np.random.uniform(lower_bound_slope, upper_bound_slope, 2)
+        abs_diff = np.abs(temp[1] - temp[0])
+        if (
+            abs_diff >= lower_bound_abs_slope_difference
+            and abs_diff <= upper_bound_abs_slope_difference
+        ):
+            slopes_all[i, :] = temp
+            i = i + 1
+
+    slopes_0all = np.column_stack((slopes_all[:, 0], np.repeat(0, N_sub)))
+    slopes_para = np.concatenate((slopes_0all, slopes_all))
+
+    cp_slope = np.random.choice(n_range, (N_sub,))
+    x_slope_0 = np.zeros((N_sub, n))
+    x_slope_1 = np.zeros((N_sub, n))
+    for i in range(N_sub):
+        slopes = slopes_all[i, :]
+        x_slope_0[i, :] = GenDataSlope(
+            1, n, cp=None, slopes=slopes, sigma=sigma_2, start=0
+        )
+        x_slope_1[i, :] = GenDataSlope(
+            1, n, cp=cp_slope[i], slopes=slopes, sigma=sigma_2, start=0
+        )
+
+    # concatenating
+    data_x = np.concatenate((x_mean_0, x_mean_1, x_var_1, x_slope_0, x_slope_1), axis=0)
+    return {
+        "data_x": data_x,
+        "cp_mean": cp_mean,
+        "cp_var": cp_var,
+        "cp_slope": cp_slope,
+        "mu_para": mu_para,
+        "sigma_para": sigma_para,
+        "slopes_para": slopes_para,
+    }
