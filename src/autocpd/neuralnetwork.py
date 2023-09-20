@@ -1,7 +1,7 @@
 """
 Author         : Jie Li, Department of Statistics, London School of Economics.
 Date           : 2023-09-19 14:18:47
-Last Revision  : 2023-09-19 22:51:34
+Last Revision  : 2023-09-20 12:35:00
 Last Author    : Jie Li
 File Path      : /AutoCPD/src/autocpd/neuralnetwork.py
 Description    :
@@ -133,6 +133,7 @@ def compile_and_fit(
     name,
     log_dir,
     optimizer=None,
+    validation_split=0.2,
     max_epochs=10000,
 ):
     """
@@ -181,8 +182,198 @@ def compile_and_fit(
         y_train,
         epochs=max_epochs,
         batch_size=batch_size,
-        validation_split=0.2,
+        validation_split=validation_split,
         callbacks=get_callbacks(name, log_dir),
         verbose=2,
     )
     return history
+
+
+def resblock(x, kernel_size, filters, strides=1):
+    """
+    This function constructs a resblock.
+
+    Parameters
+    ----------
+    x : tensor
+        the input data
+    kernel_size : int
+        the kernel size
+    filters : int
+        the filter size
+    strides : int, optional
+        the stride, by default 1
+
+    Returns
+    -------
+    layer
+        the hidden layer
+    """
+    x1 = layers.Conv2D(filters, kernel_size, strides=strides, padding="same")(x)
+    x1 = layers.BatchNormalization()(x1)
+    x1 = layers.ReLU()(x1)
+    x1 = layers.Conv2D(filters, kernel_size, padding="same")(x1)
+    x1 = layers.BatchNormalization()(x1)
+    if strides != 1:
+        x = layers.Conv2D(filters, 1, strides=strides, padding="same")(x)
+        x = layers.BatchNormalization()(x)
+
+    x1 = layers.Add()([x, x1])
+    x1 = layers.ReLU()(x1)
+    return x1
+
+
+def deep_nn(
+    n,
+    n_trans,
+    kernel_size,
+    n_filter,
+    dropout_rate,
+    n_classes,
+    m,
+    l,
+    model_name="deep_nn",
+):
+    """
+    This function is used to construct the deep neural network with 21 residual blocks.
+
+    Parameters
+    ----------
+    n : int
+        the length of time series
+    n_trans : int
+        the number of transformations
+    kernel_size : int
+        the kernel size
+    n_filter : int
+        the filter size
+    dropout_rate : float
+        the dropout rate
+    n_classes : int
+        the number of classes
+    m : array
+        the width vector
+    l : int
+        the number of dense layers
+
+    model_name : str, optional
+        the model name, by default "deep_nn"
+
+    Returns
+    -------
+    model
+        the model of deep neural network
+    """
+    # Note: the following network will cost several hours to train the residual neural network in GPU server.
+    input_layer = layers.Input(shape=(n_trans, n), name="Input")
+    x = layers.Reshape((n_trans, n, 1))(input_layer)
+    x = layers.Conv2D(n_filter, 2, padding="same")(x)
+    x = layers.BatchNormalization()(x)
+    x = layers.ReLU()(x)
+    x = layers.MaxPooling2D((2, 2))(x)
+
+    x = resblock(x, kernel_size, filters=n_filter)
+    x = resblock(x, kernel_size, filters=n_filter)
+    x = resblock(x, kernel_size, filters=n_filter)
+
+    x = resblock(x, kernel_size, filters=n_filter, strides=(1, 2))
+    x = resblock(x, kernel_size, filters=n_filter)
+    x = resblock(x, kernel_size, filters=n_filter)
+    x = resblock(x, kernel_size, filters=n_filter)
+
+    x = resblock(x, kernel_size, filters=n_filter, strides=(1, 2))
+    x = resblock(x, kernel_size, filters=n_filter)
+    x = resblock(x, kernel_size, filters=n_filter)
+    x = resblock(x, kernel_size, filters=n_filter)
+    x = resblock(x, kernel_size, filters=n_filter)
+    x = resblock(x, kernel_size, filters=n_filter)
+
+    x = resblock(x, kernel_size, filters=n_filter, strides=(1, 2))
+    x = resblock(x, kernel_size, filters=n_filter)
+    x = resblock(x, kernel_size, filters=n_filter)
+    x = resblock(x, kernel_size, filters=n_filter)
+
+    x = resblock(x, kernel_size, filters=n_filter, strides=(1, 2))
+    x = resblock(x, kernel_size, filters=n_filter)
+    x = resblock(x, kernel_size, filters=n_filter)
+    x = resblock(x, kernel_size, filters=n_filter)
+
+    x = layers.GlobalAveragePooling2D()(x)
+    for i in range(l - 1):
+        x = layers.Dense(m[i], activation="relu", kernel_regularizer="l2")(x)
+        x = layers.Dropout(dropout_rate)(x)
+    x = layers.Dense(m[l - 1], activation="relu", kernel_regularizer="l2")(x)
+    output_layer = layers.Dense(n_classes)(x)
+    model = models.Model(input_layer, output_layer, name=model_name)
+    return model
+
+
+def general_deep_nn(
+    n,
+    n_trans,
+    kernel_size,
+    n_filter,
+    dropout_rate,
+    n_classes,
+    n_resblock,
+    m,
+    l,
+    model_name="deep_nn",
+):
+    """
+    This function is used to construct the deep neural network with 21 residual blocks.
+
+    Parameters
+    ----------
+    n : int
+        the length of time series
+    n_trans : int
+        the number of transformations
+    kernel_size : int
+        the kernel size
+    n_filter : int
+        the filter size
+    dropout_rate : float
+        the dropout rate
+    n_classes : int
+        the number of classes
+    n_resnet : int
+        the number of residual blocks
+    m : array
+        the width vector
+    l : int
+        the number of dense layers
+    model_name : str, optional
+        the model name, by default "deep_nn"
+
+    Returns
+    -------
+    model
+        the model of deep neural network
+    """
+    # Note: the following network will cost several hours to train the residual neural network in GPU server.
+    input_layer = layers.Input(shape=(n_trans, n), name="Input")
+    x = layers.Reshape((n_trans, n, 1))(input_layer)
+    x = layers.Conv2D(n_filter, 2, padding="same")(x)
+    x = layers.BatchNormalization()(x)
+    x = layers.ReLU()(x)
+    x = layers.MaxPooling2D((2, 2))(x)
+    j1 = n_resblock % 4
+    for _ in range(j1):
+        x = resblock(x, kernel_size, filters=n_filter)
+    j2 = n_resblock // 4
+    if j2 > 0:
+        for _ in range(j2):
+            x = resblock(x, kernel_size, filters=n_filter, strides=(1, 2))
+            x = resblock(x, kernel_size, filters=n_filter)
+            x = resblock(x, kernel_size, filters=n_filter)
+            x = resblock(x, kernel_size, filters=n_filter)
+
+    x = layers.GlobalAveragePooling2D()(x)
+    for i in range(l - 1):
+        x = layers.Dense(m[i], activation="relu", kernel_regularizer="l2")(x)
+        x = layers.Dropout(dropout_rate)(x)
+    x = layers.Dense(m[l - 1], activation="relu", kernel_regularizer="l2")(x)
+    output_layer = layers.Dense(n_classes)(x)
+    model = models.Model(input_layer, output_layer, name=model_name)
+    return model
