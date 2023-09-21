@@ -40,7 +40,7 @@ Finally, run the following script to generate Fig. 2(a):
 
 The figure is automatically saved in folder ’./Figures’. Note: You can only see the plotted figure using Ipython.
 
-## HASC data analysis (Note, please wait for our Python package autocpd)
+## HASC data analysis (Note: please wait for our Python package AutoCPDutocpd)
 
 **If you still tried to run the scripts in the current repository, please be careful with the parameters settings.**
 
