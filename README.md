@@ -40,13 +40,17 @@ Finally, run the following script to generate Fig. 2(a):
 
 The figure is automatically saved in folder ’./Figures’. Note: You can only see the plotted figure using Ipython.
 
-## HASC data analysis
+## HASC data analysis (Note, please wait for our Python package autocpd)
+
+**If you still tried to run the scripts in the current repository, please be careful with the parameters settings.**
 
 The HASC data downloaded from [here](http://hasc.jp/hc2011/index-en.html) is in folder ”./datasets/HASC/”. The architecture details of residual neural network can be found in supplementary material. The script “RealDataKS25.py” trains the model and saves the trained model in the folder ”./Code/tensorboard_logs/Trial/”.
 
 **Note:** it costs several hours to train the residual neural network in GPU server. For convenience, I also put the trained model ``RealDataKS25’’ in folder ”./Code/tensorboard_logs/Trial/”. To obtain the Figure 4 in the main text, please run the file “RealDataCPDTestNewSeq1.py”.
 
 ## Extra Simulation for Multiple Change-types
+
+**Please do not run these scripts as it was not updated since the first submission and wait for our Python package AutoCPD.**
 
 In supplementary material, we also provide an extra simulation for one-change-point but with multiple change-types: change in mean, change in slope and change in variance.
 
