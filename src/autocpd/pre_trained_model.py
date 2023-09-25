@@ -1,7 +1,7 @@
 """
 Author         : Jie Li, Department of Statistics, London School of Economics.
 Date           : 2023-09-25 10:56:59
-Last Revision  : 2023-09-25 11:06:25
+Last Revision  : 2023-09-25 11:14:49
 Last Author    : Jie Li
 File Path      : /AutoCPD/src/autocpd/pre_trained_model.py
 Description    :
@@ -29,5 +29,5 @@ def load_pretrained_model():
     tf.Model
         the pre-trained model.
     """
-    model = tf.keras.models.load_model("Demo/model")
+    model = tf.keras.models.load_model("./Demo/model")
     return model
