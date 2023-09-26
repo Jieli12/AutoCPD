@@ -1,7 +1,7 @@
 """
 Author         : Jie Li, Department of Statistics, London School of Economics.
 Date           : 2023-09-25 11:11:18
-Last Revision  : 2023-09-26 15:21:02
+Last Revision  : 2023-09-26 15:36:15
 Last Author    : Jie Li
 File Path      : /AutoCPD/test/test_load_pretrained_model.py
 Description    :
@@ -44,6 +44,9 @@ subjects = [
     "person107",
 ]
 # %% load the trained model
-logdir = pathlib.Path("tensorboard_logs", "Trial")
-label_dict = np.load(Path(logdir, model_name, "label_dict.npy"), allow_pickle=True)
+label_dict = np.load(
+    pathlib.Path(root_path, "Demo", "label_dict.npy"), allow_pickle=True
+)
 label_dict = label_dict.item()
+
+# %%
