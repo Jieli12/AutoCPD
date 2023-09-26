@@ -1,0 +1,3 @@
+include src/HASC/**/*.label
+include src/HASC/**/*.meta
+include src/HASC/**/*.csv

@@ -1,0 +1,13 @@
+TerminalType:ATR;WAA-001
+Frequency(Hz):100
+
+Activity:sequence
+
+Gender: male
+Height(cm): 174
+Weight(kg): 52
+Shoes: sneakers
+Floor: asphalt
+Place: outdoor
+TerminalPosition: waist
+TerminalMount: fixed

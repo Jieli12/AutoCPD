@@ -1,0 +1,15 @@
+LogVersion: 2
+
+TerminalType:Apple;iPod touch 3G
+Frequency(Hz):100
+
+Activity:sequence
+
+Gender: male
+Height(cm): 167
+Weight(kg): 67
+Shoes: sandals
+Floor: asphalt
+Place: outdoor
+TerminalPosition: waist;pocket
+TerminalMount: free

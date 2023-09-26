@@ -1,0 +1,12 @@
+#targetfile:$(projectRoot)/SampleData/0_sequence/person102/HASC1003-acc.csv
+0.627,16.344,jog
+16.867,23.674,walk
+25.034,40.058,stUp
+40.922,49.828,skip
+50.783,55.123,stay
+55.61,61.082,walk
+61.813,75.163,stDown
+76.243,85.482,jog
+86.493,89.874,stay
+90.875,110.721,jog
+111.285,119.721,walk
