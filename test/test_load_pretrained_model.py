@@ -1,7 +1,7 @@
 """
 Author         : Jie Li, Department of Statistics, London School of Economics.
 Date           : 2023-09-25 11:11:18
-Last Revision  : 2023-09-26 15:54:08
+Last Revision  : 2023-09-26 20:49:06
 Last Author    : Jie Li
 File Path      : /AutoCPD/test/test_load_pretrained_model.py
 Description    :
@@ -20,14 +20,15 @@ import os
 import pathlib
 import posixpath
 
-import matplotlib.colors as mcolors
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 import tensorflow as tf
+from scipy.signal import find_peaks
 
 import autocpd
 from autocpd.pre_trained_model import load_pretrained_model
+from autocpd.utils import get_label_hasc, seqPlot
 
 root_path = os.path.dirname(autocpd.__file__)
 model_path = pathlib.Path(root_path, "Demo", "model")
@@ -96,23 +97,6 @@ for ind, fname in enumerate(csv_files):
 
 
 # ## plot the raw datasets
-def seqPlot(sequences_list, cp_list, label_list, y_pos=0.93):
-    for seq, cp, label in zip(sequences_list, cp_list, label_list):
-        seq.reset_index(drop=True, inplace=True)
-        plt.figure()
-        axes = seq.plot(y=["x", "y", "z"], figsize=(15, 6))
-        axes.vlines(cp[0:-1], 0, 1, transform=axes.get_xaxis_transform(), colors="r")
-        xlim = axes.get_xlim()
-        cp = np.insert(cp, 0, xlim[0])
-        x_range = np.diff(xlim)
-        for i in range(len(label)):
-            str = label["state"][i]
-            if i == 0:
-                x_pos = (np.mean(cp[i : i + 2]) - xlim[0]) / x_range
-            else:
-                x_pos = (np.mean(cp[i : i + 2]) - xlim[0] / 2) / x_range
-            axes.text(x_pos, y_pos, str, transform=axes.transAxes)
-
 
 seqPlot(sequences_list, cp_list, label_list, y_pos=0.93)
 
@@ -128,43 +112,25 @@ for i in range(n):
     test_seq_0[i, :, :] = seq[step * i : step * i + length, :]
 
 
-def get_key(y_pred, label_dict):
-    label_str = list()
-    for value in y_pred:
-        key = [key for key, val in label_dict.items() if val == value]
-        label_str.append(key[0])
-
-    return label_str
-
-
-def get_label(model, x_test, label_dict):
-    pred_prob = tf.math.softmax(model.predict(x_test))
-    y_pred = np.argmax(pred_prob, axis=1)
-    label_str = get_key(y_pred, label_dict)
-    return label_str, pred_prob.numpy()
-
-
 test2_seq_0 = np.square(test_seq_0)
 TS_test = np.concatenate([test_seq_0, test2_seq_0], axis=2)
-datamin = TS_test.min(axis=(1, 2), keepdims=True)
-datamax = TS_test.max(axis=(1, 2), keepdims=True)
+datamin = np.min(TS_test, axis=(1, 2), keepdims=True)
+datamax = np.max(TS_test, axis=(1, 2), keepdims=True)
 x_test = 2 * (TS_test - datamin) / (datamax - datamin) - 1
 # %% predict
 x_test = np.transpose(x_test, (0, 2, 1))
-label_list, prob_list = get_label(model, x_test, label_dict)
+label_list, prob_list = get_label_hasc(model, x_test, label_dict)
 
 # label-based
 trans_sym = "->"
 L = np.zeros((len(label_list),), dtype=np.int32)
-for i in range(len(label_list)):
-    if trans_sym in label_list[i]:
+for i, label in enumerate(label_list):
+    if trans_sym in label:
         L[i] = 1
 
 width = 700
 L_bar = np.convolve(L, np.ones(width) / width, mode="valid")
-plt.plot(L_bar)
 peaks, _ = find_peaks(L_bar, height=0.5, distance=400)
-peaks
 cp_est = peaks + width
 
 # %%
@@ -180,27 +146,15 @@ xlim = axes.get_xlim()
 cp = np.insert(cp, 0, xlim[0])
 x_range = np.diff(xlim)
 for i in range(len(label)):
-    str = label["state"][i]
+    str_state = label["state"][i]
     if i == 0:
         x_pos = (np.mean(cp[i : i + 2]) - xlim[0]) / x_range
     else:
         x_pos = (np.mean(cp[i : i + 2]) - xlim[0] / 2) / x_range
-    axes.text(x_pos, y_pos, str, transform=axes.transAxes, fontsize=16)
+    axes.text(x_pos, y_pos, str_state, transform=axes.transAxes, fontsize=16)
 
 plt.xlabel("Time", fontsize=20)
 plt.ylabel("Signal", fontsize=20)
 plt.xticks(fontsize=15)
 plt.yticks(fontsize=15)
 plt.legend(fontsize=11, loc="upper right")
-project_path = "/Users/Jie/Documents/AI-assisstedChangePointDetection/"
-print(project_path)
-fig_name = Path(
-    project_path, "Latex/JRSSB-Discussion-Manuscript/figures/RealDataCPDEst1.eps"
-)
-plt.savefig(fig_name, format="eps")
-# %%
-mad = np.mean(np.abs(cp_est - cp[1:-1]))
-print(mad)
-n_min = min(np.diff(cp[1:]))
-print(n_min)
-mad / n_min
