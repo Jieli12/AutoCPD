@@ -2,7 +2,7 @@
 Author         : Jie Li, Department of Statistics, London School of Economics.
 Date           : 2022-01-12 15:19:50
 Last Author    : Jie Li
-Last Revision  : 2023-09-26 15:51:40
+Last Revision  : 2023-09-26 20:23:48
 File Path      : /AutoCPD/src/autocpd/utils.py
 Description    :
 
@@ -21,8 +21,10 @@ import posixpath
 import warnings
 from itertools import groupby
 
+import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
+import tensorflow as tf
 from scipy.special import gamma
 from scipy.stats import cauchy, rankdata
 from sklearn.utils import shuffle
@@ -1408,3 +1410,83 @@ def DataSetGen(N_sub, n, mean_arg, var_arg, slope_arg, n_trim, seed=2022):
         "sigma_para": sigma_para,
         "slopes_para": slopes_para,
     }
+
+
+def seqPlot(sequences_list, cp_list, label_list, y_pos=0.93):
+    """
+    This function plots the sequence given change-points and label list.
+
+    Parameters
+    ----------
+    sequences_list : DataFrame
+        the time series
+    cp_list : list
+        the list of change-point
+    label_list : list
+        the list of labels
+    y_pos : float, optional
+        the position of y, used in matplotlib, by default 0.93
+    """
+    for seq, cp, label in zip(sequences_list, cp_list, label_list):
+        seq.reset_index(drop=True, inplace=True)
+        plt.figure()
+        axes = seq.plot(y=["x", "y", "z"], figsize=(15, 6))
+        axes.vlines(cp[0:-1], 0, 1, transform=axes.get_xaxis_transform(), colors="r")
+        xlim = axes.get_xlim()
+        cp = np.insert(cp, 0, xlim[0])
+        x_range = np.diff(xlim)
+        for i in range(len(label)):
+            str_state = label["state"][i]
+            if i == 0:
+                x_pos = (np.mean(cp[i : i + 2]) - xlim[0]) / x_range
+            else:
+                x_pos = (np.mean(cp[i : i + 2]) - xlim[0] / 2) / x_range
+            axes.text(x_pos, y_pos, str_state, transform=axes.transAxes)
+
+
+def get_key(y_pred, label_dict):
+    """
+    To get the labels according to the predict value
+
+    Parameters
+    ----------
+    y_pred : int
+        the value of prediction
+    label_dict : dict
+        the lable dictionary
+
+    Returns
+    -------
+    list
+        the label list
+    """
+    label_str = list()
+    for value in y_pred:
+        key = [key for key, val in label_dict.items() if val == value]
+        label_str.append(key[0])
+
+    return label_str
+
+
+def get_label_hasc(model, x_test, label_dict):
+    """
+    This function gets the predicted label for the HASC data
+
+    Parameters
+    ----------
+    model : tensorflow model
+        The trained tensorflow model
+    x_test : 2D array
+        The array of test dataset
+    label_dict : dict
+        The label dictionary
+
+    Returns
+    -------
+    arrays
+        two arrays, one is predicted label, the other is probabilities.
+    """
+    pred_prob = tf.math.softmax(model.predict(x_test))
+    y_pred = np.argmax(pred_prob, axis=1)
+    label_str = get_key(y_pred, label_dict)
+    return label_str, pred_prob.numpy()
