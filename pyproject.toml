@@ -3,14 +3,17 @@ requires = ["hatchling"]
 build-backend = "hatchling.build"
 
 [project]
-name = "autocpd"
-version = "0.1.6"
+name = "AutoCPD"
+version = "0.1.0"
 authors = [
-    { name="Jie Li", email="j.li196@lse.ac.uk" }
+    { name="Jie Li", email="j.li196@lse.ac.uk" },
+    { name="Paul Fearnhead", email="p.fearnhead@lancaster.ac.uk"},
+    {name="Piotr Fryzlewicz", email="p.fryzlewicz@lse.ac.uk"},
+    {name="Tengyao Wang", email="t.wang59@lse.ac.uk"}
 ]
 description = "The implementation of algorithm in AutoCPD"
 readme = "README.md"
-requires-python = ">=3.7"
+requires-python = ">=3.9"
 classifiers = [
     "Programming Language :: Python :: 3",
     "License :: OSI Approved :: MIT License",
@@ -27,5 +30,6 @@ include-package-data = true
 where = ["src"]
 
 [project.urls]
-"Homepage" = "https://github.com/pypa/sampleproject"
-"Bug Tracker" = "https://github.com/pypa/sampleproject/issues"
+"Homepage" = "https://github.com/Jieli12/AutoCPD"
+"Documentation" = "https://autocpd.readthedocs.io/en/latest/"
+"Bug Tracker" = "https://github.com/Jieli12/AutoCPD/issues"

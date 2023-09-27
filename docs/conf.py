@@ -11,8 +11,8 @@ import sys
 
 sys.path.append(os.path.relpath("../src"))
 project = "AutoCPD"
-copyright = "2023, Jie Li"
-author = "Jie Li"
+copyright = "2023, Jie Li, Paul Fearnhead, Piotr Fryzlewicz and Tengyao Wang"
+author = "Jie Li, Paul Fearnhead, Piotr Fryzlewicz and Tengyao Wang"
 release = "1.0.0"
 
 # -- General configuration ---------------------------------------------------
