@@ -1,21 +1,3 @@
-"""
-Author         : Jie Li, Department of Statistics, London School of Economics.
-Date           : 2023-09-19 14:18:47
-Last Revision  : 2023-09-27 21:25:59
-Last Author    : Jie Li
-File Path      : /AutoCPD/src/autocpd/neuralnetwork.py
-Description    :
-
-
-
-
-
-
-
-
-Copyright (c) 2023 by Jie Li, j.li196@lse.ac.uk
-All Rights Reserved.
-"""
 import warnings
 from pathlib import Path
 

@@ -1,21 +1,3 @@
-"""
-Author         : Jie Li, Department of Statistics, London School of Economics.
-Date           : 2022-01-12 15:19:50
-Last Author    : Jie Li
-Last Revision  : 2023-09-26 20:23:48
-File Path      : /AutoCPD/src/autocpd/utils.py
-Description    :
-
-
-
-
-
-
-
-
-Copyright (c) 2022 by Jie Li, j.li196@lse.ac.uk
-All Rights Reserved.
-"""
 import os
 import posixpath
 import warnings
