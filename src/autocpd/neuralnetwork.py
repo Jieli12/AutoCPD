@@ -1,7 +1,7 @@
 """
 Author         : Jie Li, Department of Statistics, London School of Economics.
 Date           : 2023-09-19 14:18:47
-Last Revision  : 2023-09-20 12:35:00
+Last Revision  : 2023-09-27 21:25:59
 Last Author    : Jie Li
 File Path      : /AutoCPD/src/autocpd/neuralnetwork.py
 Description    :
@@ -21,7 +21,6 @@ from pathlib import Path
 
 import numpy as np
 import tensorflow as tf
-import tensorflow_docs.modeling as tfdoc_model
 from keras import layers, losses, metrics, models
 
 
@@ -97,7 +96,7 @@ def get_optimizer(learning_rate):
     return tf.keras.optimizers.Adam(lr_schedule)
 
 
-def get_callbacks(name, log_dir):
+def get_callbacks(name, log_dir, epochdots):
     """
     Get callbacks. This function returns the result of epochs during training, if it satisfies some conditions then the training can stop early. At meanwhile, this function also save the results of training in TensorBoard and csv files.
 
@@ -107,6 +106,8 @@ def get_callbacks(name, log_dir):
         the model name
     log_dir : str
         the path of log files
+    epochdots : object
+        the EpochDots object from tensorflow_docs
 
     Returns
     -------
@@ -115,7 +116,7 @@ def get_callbacks(name, log_dir):
     """
     name1 = name + "/log.csv"
     return [
-        tfdoc_model.EpochDots(),
+        epochdots,
         tf.keras.callbacks.EarlyStopping(
             monitor="val_sparse_categorical_crossentropy", patience=800, min_delta=1e-3
         ),
@@ -132,6 +133,7 @@ def compile_and_fit(
     lr,
     name,
     log_dir,
+    epochdots,
     optimizer=None,
     validation_split=0.2,
     max_epochs=10000,
@@ -155,6 +157,8 @@ def compile_and_fit(
         the model name
     log_dir : str
         the path of log files
+    epochdots : object
+        the EpochDots object from tensorflow_docs
     optimizer : optimizer object or str, optional
         the optimizer, by default None
     max_epochs : int, optional
@@ -183,7 +187,7 @@ def compile_and_fit(
         epochs=max_epochs,
         batch_size=batch_size,
         validation_split=validation_split,
-        callbacks=get_callbacks(name, log_dir),
+        callbacks=get_callbacks(name, log_dir, epochdots),
         verbose=2,
     )
     return history
