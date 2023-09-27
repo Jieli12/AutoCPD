@@ -6,7 +6,7 @@ build-backend = "hatchling.build"
 name = "AutoCPD"
 version = "0.1.8"
 authors = [
-    { name="Jie Li", email="j.li196@lse.ac.uk" },
+    { name="Jie Li, et al.", email="j.li196@lse.ac.uk" },
     { name="Paul Fearnhead", email="p.fearnhead@lancaster.ac.uk"},
     {name="Piotr Fryzlewicz", email="p.fryzlewicz@lse.ac.uk"},
     {name="Tengyao Wang", email="t.wang59@lse.ac.uk"}
