@@ -1,4 +1,4 @@
-# Example Package
+#
 
 <<<<<<< HEAD
 ## Python Environment Setting
