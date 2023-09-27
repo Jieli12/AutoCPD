@@ -1,0 +1,1336 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>autocpd package &mdash; AutoCPD 1.0.0 documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="_static/jquery.js?v=5d32c60e"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="_static/documentation_options.js?v=8d563738"></script>
+        <script src="_static/doctools.js?v=888ff710"></script>
+        <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="src" href="modules.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            AutoCPD
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">src</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">autocpd package</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#submodules">Submodules</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-autocpd.neuralnetwork">autocpd.neuralnetwork module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#autocpd.neuralnetwork.compile_and_fit"><code class="docutils literal notranslate"><span class="pre">compile_and_fit()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#autocpd.neuralnetwork.deep_nn"><code class="docutils literal notranslate"><span class="pre">deep_nn()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#autocpd.neuralnetwork.general_deep_nn"><code class="docutils literal notranslate"><span class="pre">general_deep_nn()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#autocpd.neuralnetwork.get_callbacks"><code class="docutils literal notranslate"><span class="pre">get_callbacks()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#autocpd.neuralnetwork.get_optimizer"><code class="docutils literal notranslate"><span class="pre">get_optimizer()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#autocpd.neuralnetwork.resblock"><code class="docutils literal notranslate"><span class="pre">resblock()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#autocpd.neuralnetwork.simple_nn"><code class="docutils literal notranslate"><span class="pre">simple_nn()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#module-autocpd.pre_trained_model">autocpd.pre_trained_model module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#autocpd.pre_trained_model.load_pretrained_model"><code class="docutils literal notranslate"><span class="pre">load_pretrained_model()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#module-autocpd.utils">autocpd.utils module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#autocpd.utils.ComputeCUSUM"><code class="docutils literal notranslate"><span class="pre">ComputeCUSUM()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#autocpd.utils.ComputeMeanVarNorm"><code class="docutils literal notranslate"><span class="pre">ComputeMeanVarNorm()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#autocpd.utils.ComputeMosum"><code class="docutils literal notranslate"><span class="pre">ComputeMosum()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#autocpd.utils.DataGenAlternative"><code class="docutils literal notranslate"><span class="pre">DataGenAlternative()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#autocpd.utils.DataGenScenarios"><code class="docutils literal notranslate"><span class="pre">DataGenScenarios()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#autocpd.utils.DataSetGen"><code class="docutils literal notranslate"><span class="pre">DataSetGen()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#autocpd.utils.ExtractSubject"><code class="docutils literal notranslate"><span class="pre">ExtractSubject()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#autocpd.utils.GenDataMean"><code class="docutils literal notranslate"><span class="pre">GenDataMean()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#autocpd.utils.GenDataMeanAR"><code class="docutils literal notranslate"><span class="pre">GenDataMeanAR()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#autocpd.utils.GenDataMeanARH"><code class="docutils literal notranslate"><span class="pre">GenDataMeanARH()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#autocpd.utils.GenDataMeanARrho"><code class="docutils literal notranslate"><span class="pre">GenDataMeanARrho()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#autocpd.utils.GenDataSlope"><code class="docutils literal notranslate"><span class="pre">GenDataSlope()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#autocpd.utils.GenDataVariance"><code class="docutils literal notranslate"><span class="pre">GenDataVariance()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#autocpd.utils.GenerateAR"><code class="docutils literal notranslate"><span class="pre">GenerateAR()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#autocpd.utils.GenerateARAll"><code class="docutils literal notranslate"><span class="pre">GenerateARAll()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#autocpd.utils.MaxCUSUM"><code class="docutils literal notranslate"><span class="pre">MaxCUSUM()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#autocpd.utils.Standardize"><code class="docutils literal notranslate"><span class="pre">Standardize()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#autocpd.utils.Transform2D"><code class="docutils literal notranslate"><span class="pre">Transform2D()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#autocpd.utils.Transform2D2TR"><code class="docutils literal notranslate"><span class="pre">Transform2D2TR()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#autocpd.utils.extract"><code class="docutils literal notranslate"><span class="pre">extract()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#autocpd.utils.get_asyvar_window"><code class="docutils literal notranslate"><span class="pre">get_asyvar_window()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#autocpd.utils.get_cusum_location"><code class="docutils literal notranslate"><span class="pre">get_cusum_location()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#autocpd.utils.get_key"><code class="docutils literal notranslate"><span class="pre">get_key()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#autocpd.utils.get_label"><code class="docutils literal notranslate"><span class="pre">get_label()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#autocpd.utils.get_label_hasc"><code class="docutils literal notranslate"><span class="pre">get_label_hasc()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#autocpd.utils.get_loc_3"><code class="docutils literal notranslate"><span class="pre">get_loc_3()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#autocpd.utils.get_mosum_loc_double"><code class="docutils literal notranslate"><span class="pre">get_mosum_loc_double()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#autocpd.utils.get_mosum_loc_nn"><code class="docutils literal notranslate"><span class="pre">get_mosum_loc_nn()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#autocpd.utils.get_wilcoxon_test"><code class="docutils literal notranslate"><span class="pre">get_wilcoxon_test()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#autocpd.utils.labelSubject"><code class="docutils literal notranslate"><span class="pre">labelSubject()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#autocpd.utils.labelTransition"><code class="docutils literal notranslate"><span class="pre">labelTransition()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#autocpd.utils.seqPlot"><code class="docutils literal notranslate"><span class="pre">seqPlot()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#autocpd.utils.tsExtract"><code class="docutils literal notranslate"><span class="pre">tsExtract()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#autocpd.utils.wilcoxon"><code class="docutils literal notranslate"><span class="pre">wilcoxon()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#module-autocpd">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">AutoCPD</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="modules.html">src</a></li>
+      <li class="breadcrumb-item active">autocpd package</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/autocpd.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="autocpd-package">
+<h1>autocpd package<a class="headerlink" href="#autocpd-package" title="Link to this heading"></a></h1>
+<section id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Link to this heading"></a></h2>
+</section>
+<section id="module-autocpd.neuralnetwork">
+<span id="autocpd-neuralnetwork-module"></span><h2>autocpd.neuralnetwork module<a class="headerlink" href="#module-autocpd.neuralnetwork" title="Link to this heading"></a></h2>
+<p>Author         : Jie Li, Department of Statistics, London School of Economics.
+Date           : 2023-09-19 14:18:47
+Last Revision  : 2023-09-20 12:35:00
+Last Author    : Jie Li
+File Path      : /AutoCPD/src/autocpd/neuralnetwork.py
+Description    :</p>
+<p>Copyright (c) 2023 by Jie Li, <a class="reference external" href="mailto:j&#46;li196&#37;&#52;&#48;lse&#46;ac&#46;uk">j<span>&#46;</span>li196<span>&#64;</span>lse<span>&#46;</span>ac<span>&#46;</span>uk</a>
+All Rights Reserved.</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="autocpd.neuralnetwork.compile_and_fit">
+<span class="sig-prename descclassname"><span class="pre">autocpd.neuralnetwork.</span></span><span class="sig-name descname"><span class="pre">compile_and_fit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x_train</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_train</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">batch_size</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lr</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">log_dir</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">optimizer</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">validation_split</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_epochs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10000</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/autocpd/neuralnetwork.html#compile_and_fit"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#autocpd.neuralnetwork.compile_and_fit" title="Link to this definition"></a></dt>
+<dd><p>To compile and fit the model</p>
+<section id="parameters">
+<h3>Parameters<a class="headerlink" href="#parameters" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>model<span class="classifier">Models object</span></dt><dd><p>the simple neural network</p>
+</dd>
+<dt>x_train<span class="classifier">tf.Tensor</span></dt><dd><p>the tensor of training data</p>
+</dd>
+<dt>y_train<span class="classifier">tf.Tensor</span></dt><dd><p>the tensor of training data, label</p>
+</dd>
+<dt>batch_size<span class="classifier">int</span></dt><dd><p>the batch size</p>
+</dd>
+<dt>lr<span class="classifier">float</span></dt><dd><p>the learning rate</p>
+</dd>
+<dt>name<span class="classifier">str</span></dt><dd><p>the model name</p>
+</dd>
+<dt>log_dir<span class="classifier">str</span></dt><dd><p>the path of log files</p>
+</dd>
+<dt>optimizer<span class="classifier">optimizer object or str, optional</span></dt><dd><p>the optimizer, by default None</p>
+</dd>
+<dt>max_epochs<span class="classifier">int, optional</span></dt><dd><p>the maximum number of epochs, by default 10000</p>
+</dd>
+</dl>
+</section>
+<section id="returns">
+<h3>Returns<a class="headerlink" href="#returns" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>model.fit object</dt><dd><p>a fitted model object</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="autocpd.neuralnetwork.deep_nn">
+<span class="sig-prename descclassname"><span class="pre">autocpd.neuralnetwork.</span></span><span class="sig-name descname"><span class="pre">deep_nn</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_trans</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">kernel_size</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_filter</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dropout_rate</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_classes</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">m</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">l</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">model_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'deep_nn'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/autocpd/neuralnetwork.html#deep_nn"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#autocpd.neuralnetwork.deep_nn" title="Link to this definition"></a></dt>
+<dd><p>This function is used to construct the deep neural network with 21 residual blocks.</p>
+<section id="id1">
+<h3>Parameters<a class="headerlink" href="#id1" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>n<span class="classifier">int</span></dt><dd><p>the length of time series</p>
+</dd>
+<dt>n_trans<span class="classifier">int</span></dt><dd><p>the number of transformations</p>
+</dd>
+<dt>kernel_size<span class="classifier">int</span></dt><dd><p>the kernel size</p>
+</dd>
+<dt>n_filter<span class="classifier">int</span></dt><dd><p>the filter size</p>
+</dd>
+<dt>dropout_rate<span class="classifier">float</span></dt><dd><p>the dropout rate</p>
+</dd>
+<dt>n_classes<span class="classifier">int</span></dt><dd><p>the number of classes</p>
+</dd>
+<dt>m<span class="classifier">array</span></dt><dd><p>the width vector</p>
+</dd>
+<dt>l<span class="classifier">int</span></dt><dd><p>the number of dense layers</p>
+</dd>
+<dt>model_name<span class="classifier">str, optional</span></dt><dd><p>the model name, by default “deep_nn”</p>
+</dd>
+</dl>
+</section>
+<section id="id2">
+<h3>Returns<a class="headerlink" href="#id2" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>model</dt><dd><p>the model of deep neural network</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="autocpd.neuralnetwork.general_deep_nn">
+<span class="sig-prename descclassname"><span class="pre">autocpd.neuralnetwork.</span></span><span class="sig-name descname"><span class="pre">general_deep_nn</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_trans</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">kernel_size</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_filter</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dropout_rate</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_classes</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_resblock</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">m</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">l</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">model_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'deep_nn'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/autocpd/neuralnetwork.html#general_deep_nn"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#autocpd.neuralnetwork.general_deep_nn" title="Link to this definition"></a></dt>
+<dd><p>This function is used to construct the deep neural network with 21 residual blocks.</p>
+<section id="id3">
+<h3>Parameters<a class="headerlink" href="#id3" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>n<span class="classifier">int</span></dt><dd><p>the length of time series</p>
+</dd>
+<dt>n_trans<span class="classifier">int</span></dt><dd><p>the number of transformations</p>
+</dd>
+<dt>kernel_size<span class="classifier">int</span></dt><dd><p>the kernel size</p>
+</dd>
+<dt>n_filter<span class="classifier">int</span></dt><dd><p>the filter size</p>
+</dd>
+<dt>dropout_rate<span class="classifier">float</span></dt><dd><p>the dropout rate</p>
+</dd>
+<dt>n_classes<span class="classifier">int</span></dt><dd><p>the number of classes</p>
+</dd>
+<dt>n_resnet<span class="classifier">int</span></dt><dd><p>the number of residual blocks</p>
+</dd>
+<dt>m<span class="classifier">array</span></dt><dd><p>the width vector</p>
+</dd>
+<dt>l<span class="classifier">int</span></dt><dd><p>the number of dense layers</p>
+</dd>
+<dt>model_name<span class="classifier">str, optional</span></dt><dd><p>the model name, by default “deep_nn”</p>
+</dd>
+</dl>
+</section>
+<section id="id4">
+<h3>Returns<a class="headerlink" href="#id4" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>model</dt><dd><p>the model of deep neural network</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="autocpd.neuralnetwork.get_callbacks">
+<span class="sig-prename descclassname"><span class="pre">autocpd.neuralnetwork.</span></span><span class="sig-name descname"><span class="pre">get_callbacks</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">log_dir</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/autocpd/neuralnetwork.html#get_callbacks"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#autocpd.neuralnetwork.get_callbacks" title="Link to this definition"></a></dt>
+<dd><p>Get callbacks. This function returns the result of epochs during training, if it satisfies some conditions then the training can stop early. At meanwhile, this function also save the results of training in TensorBoard and csv files.</p>
+<section id="id5">
+<h3>Parameters<a class="headerlink" href="#id5" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>name<span class="classifier">str</span></dt><dd><p>the model name</p>
+</dd>
+<dt>log_dir<span class="classifier">str</span></dt><dd><p>the path of log files</p>
+</dd>
+</dl>
+</section>
+<section id="id6">
+<h3>Returns<a class="headerlink" href="#id6" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>list</dt><dd><p>the list of callbacks</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="autocpd.neuralnetwork.get_optimizer">
+<span class="sig-prename descclassname"><span class="pre">autocpd.neuralnetwork.</span></span><span class="sig-name descname"><span class="pre">get_optimizer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">learning_rate</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/autocpd/neuralnetwork.html#get_optimizer"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#autocpd.neuralnetwork.get_optimizer" title="Link to this definition"></a></dt>
+<dd><p>To get the optimizer given the learning rate.</p>
+<section id="id7">
+<h3>Parameters<a class="headerlink" href="#id7" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>learning_rate<span class="classifier">float</span></dt><dd><p>the learning rate for inverse time decay schedule.</p>
+</dd>
+</dl>
+</section>
+<section id="id8">
+<h3>Returns<a class="headerlink" href="#id8" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>optimizer</dt><dd><p>the Adam</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="autocpd.neuralnetwork.resblock">
+<span class="sig-prename descclassname"><span class="pre">autocpd.neuralnetwork.</span></span><span class="sig-name descname"><span class="pre">resblock</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">kernel_size</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filters</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">strides</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/autocpd/neuralnetwork.html#resblock"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#autocpd.neuralnetwork.resblock" title="Link to this definition"></a></dt>
+<dd><p>This function constructs a resblock.</p>
+<section id="id9">
+<h3>Parameters<a class="headerlink" href="#id9" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>x<span class="classifier">tensor</span></dt><dd><p>the input data</p>
+</dd>
+<dt>kernel_size<span class="classifier">int</span></dt><dd><p>the kernel size</p>
+</dd>
+<dt>filters<span class="classifier">int</span></dt><dd><p>the filter size</p>
+</dd>
+<dt>strides<span class="classifier">int, optional</span></dt><dd><p>the stride, by default 1</p>
+</dd>
+</dl>
+</section>
+<section id="id10">
+<h3>Returns<a class="headerlink" href="#id10" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>layer</dt><dd><p>the hidden layer</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="autocpd.neuralnetwork.simple_nn">
+<span class="sig-prename descclassname"><span class="pre">autocpd.neuralnetwork.</span></span><span class="sig-name descname"><span class="pre">simple_nn</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">l</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">m</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_classes</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">model_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'simple_nn'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/autocpd/neuralnetwork.html#simple_nn"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#autocpd.neuralnetwork.simple_nn" title="Link to this definition"></a></dt>
+<dd><p>To construct a simple neural network.</p>
+<section id="id11">
+<h3>Parameters<a class="headerlink" href="#id11" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>n<span class="classifier">scalar</span></dt><dd><p>the input size</p>
+</dd>
+<dt>l<span class="classifier">scalar</span></dt><dd><p>the number of hidden layers</p>
+</dd>
+<dt>m<span class="classifier">scalar or 1D array</span></dt><dd><p>the width vector of hidden layers, if it is a scalar, then the hidden layers of simple neural network have the same nodes.</p>
+</dd>
+<dt>num_classes<span class="classifier">scalar</span></dt><dd><p>the nodes of output layers, i.e., the number of classes</p>
+</dd>
+<dt>model_name<span class="classifier">str, optional</span></dt><dd><p>the model name, by default “simple_nn”</p>
+</dd>
+</dl>
+</section>
+<section id="id12">
+<h3>Returns<a class="headerlink" href="#id12" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>model</dt><dd><p>the simple neural network</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+</section>
+<section id="module-autocpd.pre_trained_model">
+<span id="autocpd-pre-trained-model-module"></span><h2>autocpd.pre_trained_model module<a class="headerlink" href="#module-autocpd.pre_trained_model" title="Link to this heading"></a></h2>
+<p>Author         : Jie Li, Department of Statistics, London School of Economics.
+Date           : 2023-09-25 10:56:59
+Last Revision  : 2023-09-25 11:23:28
+Last Author    : Jie Li
+File Path      : /AutoCPD/src/autocpd/pre_trained_model.py
+Description    :</p>
+<p>Copyright (c) 2023 by Jie Li, <a class="reference external" href="mailto:j&#46;li196&#37;&#52;&#48;lse&#46;ac&#46;uk">j<span>&#46;</span>li196<span>&#64;</span>lse<span>&#46;</span>ac<span>&#46;</span>uk</a>
+All Rights Reserved.
+import</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="autocpd.pre_trained_model.load_pretrained_model">
+<span class="sig-prename descclassname"><span class="pre">autocpd.pre_trained_model.</span></span><span class="sig-name descname"><span class="pre">load_pretrained_model</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/autocpd/pre_trained_model.html#load_pretrained_model"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#autocpd.pre_trained_model.load_pretrained_model" title="Link to this definition"></a></dt>
+<dd><p>Load the pretrained model</p>
+<section id="id13">
+<h3>Parameters<a class="headerlink" href="#id13" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>path<span class="classifier">str</span></dt><dd><p>the path of pre-trained model</p>
+</dd>
+</dl>
+</section>
+<section id="id14">
+<h3>Returns<a class="headerlink" href="#id14" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>tf.Model</dt><dd><p>the pre-trained model.</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+</section>
+<section id="module-autocpd.utils">
+<span id="autocpd-utils-module"></span><h2>autocpd.utils module<a class="headerlink" href="#module-autocpd.utils" title="Link to this heading"></a></h2>
+<p>Author         : Jie Li, Department of Statistics, London School of Economics.
+Date           : 2022-01-12 15:19:50
+Last Author    : Jie Li
+Last Revision  : 2023-09-26 20:23:48
+File Path      : /AutoCPD/src/autocpd/utils.py
+Description    :</p>
+<p>Copyright (c) 2022 by Jie Li, <a class="reference external" href="mailto:j&#46;li196&#37;&#52;&#48;lse&#46;ac&#46;uk">j<span>&#46;</span>li196<span>&#64;</span>lse<span>&#46;</span>ac<span>&#46;</span>uk</a>
+All Rights Reserved.</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="autocpd.utils.ComputeCUSUM">
+<span class="sig-prename descclassname"><span class="pre">autocpd.utils.</span></span><span class="sig-name descname"><span class="pre">ComputeCUSUM</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/autocpd/utils.html#ComputeCUSUM"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#autocpd.utils.ComputeCUSUM" title="Link to this definition"></a></dt>
+<dd><p>Compute the CUSUM statistics with O(n) time complexity</p>
+<section id="id15">
+<h3>Parameters<a class="headerlink" href="#id15" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>x<span class="classifier">vector</span></dt><dd><p>the time series</p>
+</dd>
+</dl>
+</section>
+<section id="id16">
+<h3>Returns<a class="headerlink" href="#id16" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>vector</dt><dd><p>a: the CUSUM statistics vector.</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="autocpd.utils.ComputeMeanVarNorm">
+<span class="sig-prename descclassname"><span class="pre">autocpd.utils.</span></span><span class="sig-name descname"><span class="pre">ComputeMeanVarNorm</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">minseglen</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">2</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/autocpd/utils.html#ComputeMeanVarNorm"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#autocpd.utils.ComputeMeanVarNorm" title="Link to this definition"></a></dt>
+<dd><p>Compute the likelihood for change in variance. Rewritten by the R function
+single.var.norm.calc() in package changepoint.</p>
+<section id="id17">
+<h3>Parameters<a class="headerlink" href="#id17" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>x<span class="classifier">numpy array</span></dt><dd><p>the time series</p>
+</dd>
+<dt>minseglen<span class="classifier">int</span></dt><dd><p>the minimum length of segment</p>
+</dd>
+</dl>
+</section>
+<section id="id18">
+<h3>Returns<a class="headerlink" href="#id18" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>scalar</dt><dd><p>the likelihood ratio</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="autocpd.utils.ComputeMosum">
+<span class="sig-prename descclassname"><span class="pre">autocpd.utils.</span></span><span class="sig-name descname"><span class="pre">ComputeMosum</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">G</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/autocpd/utils.html#ComputeMosum"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#autocpd.utils.ComputeMosum" title="Link to this definition"></a></dt>
+<dd><p>Compute the mosum statistic, rewritten according to mosum.stat function in
+mosum R package.</p>
+<section id="id19">
+<h3>Parameters<a class="headerlink" href="#id19" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>x<span class="classifier">numpy array</span></dt><dd><p>The time series</p>
+</dd>
+<dt>G<span class="classifier">scalar</span></dt><dd><p>the width of moving window</p>
+</dd>
+</dl>
+</section>
+<section id="id20">
+<h3>Returns<a class="headerlink" href="#id20" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>int</dt><dd><p>the location of maximum mosum statistics</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="autocpd.utils.DataGenAlternative">
+<span class="sig-prename descclassname"><span class="pre">autocpd.utils.</span></span><span class="sig-name descname"><span class="pre">DataGenAlternative</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">N_sub</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">B</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mu_L</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">B_bound</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ARcoef</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tau_bound</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ar_model</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'Gaussian'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scale</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sigma</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/autocpd/utils.html#DataGenAlternative"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#autocpd.utils.DataGenAlternative" title="Link to this definition"></a></dt>
+<dd><p>This function genearates the simulation data from alternative model of change in mean.</p>
+<section id="id21">
+<h3>Parameters<a class="headerlink" href="#id21" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>N_sub<span class="classifier">int</span></dt><dd><p>The sample size of simulation data.</p>
+</dd>
+<dt>B<span class="classifier">float</span></dt><dd><p>The signal-to-noise ratio of parameter space.</p>
+</dd>
+<dt>mu_L<span class="classifier">float</span></dt><dd><p>The single at the left of change point.</p>
+</dd>
+<dt>n<span class="classifier">int</span></dt><dd><p>The length of time series.</p>
+</dd>
+<dt>B_bound<span class="classifier">list, optional</span></dt><dd><p>The upper and lower bound scalars of signal-to-noise.</p>
+</dd>
+<dt>ARcoef<span class="classifier">float, optional</span></dt><dd><p>The autoregressive parameter of AR(1) model, by default 0.0</p>
+</dd>
+<dt>tau_bound<span class="classifier">int, optional</span></dt><dd><p>The lower bound of change point, by default 2</p>
+</dd>
+<dt>ar_model<span class="classifier">str, optional</span></dt><dd><p>The different models, by default ‘Gaussian’. ar_model=”AR0” means AR(1)
+noise with autoregressive parameter ‘ARcoef’; ar_model=”ARH” means
+Cauchy noise with scale parameter ‘scale’; ar_model=”ARrho” means AR(1)
+noise with random autoregressive parameter ‘scale’;</p>
+</dd>
+<dt>scale<span class="classifier">float, optional</span></dt><dd><p>The scale parameter of Cauchy distribution, by default 0.1</p>
+</dd>
+<dt>sigma<span class="classifier">float, optional</span></dt><dd><p>The standard variance of normal distribution, by default 1.0</p>
+</dd>
+</dl>
+</section>
+<section id="id22">
+<h3>Returns<a class="headerlink" href="#id22" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>dict</dt><dd><p>data: size (N_sub,n);
+tau_alt: size (N_sub,); the change points
+mu_R: size (N_sub,); the single at the right of change point</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="autocpd.utils.DataGenScenarios">
+<span class="sig-prename descclassname"><span class="pre">autocpd.utils.</span></span><span class="sig-name descname"><span class="pre">DataGenScenarios</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">scenario</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">N</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">B</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mu_L</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">B_bound</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rho</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tau_bound</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/autocpd/utils.html#DataGenScenarios"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#autocpd.utils.DataGenScenarios" title="Link to this definition"></a></dt>
+<dd><p>This function generates the data based  on  Scenarios 1, a and 3 in “Automatic Change-point Detection in Time Series via Deep Learning” (Jie et al. ,2023)</p>
+<section id="id23">
+<h3>Parameters<a class="headerlink" href="#id23" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>scenario<span class="classifier">string</span></dt><dd><p>the scenario label: ‘A0’ is the Scenarios 1 with ‘rho=0’, ‘A07’ is the Scenarios 1 with  ‘rho=0.7’,  ‘C’ is the Scenarios 2 and ‘D’ is the Scenarios 3 with heavy tailed noise.</p>
+</dd>
+<dt>N<span class="classifier">int</span></dt><dd><p>the sample size</p>
+</dd>
+<dt>B<span class="classifier">float</span></dt><dd><p>The signal-to-noise ratio of parameter space.</p>
+</dd>
+<dt>mu_L<span class="classifier">float</span></dt><dd><p>The single at the left of change point.</p>
+</dd>
+<dt>n<span class="classifier">int</span></dt><dd><p>The length of time series.</p>
+</dd>
+<dt>B_bound<span class="classifier">list, optional</span></dt><dd><p>The upper and lower bound scalars of signal-to-noise.</p>
+</dd>
+<dt>rho<span class="classifier">scalar</span></dt><dd><p>the autocorrelation of AR(1) model</p>
+</dd>
+<dt>tau_bound<span class="classifier">int, optional</span></dt><dd><p>The lower bound of change point, by default 2</p>
+</dd>
+</dl>
+</section>
+<section id="id24">
+<h3>Returns<a class="headerlink" href="#id24" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>dict</dt><dd><p>data_all: the time series; y_all: the label array.</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="autocpd.utils.DataSetGen">
+<span class="sig-prename descclassname"><span class="pre">autocpd.utils.</span></span><span class="sig-name descname"><span class="pre">DataSetGen</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">N_sub</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mean_arg</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">var_arg</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">slope_arg</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_trim</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">seed</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">2022</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/autocpd/utils.html#DataSetGen"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#autocpd.utils.DataSetGen" title="Link to this definition"></a></dt>
+<dd><p>This function generates the simulation dataset for change in mean, in variance and change in non-zero slope. For more details, see Table S1 in supplement of “Automatic Change-point Detection in Time Series via Deep Learning” (Jie et al. ,2023)</p>
+<section id="id25">
+<h3>Parameters<a class="headerlink" href="#id25" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>N_sub<span class="classifier">int</span></dt><dd><p>the sample size of each class</p>
+</dd>
+<dt>n<span class="classifier">int</span></dt><dd><p>the length of time series</p>
+</dd>
+<dt>mean_arg<span class="classifier">array</span></dt><dd><p>the hyperparameters for generating data of change in mean and null</p>
+</dd>
+<dt>var_arg<span class="classifier">array</span></dt><dd><p>the hyperparameters for generating data of change in variance and null</p>
+</dd>
+<dt>slope_arg<span class="classifier">array</span></dt><dd><p>the hyperparameters for generating data of change in slope and null</p>
+</dd>
+<dt>n_trim<span class="classifier">int</span></dt><dd><p>the trim size</p>
+</dd>
+<dt>seed<span class="classifier">int, optional</span></dt><dd><p>the random seed, by default 2022</p>
+</dd>
+</dl>
+</section>
+<section id="id26">
+<h3>Returns<a class="headerlink" href="#id26" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>dictionary</dt><dd><p>the simulation data and corresponding changes</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="autocpd.utils.ExtractSubject">
+<span class="sig-prename descclassname"><span class="pre">autocpd.utils.</span></span><span class="sig-name descname"><span class="pre">ExtractSubject</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">subject_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">length</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">size</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/autocpd/utils.html#ExtractSubject"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#autocpd.utils.ExtractSubject" title="Link to this definition"></a></dt>
+<dd><p>To extract the null labels without change-points from one subject</p>
+<section id="id27">
+<h3>Parameters<a class="headerlink" href="#id27" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>subject_path<span class="classifier">string</span></dt><dd><p>the path of subject data</p>
+</dd>
+<dt>length<span class="classifier">int</span></dt><dd><p>the length of extracted time series</p>
+</dd>
+<dt>size<span class="classifier">int</span></dt><dd><p>the sample size</p>
+</dd>
+</dl>
+</section>
+<section id="id28">
+<h3>Returns<a class="headerlink" href="#id28" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>dict</dt><dd><p>ts: time series; label: the labels.</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="autocpd.utils.GenDataMean">
+<span class="sig-prename descclassname"><span class="pre">autocpd.utils.</span></span><span class="sig-name descname"><span class="pre">GenDataMean</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">N</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cp</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mu</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sigma</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/autocpd/utils.html#GenDataMean"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#autocpd.utils.GenDataMean" title="Link to this definition"></a></dt>
+<dd><p>The function  generates the data for change in mean with Gaussian noise.
+When “cp” is None, it generates the data without change point.</p>
+<section id="id29">
+<h3>Parameters<a class="headerlink" href="#id29" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>N<span class="classifier">int</span></dt><dd><p>the sample size</p>
+</dd>
+<dt>n<span class="classifier">int</span></dt><dd><p>the length of time series</p>
+</dd>
+<dt>cp<span class="classifier">int</span></dt><dd><p>the change point, only 1 change point is accepted in this function.</p>
+</dd>
+<dt>mu<span class="classifier">float</span></dt><dd><p>the piecewise mean</p>
+</dd>
+<dt>sigma<span class="classifier">float</span></dt><dd><p>the standard deviation of Gaussian distribution</p>
+</dd>
+</dl>
+</section>
+<section id="id30">
+<h3>Returns<a class="headerlink" href="#id30" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>numpy array</dt><dd><p>2D array with size (N, n)</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="autocpd.utils.GenDataMeanAR">
+<span class="sig-prename descclassname"><span class="pre">autocpd.utils.</span></span><span class="sig-name descname"><span class="pre">GenDataMeanAR</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">N</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cp</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mu</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sigma</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">coef</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/autocpd/utils.html#GenDataMeanAR"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#autocpd.utils.GenDataMeanAR" title="Link to this definition"></a></dt>
+<dd><p>The function  generates the data for change in mean with AR(1) noise.
+When “cp” is None, it generates the data without change point.</p>
+<section id="id31">
+<h3>Parameters<a class="headerlink" href="#id31" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>N<span class="classifier">int</span></dt><dd><p>the sample size</p>
+</dd>
+<dt>n<span class="classifier">int</span></dt><dd><p>the length of time series</p>
+</dd>
+<dt>cp<span class="classifier">int</span></dt><dd><p>the change point, only 1 change point is accepted in this function.</p>
+</dd>
+<dt>mu<span class="classifier">float</span></dt><dd><p>the piecewise mean</p>
+</dd>
+<dt>sigma<span class="classifier">float</span></dt><dd><p>the standard deviation of Gaussian innovations in AR(1) noise</p>
+</dd>
+<dt>coef<span class="classifier">float scalar</span></dt><dd><p>the coefficients of AR(1) model</p>
+</dd>
+</dl>
+</section>
+<section id="id32">
+<h3>Returns<a class="headerlink" href="#id32" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>numpy array</dt><dd><p>2D array with size (N, n)</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="autocpd.utils.GenDataMeanARH">
+<span class="sig-prename descclassname"><span class="pre">autocpd.utils.</span></span><span class="sig-name descname"><span class="pre">GenDataMeanARH</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">N</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cp</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mu</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">coef</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scale</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/autocpd/utils.html#GenDataMeanARH"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#autocpd.utils.GenDataMeanARH" title="Link to this definition"></a></dt>
+<dd><p>The function  generates the data for change in mean + Cauchy noise with
+location parameter 0 and scale parameter ‘scale’. When “cp” is None, it
+generates the data without change point.</p>
+<section id="id33">
+<h3>Parameters<a class="headerlink" href="#id33" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>N<span class="classifier">int</span></dt><dd><p>the sample size</p>
+</dd>
+<dt>n<span class="classifier">int</span></dt><dd><p>the length of time series</p>
+</dd>
+<dt>cp<span class="classifier">int</span></dt><dd><p>the change point, only 1 change point is accepted in this function.</p>
+</dd>
+<dt>mu<span class="classifier">float</span></dt><dd><p>the piecewise mean</p>
+</dd>
+<dt>coef<span class="classifier">float array</span></dt><dd><p>the coefficients of AR(1) model</p>
+</dd>
+<dt>scale<span class="classifier">the scale parameter of Cauchy distribution</span></dt><dd><p>the coefficients of AR(1) model</p>
+</dd>
+</dl>
+</section>
+<section id="id34">
+<h3>Returns<a class="headerlink" href="#id34" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>numpy array</dt><dd><p>2D array with size (N, n)</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="autocpd.utils.GenDataMeanARrho">
+<span class="sig-prename descclassname"><span class="pre">autocpd.utils.</span></span><span class="sig-name descname"><span class="pre">GenDataMeanARrho</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">N</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cp</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mu</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sigma</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/autocpd/utils.html#GenDataMeanARrho"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#autocpd.utils.GenDataMeanARrho" title="Link to this definition"></a></dt>
+<dd><p>The function  generates the data for change in mean with AR(1) noise. The
+autoregressive coefficient is generated from standard uniform distribution.
+When “cp” is None, it generates the data without change point.</p>
+<section id="id35">
+<h3>Parameters<a class="headerlink" href="#id35" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>N<span class="classifier">int</span></dt><dd><p>the sample size</p>
+</dd>
+<dt>n<span class="classifier">int</span></dt><dd><p>the length of time series</p>
+</dd>
+<dt>cp<span class="classifier">int</span></dt><dd><p>the change point, only 1 change point is accepted in this function.</p>
+</dd>
+<dt>mu<span class="classifier">float</span></dt><dd><p>the piecewise mean</p>
+</dd>
+<dt>sigma<span class="classifier">float</span></dt><dd><p>the standard variance of normal distribution</p>
+</dd>
+</dl>
+</section>
+<section id="id36">
+<h3>Returns<a class="headerlink" href="#id36" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>numpy array</dt><dd><p>2D array with size (N, n)</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="autocpd.utils.GenDataSlope">
+<span class="sig-prename descclassname"><span class="pre">autocpd.utils.</span></span><span class="sig-name descname"><span class="pre">GenDataSlope</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">N</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cp</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">slopes</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sigma</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/autocpd/utils.html#GenDataSlope"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#autocpd.utils.GenDataSlope" title="Link to this definition"></a></dt>
+<dd><p>The function  generates the data for change in slope with Gaussian noise.
+When “cp” is None, it generates the data without change point in slope.</p>
+<section id="id37">
+<h3>Parameters<a class="headerlink" href="#id37" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>N<span class="classifier">int</span></dt><dd><p>the sample size</p>
+</dd>
+<dt>n<span class="classifier">int</span></dt><dd><p>the length of time series</p>
+</dd>
+<dt>cp<span class="classifier">int</span></dt><dd><p>the change point, only 1 change point is accepted in this function.</p>
+</dd>
+<dt>slopes<span class="classifier">float</span></dt><dd><p>the slopes before and after the change point</p>
+</dd>
+<dt>sigma<span class="classifier">float</span></dt><dd><p>the standard deviation of Gaussian distribution</p>
+</dd>
+<dt>start<span class="classifier">float</span></dt><dd><p>the y-intercept of linear model</p>
+</dd>
+</dl>
+</section>
+<section id="id38">
+<h3>Returns<a class="headerlink" href="#id38" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>numpy array</dt><dd><p>2D array with size (N, n)</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="autocpd.utils.GenDataVariance">
+<span class="sig-prename descclassname"><span class="pre">autocpd.utils.</span></span><span class="sig-name descname"><span class="pre">GenDataVariance</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">N</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cp</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mu</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sigma</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/autocpd/utils.html#GenDataVariance"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#autocpd.utils.GenDataVariance" title="Link to this definition"></a></dt>
+<dd><p>The function  generates the data for change in variance with piecewise
+constant signal. When “cp” is None, it generates the data without change
+point in variance.</p>
+<section id="id39">
+<h3>Parameters<a class="headerlink" href="#id39" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>N<span class="classifier">int</span></dt><dd><p>the sample size</p>
+</dd>
+<dt>n<span class="classifier">int</span></dt><dd><p>the length of time series</p>
+</dd>
+<dt>cp<span class="classifier">int</span></dt><dd><p>the change point, only 1 change point is accepted in this function.</p>
+</dd>
+<dt>mu<span class="classifier">float</span></dt><dd><p>the piecewise mean</p>
+</dd>
+<dt>sigma<span class="classifier">float</span></dt><dd><p>the standard deviation of Gaussian distribution</p>
+</dd>
+</dl>
+</section>
+<section id="id40">
+<h3>Returns<a class="headerlink" href="#id40" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>numpy array</dt><dd><p>2D array with size (N, n)</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="autocpd.utils.GenerateAR">
+<span class="sig-prename descclassname"><span class="pre">autocpd.utils.</span></span><span class="sig-name descname"><span class="pre">GenerateAR</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">coef_left</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">coef_right</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tau</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sigma</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/autocpd/utils.html#GenerateAR"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#autocpd.utils.GenerateAR" title="Link to this definition"></a></dt>
+<dd><p>This function generates the signal of AR(1) model</p>
+<section id="id41">
+<h3>Parameters<a class="headerlink" href="#id41" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>n<span class="classifier">integer</span></dt><dd><p>The length of time series</p>
+</dd>
+<dt>coef_left<span class="classifier">float</span></dt><dd><p>The AR coefficient before the change-point</p>
+</dd>
+<dt>coef_right<span class="classifier">float</span></dt><dd><p>The AR coefficient after the change-point</p>
+</dd>
+<dt>tau<span class="classifier">integer</span></dt><dd><p>The location of change-point</p>
+</dd>
+<dt>sigma<span class="classifier">float</span></dt><dd><p>The standard deviation of noise</p>
+</dd>
+</dl>
+</section>
+<section id="id42">
+<h3>Returns<a class="headerlink" href="#id42" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>array</dt><dd><p>The time series with length n.</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="autocpd.utils.GenerateARAll">
+<span class="sig-prename descclassname"><span class="pre">autocpd.utils.</span></span><span class="sig-name descname"><span class="pre">GenerateARAll</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">N</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">coef_left</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">coef_right</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sigma</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tau_bound</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/autocpd/utils.html#GenerateARAll"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#autocpd.utils.GenerateARAll" title="Link to this definition"></a></dt>
+<dd><p>This function generates N the AR(1) signal</p>
+<section id="id43">
+<h3>Parameters<a class="headerlink" href="#id43" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>N<span class="classifier">integer</span></dt><dd><p>The number of observations</p>
+</dd>
+<dt>n<span class="classifier">integer</span></dt><dd><p>_description_</p>
+</dd>
+<dt>coef_left<span class="classifier">float</span></dt><dd><p>The AR coefficient before the change-point</p>
+</dd>
+<dt>coef_right<span class="classifier">float</span></dt><dd><p>The AR coefficient after the change-point</p>
+</dd>
+<dt>sigma<span class="classifier">float</span></dt><dd><p>The standard deviation of noise</p>
+</dd>
+<dt>tau_bound<span class="classifier">integer</span></dt><dd><p>The bound of change-point</p>
+</dd>
+</dl>
+</section>
+<section id="id44">
+<h3>Returns<a class="headerlink" href="#id44" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>2D arrary and change-points</dt><dd><p>dataset with size (2*N, n), N change-points</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="autocpd.utils.MaxCUSUM">
+<span class="sig-prename descclassname"><span class="pre">autocpd.utils.</span></span><span class="sig-name descname"><span class="pre">MaxCUSUM</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/autocpd/utils.html#MaxCUSUM"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#autocpd.utils.MaxCUSUM" title="Link to this definition"></a></dt>
+<dd><p>To return the maximum of CUSUM</p>
+<section id="id45">
+<h3>Parameters<a class="headerlink" href="#id45" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>x<span class="classifier">vector</span></dt><dd><p>the time series</p>
+</dd>
+</dl>
+</section>
+<section id="id46">
+<h3>Returns<a class="headerlink" href="#id46" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>scalar</dt><dd><p>the maximum of CUSUM</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="autocpd.utils.Standardize">
+<span class="sig-prename descclassname"><span class="pre">autocpd.utils.</span></span><span class="sig-name descname"><span class="pre">Standardize</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/autocpd/utils.html#Standardize"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#autocpd.utils.Standardize" title="Link to this definition"></a></dt>
+<dd><p>Data standardization</p>
+<section id="id47">
+<h3>Parameters<a class="headerlink" href="#id47" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>data<span class="classifier">numpy array</span></dt><dd><p>the data set with size (N, …, n)</p>
+</dd>
+</dl>
+</section>
+<section id="id48">
+<h3>Returns<a class="headerlink" href="#id48" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>data</dt><dd><p>standardized data</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="autocpd.utils.Transform2D">
+<span class="sig-prename descclassname"><span class="pre">autocpd.utils.</span></span><span class="sig-name descname"><span class="pre">Transform2D</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data_y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rescale</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cumsum</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/autocpd/utils.html#Transform2D"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#autocpd.utils.Transform2D" title="Link to this definition"></a></dt>
+<dd><p>Apply 4 transformations (original, squared, log squared, tanh) to the same dataset</p>
+<section id="id49">
+<h3>Parameters<a class="headerlink" href="#id49" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>data_y<span class="classifier">numpy array</span></dt><dd><p>the 2-D array</p>
+</dd>
+<dt>rescale<span class="classifier">logical bool</span></dt><dd><p>default False</p>
+</dd>
+<dt>cusum<span class="classifier">logical bool</span></dt><dd><p>replace tanh transformation with cusum transformation, default False</p>
+</dd>
+</dl>
+</section>
+<section id="id50">
+<h3>Returns<a class="headerlink" href="#id50" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>numpy array</dt><dd><p>3-D arrary with size (N, 4,  n)</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="autocpd.utils.Transform2D2TR">
+<span class="sig-prename descclassname"><span class="pre">autocpd.utils.</span></span><span class="sig-name descname"><span class="pre">Transform2D2TR</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data_y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rescale</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">times</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">2</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/autocpd/utils.html#Transform2D2TR"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#autocpd.utils.Transform2D2TR" title="Link to this definition"></a></dt>
+<dd><p>Apply 2 transformations (original, squared) to the same dataset, each
+transformation is repeated user-specified times.</p>
+<section id="id51">
+<h3>Parameters<a class="headerlink" href="#id51" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>data_y<span class="classifier">numpy array</span></dt><dd><p>the 2-D array</p>
+</dd>
+<dt>rescale<span class="classifier">logical bool</span></dt><dd><p>default False</p>
+</dd>
+<dt>times<span class="classifier">integer</span></dt><dd><p>the number of repetitions</p>
+</dd>
+</dl>
+</section>
+<section id="id52">
+<h3>Returns<a class="headerlink" href="#id52" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>numpy array</dt><dd><p>3-D arrary with size (N, 2*times,  n)</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="autocpd.utils.extract">
+<span class="sig-prename descclassname"><span class="pre">autocpd.utils.</span></span><span class="sig-name descname"><span class="pre">extract</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">length</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">size</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ntrim</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/autocpd/utils.html#extract"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#autocpd.utils.extract" title="Link to this definition"></a></dt>
+<dd><p>This function randomly extracts samples (consecutive segments) with
+length ‘length’ from a time series concatenated by two different time
+series with length ‘n1’ and ‘n2’ respectively. Argument ‘ntrim’ controls
+the minimum distance between change-point and start or end point of
+consecutive segment. It returns a dictionary containing two arrays: cp and
+sample. cp is an array of change points. sample is a 2D array where each
+row is the indices of consecutive segment .</p>
+<section id="id53">
+<h3>Parameters<a class="headerlink" href="#id53" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>n1<span class="classifier">the length of signal before change-point</span></dt><dd><p>_description_</p>
+</dd>
+<dt>n2<span class="classifier">int</span></dt><dd><p>the length of time series after change-point</p>
+</dd>
+<dt>length<span class="classifier">int</span></dt><dd><p>the length of time series segment that we want to extract</p>
+</dd>
+<dt>size<span class="classifier">int</span></dt><dd><p>the sample size</p>
+</dd>
+<dt>ntrim<span class="classifier">int</span></dt><dd><p>the number of observations to be trimmed before and after the change-point</p>
+</dd>
+</dl>
+</section>
+<section id="id54">
+<h3>Returns<a class="headerlink" href="#id54" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>dict</dt><dd><p>‘cp’ is the set of change-points. ‘sample’ is a matrix of indices</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="autocpd.utils.get_asyvar_window">
+<span class="sig-prename descclassname"><span class="pre">autocpd.utils.</span></span><span class="sig-name descname"><span class="pre">get_asyvar_window</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">momentp</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/autocpd/utils.html#get_asyvar_window"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#autocpd.utils.get_asyvar_window" title="Link to this definition"></a></dt>
+<dd><p>This function computes the asymptotic variance of long run dependence
+time series using “window” method. This function is translated from the R
+function “asymvar.window”. This function is already been tested by letting
+“overlapping=F”,”obs=”ranks”.</p>
+<section id="id55">
+<h3>Parameters<a class="headerlink" href="#id55" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>x<span class="classifier">1D array</span></dt><dd><p>The time series</p>
+</dd>
+<dt>momentp<span class="classifier">int, optional</span></dt><dd><p>which centred mean should be used, see Peligrad and Shao (1995) for
+details, by default 1</p>
+</dd>
+</dl>
+</section>
+<section id="id56">
+<h3>Returns<a class="headerlink" href="#id56" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>scalar</dt><dd><p>The asymptotic variance of time series.</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="autocpd.utils.get_cusum_location">
+<span class="sig-prename descclassname"><span class="pre">autocpd.utils.</span></span><span class="sig-name descname"><span class="pre">get_cusum_location</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/autocpd/utils.html#get_cusum_location"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#autocpd.utils.get_cusum_location" title="Link to this definition"></a></dt>
+<dd><p>This function return the estimation of change-point location based on CUSUM.</p>
+<section id="id57">
+<h3>Parameters<a class="headerlink" href="#id57" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>x<span class="classifier">numpy array</span></dt><dd><p>The time series</p>
+</dd>
+</dl>
+</section>
+<section id="id58">
+<h3>Returns<a class="headerlink" href="#id58" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>int</dt><dd><p>change-point location</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="autocpd.utils.get_key">
+<span class="sig-prename descclassname"><span class="pre">autocpd.utils.</span></span><span class="sig-name descname"><span class="pre">get_key</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">y_pred</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">label_dict</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/autocpd/utils.html#get_key"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#autocpd.utils.get_key" title="Link to this definition"></a></dt>
+<dd><p>To get the labels according to the predict value</p>
+<section id="id59">
+<h3>Parameters<a class="headerlink" href="#id59" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>y_pred<span class="classifier">int</span></dt><dd><p>the value of prediction</p>
+</dd>
+<dt>label_dict<span class="classifier">dict</span></dt><dd><p>the lable dictionary</p>
+</dd>
+</dl>
+</section>
+<section id="id60">
+<h3>Returns<a class="headerlink" href="#id60" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>list</dt><dd><p>the label list</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="autocpd.utils.get_label">
+<span class="sig-prename descclassname"><span class="pre">autocpd.utils.</span></span><span class="sig-name descname"><span class="pre">get_label</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x_test</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/autocpd/utils.html#get_label"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#autocpd.utils.get_label" title="Link to this definition"></a></dt>
+<dd><p>This function gets the predicted label for the testing time series:x_test</p>
+<section id="id61">
+<h3>Parameters<a class="headerlink" href="#id61" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>model<span class="classifier">tensorflow model</span></dt><dd><p>The trained tensorflow model</p>
+</dd>
+<dt>x_test<span class="classifier">vector</span></dt><dd><p>The vector of time series</p>
+</dd>
+<dt>n<span class="classifier">int</span></dt><dd><p>The width of moving window</p>
+</dd>
+</dl>
+</section>
+<section id="id62">
+<h3>Returns<a class="headerlink" href="#id62" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>arrays</dt><dd><p>two arrays, one is predicted label, the other is probabilities.</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="autocpd.utils.get_label_hasc">
+<span class="sig-prename descclassname"><span class="pre">autocpd.utils.</span></span><span class="sig-name descname"><span class="pre">get_label_hasc</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x_test</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">label_dict</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/autocpd/utils.html#get_label_hasc"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#autocpd.utils.get_label_hasc" title="Link to this definition"></a></dt>
+<dd><p>This function gets the predicted label for the HASC data</p>
+<section id="id63">
+<h3>Parameters<a class="headerlink" href="#id63" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>model<span class="classifier">tensorflow model</span></dt><dd><p>The trained tensorflow model</p>
+</dd>
+<dt>x_test<span class="classifier">2D array</span></dt><dd><p>The array of test dataset</p>
+</dd>
+<dt>label_dict<span class="classifier">dict</span></dt><dd><p>The label dictionary</p>
+</dd>
+</dl>
+</section>
+<section id="id64">
+<h3>Returns<a class="headerlink" href="#id64" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>arrays</dt><dd><p>two arrays, one is predicted label, the other is probabilities.</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="autocpd.utils.get_loc_3">
+<span class="sig-prename descclassname"><span class="pre">autocpd.utils.</span></span><span class="sig-name descname"><span class="pre">get_loc_3</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x_test</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">width</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/autocpd/utils.html#get_loc_3"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#autocpd.utils.get_loc_3" title="Link to this definition"></a></dt>
+<dd><p>This function obtains locations of methods: NN, double mosum based on
+predicted label and probabilities.</p>
+<section id="id65">
+<h3>Parameters<a class="headerlink" href="#id65" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>model<span class="classifier">model</span></dt><dd><p>The trained model</p>
+</dd>
+<dt>x_test<span class="classifier">vector</span></dt><dd><p>The vector of time series</p>
+</dd>
+<dt>n<span class="classifier">int</span></dt><dd><p>The  length of x_test</p>
+</dd>
+<dt>width<span class="classifier">int</span></dt><dd><p>The width of second moving window.</p>
+</dd>
+</dl>
+</section>
+<section id="id66">
+<h3>Returns<a class="headerlink" href="#id66" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>array</dt><dd><p>3 locations.</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="autocpd.utils.get_mosum_loc_double">
+<span class="sig-prename descclassname"><span class="pre">autocpd.utils.</span></span><span class="sig-name descname"><span class="pre">get_mosum_loc_double</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">width</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">use_prob</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/autocpd/utils.html#get_mosum_loc_double"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#autocpd.utils.get_mosum_loc_double" title="Link to this definition"></a></dt>
+<dd><p>This function return the estimation of change-point based on MOSUM by second moving average.</p>
+<section id="id67">
+<h3>Parameters<a class="headerlink" href="#id67" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>x<span class="classifier">array</span></dt><dd><p>either the predicted labels or probabilities</p>
+</dd>
+<dt>n<span class="classifier">int</span></dt><dd><p>The width of moving window</p>
+</dd>
+</dl>
+</section>
+<section id="id68">
+<h3>Returns<a class="headerlink" href="#id68" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>int</dt><dd><p>change-point location</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="autocpd.utils.get_mosum_loc_nn">
+<span class="sig-prename descclassname"><span class="pre">autocpd.utils.</span></span><span class="sig-name descname"><span class="pre">get_mosum_loc_nn</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pred</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/autocpd/utils.html#get_mosum_loc_nn"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#autocpd.utils.get_mosum_loc_nn" title="Link to this definition"></a></dt>
+<dd><p>This function return the estimation of change-point based on MOSUM using NN.</p>
+<section id="id69">
+<h3>Parameters<a class="headerlink" href="#id69" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>pred<span class="classifier">vector</span></dt><dd><p>The vector of predicted labels</p>
+</dd>
+<dt>n<span class="classifier">int</span></dt><dd><p>The width of moving window</p>
+</dd>
+</dl>
+</section>
+<section id="id70">
+<h3>Returns<a class="headerlink" href="#id70" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>int</dt><dd><p>change-point location</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="autocpd.utils.get_wilcoxon_test">
+<span class="sig-prename descclassname"><span class="pre">autocpd.utils.</span></span><span class="sig-name descname"><span class="pre">get_wilcoxon_test</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/autocpd/utils.html#get_wilcoxon_test"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#autocpd.utils.get_wilcoxon_test" title="Link to this definition"></a></dt>
+<dd><p>Compute the Wilcoxon statistics</p>
+<section id="id71">
+<h3>Parameters<a class="headerlink" href="#id71" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>x<span class="classifier">array</span></dt><dd><p>the time series</p>
+</dd>
+</dl>
+</section>
+<section id="id72">
+<h3>Returns<a class="headerlink" href="#id72" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>scalar</dt><dd><p>the maximum Wilcoxon statistics</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="autocpd.utils.labelSubject">
+<span class="sig-prename descclassname"><span class="pre">autocpd.utils.</span></span><span class="sig-name descname"><span class="pre">labelSubject</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">subject_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">length</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">size</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_trim</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">100</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/autocpd/utils.html#labelSubject"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#autocpd.utils.labelSubject" title="Link to this definition"></a></dt>
+<dd><p>obtain the transition labels, change-points and time series from one subject.</p>
+<section id="id73">
+<h3>Parameters<a class="headerlink" href="#id73" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>subject_path<span class="classifier">string</span></dt><dd><p>the path of subject data</p>
+</dd>
+<dt>length<span class="classifier">int</span></dt><dd><p>the length of extracted time series</p>
+</dd>
+<dt>size<span class="classifier">int</span></dt><dd><p>the sample size</p>
+</dd>
+<dt>num_trim<span class="classifier">int, optional</span></dt><dd><p>the number of observations to be trimmed before and after the change-point, by default 100</p>
+</dd>
+</dl>
+</section>
+<section id="id74">
+<h3>Returns<a class="headerlink" href="#id74" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>dictionary</dt><dd><p>cp: the change-points; ts: time series; label: the transition labels.</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="autocpd.utils.labelTransition">
+<span class="sig-prename descclassname"><span class="pre">autocpd.utils.</span></span><span class="sig-name descname"><span class="pre">labelTransition</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">label</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ind</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">length</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">size</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_trim</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">100</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/autocpd/utils.html#labelTransition"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#autocpd.utils.labelTransition" title="Link to this definition"></a></dt>
+<dd><p>get the transition labels, change-points and time series from one subject</p>
+<section id="id75">
+<h3>Parameters<a class="headerlink" href="#id75" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>data<span class="classifier">DataFrame</span></dt><dd><p>the time series.</p>
+</dd>
+<dt>label<span class="classifier">DataFrame</span></dt><dd><p>the states of the subject</p>
+</dd>
+<dt>ind<span class="classifier">scalar</span></dt><dd><p>the index of state</p>
+</dd>
+<dt>length<span class="classifier">int</span></dt><dd><p>the length of extracted time series</p>
+</dd>
+<dt>size<span class="classifier">int</span></dt><dd><p>the sample size</p>
+</dd>
+<dt>num_trim<span class="classifier">int, optional</span></dt><dd><p>the number of observations to be trimmed before and after the change-point, by default 100</p>
+</dd>
+</dl>
+</section>
+<section id="id76">
+<h3>Returns<a class="headerlink" href="#id76" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>dictionary</dt><dd><p>cp: the change-points; ts: time series; label: the transition labels.</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="autocpd.utils.seqPlot">
+<span class="sig-prename descclassname"><span class="pre">autocpd.utils.</span></span><span class="sig-name descname"><span class="pre">seqPlot</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sequences_list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cp_list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">label_list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_pos</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.93</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/autocpd/utils.html#seqPlot"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#autocpd.utils.seqPlot" title="Link to this definition"></a></dt>
+<dd><p>This function plots the sequence given change-points and label list.</p>
+<section id="id77">
+<h3>Parameters<a class="headerlink" href="#id77" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>sequences_list<span class="classifier">DataFrame</span></dt><dd><p>the time series</p>
+</dd>
+<dt>cp_list<span class="classifier">list</span></dt><dd><p>the list of change-point</p>
+</dd>
+<dt>label_list<span class="classifier">list</span></dt><dd><p>the list of labels</p>
+</dd>
+<dt>y_pos<span class="classifier">float, optional</span></dt><dd><p>the position of y, used in matplotlib, by default 0.93</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="autocpd.utils.tsExtract">
+<span class="sig-prename descclassname"><span class="pre">autocpd.utils.</span></span><span class="sig-name descname"><span class="pre">tsExtract</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data_trim</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">new_label</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">length</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">size</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">len0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/autocpd/utils.html#tsExtract"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#autocpd.utils.tsExtract" title="Link to this definition"></a></dt>
+<dd><p>To extract the labels without change-points</p>
+<section id="id78">
+<h3>Parameters<a class="headerlink" href="#id78" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>data_trim<span class="classifier">DataFrame</span></dt><dd><p>the dataset of one specific state</p>
+</dd>
+<dt>new_label<span class="classifier">DataFrame</span></dt><dd><p>the label, not transition label.</p>
+</dd>
+<dt>length<span class="classifier">int</span></dt><dd><p>the length of extracted time series</p>
+</dd>
+<dt>size<span class="classifier">int</span></dt><dd><p>the sample size</p>
+</dd>
+<dt>len0<span class="classifier">int</span></dt><dd><p>the length of time series for one specific state</p>
+</dd>
+</dl>
+</section>
+<section id="id79">
+<h3>Returns<a class="headerlink" href="#id79" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>dict</dt><dd><p>ts: time series; label: the labels.</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="autocpd.utils.wilcoxon">
+<span class="sig-prename descclassname"><span class="pre">autocpd.utils.</span></span><span class="sig-name descname"><span class="pre">wilcoxon</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/autocpd/utils.html#wilcoxon"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#autocpd.utils.wilcoxon" title="Link to this definition"></a></dt>
+<dd><p>This function implements the Wilcoxon cumulative sum statistic (Dehling
+et al, 2013, Eq (20)) for nonparametric change point detection.
+The following code is translated from the C function “wilcoxsukz” in R
+package “robts”. The accuracy of this function is already been tested.</p>
+<section id="id80">
+<h3>Parameters<a class="headerlink" href="#id80" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>x<span class="classifier">array</span></dt><dd><p>time series</p>
+</dd>
+</dl>
+</section>
+<section id="id81">
+<h3>Returns<a class="headerlink" href="#id81" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>1D array</dt><dd><p>the test statistic for each potential change point.</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+</section>
+<section id="module-autocpd">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-autocpd" title="Link to this heading"></a></h2>
+<p>Author         : Jie Li, Department of Statistics, London School of Economics.
+Date           : 2023-09-14 10:27:48
+Last Revision  : 2023-09-14 10:27:52
+Last Author    : Jie Li
+File Path      : /AutoCPD/src/__init__.py
+Description    :</p>
+<p>Copyright (c) 2023 by Jie Li, <a class="reference external" href="mailto:j&#46;li196&#37;&#52;&#48;lse&#46;ac&#46;uk">j<span>&#46;</span>li196<span>&#64;</span>lse<span>&#46;</span>ac<span>&#46;</span>uk</a>
+All Rights Reserved.</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="modules.html" class="btn btn-neutral float-left" title="src" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, Jie Li.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

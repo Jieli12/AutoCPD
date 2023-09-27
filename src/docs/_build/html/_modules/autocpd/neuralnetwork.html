@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>autocpd.neuralnetwork &mdash; AutoCPD 1.0.0 documentation</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../_static/documentation_options.js?v=8d563738"></script>
+        <script src="../../_static/doctools.js?v=888ff710"></script>
+        <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            AutoCPD
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../modules.html">src</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">AutoCPD</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">autocpd.neuralnetwork</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for autocpd.neuralnetwork</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Author         : Jie Li, Department of Statistics, London School of Economics.</span>
+<span class="sd">Date           : 2023-09-19 14:18:47</span>
+<span class="sd">Last Revision  : 2023-09-20 12:35:00</span>
+<span class="sd">Last Author    : Jie Li</span>
+<span class="sd">File Path      : /AutoCPD/src/autocpd/neuralnetwork.py</span>
+<span class="sd">Description    :</span>
+
+
+
+
+
+
+
+
+<span class="sd">Copyright (c) 2023 by Jie Li, j.li196@lse.ac.uk</span>
+<span class="sd">All Rights Reserved.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">import</span> <span class="nn">warnings</span>
+<span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">tensorflow</span> <span class="k">as</span> <span class="nn">tf</span>
+<span class="kn">import</span> <span class="nn">tensorflow_docs.modeling</span> <span class="k">as</span> <span class="nn">tfdoc_model</span>
+<span class="kn">from</span> <span class="nn">keras</span> <span class="kn">import</span> <span class="n">layers</span><span class="p">,</span> <span class="n">losses</span><span class="p">,</span> <span class="n">metrics</span><span class="p">,</span> <span class="n">models</span>
+
+
+<div class="viewcode-block" id="simple_nn">
+<a class="viewcode-back" href="../../autocpd.html#autocpd.neuralnetwork.simple_nn">[docs]</a>
+<span class="k">def</span> <span class="nf">simple_nn</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">l</span><span class="p">,</span> <span class="n">m</span><span class="p">,</span> <span class="n">num_classes</span><span class="p">,</span> <span class="n">model_name</span><span class="o">=</span><span class="s2">&quot;simple_nn&quot;</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    To construct a simple neural network.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    n : scalar</span>
+<span class="sd">        the input size</span>
+<span class="sd">    l : scalar</span>
+<span class="sd">        the number of hidden layers</span>
+<span class="sd">    m : scalar or 1D array</span>
+<span class="sd">        the width vector of hidden layers, if it is a scalar, then the hidden layers of simple neural network have the same nodes.</span>
+<span class="sd">    num_classes : scalar</span>
+<span class="sd">        the nodes of output layers, i.e., the number of classes</span>
+<span class="sd">    model_name : str, optional</span>
+<span class="sd">        the model name, by default &quot;simple_nn&quot;</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    model</span>
+<span class="sd">        the simple neural network</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">input_layer</span> <span class="o">=</span> <span class="n">layers</span><span class="o">.</span><span class="n">Input</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="n">n</span><span class="p">,),</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;Input&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="nb">int</span><span class="p">):</span>
+        <span class="n">m_vec</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">repeat</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="n">l</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">m</span><span class="p">)</span> <span class="o">==</span> <span class="n">l</span><span class="p">:</span>
+        <span class="n">m_vec</span> <span class="o">=</span> <span class="n">m</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
+            <span class="s2">&quot;The length of width vector must be equal to the number of hidden layers.&quot;</span><span class="p">,</span>
+            <span class="ne">DeprecationWarning</span><span class="p">,</span>
+        <span class="p">)</span>
+
+    <span class="n">x</span> <span class="o">=</span> <span class="n">layers</span><span class="o">.</span><span class="n">Dense</span><span class="p">(</span><span class="n">m_vec</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">activation</span><span class="o">=</span><span class="s2">&quot;relu&quot;</span><span class="p">,</span> <span class="n">kernel_regularizer</span><span class="o">=</span><span class="s2">&quot;l2&quot;</span><span class="p">)(</span><span class="n">input_layer</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">l</span> <span class="o">&gt;=</span> <span class="mi">2</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">l</span> <span class="o">-</span> <span class="mi">1</span><span class="p">):</span>
+            <span class="n">x</span> <span class="o">=</span> <span class="n">layers</span><span class="o">.</span><span class="n">Dense</span><span class="p">(</span><span class="n">m_vec</span><span class="p">[</span><span class="n">k</span> <span class="o">+</span> <span class="mi">1</span><span class="p">],</span> <span class="n">activation</span><span class="o">=</span><span class="s2">&quot;relu&quot;</span><span class="p">,</span> <span class="n">kernel_regularizer</span><span class="o">=</span><span class="s2">&quot;l2&quot;</span><span class="p">)(</span>
+                <span class="n">x</span>
+            <span class="p">)</span>
+
+    <span class="n">output_layer</span> <span class="o">=</span> <span class="n">layers</span><span class="o">.</span><span class="n">Dense</span><span class="p">(</span><span class="n">num_classes</span><span class="p">)(</span><span class="n">x</span><span class="p">)</span>
+    <span class="n">model</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">(</span><span class="n">input_layer</span><span class="p">,</span> <span class="n">output_layer</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">model_name</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">model</span></div>
+
+
+
+<span class="c1"># mymodel = simple_nn(n=100, l=1, m=10, num_classes=2)</span>
+<span class="c1"># mymodel = simple_nn(n=100, l=3, m=10, num_classes=2)</span>
+<span class="c1"># mymodel = simple_nn(n=100, l=3, m=[20, 20, 5], num_classes=2)</span>
+
+<span class="c1"># build the model, train and save it to disk</span>
+
+
+<div class="viewcode-block" id="get_optimizer">
+<a class="viewcode-back" href="../../autocpd.html#autocpd.neuralnetwork.get_optimizer">[docs]</a>
+<span class="k">def</span> <span class="nf">get_optimizer</span><span class="p">(</span><span class="n">learning_rate</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    To get the optimizer given the learning rate.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    learning_rate : float</span>
+<span class="sd">        the learning rate for inverse time decay schedule.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    optimizer</span>
+<span class="sd">        the Adam</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">lr_schedule</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">optimizers</span><span class="o">.</span><span class="n">schedules</span><span class="o">.</span><span class="n">InverseTimeDecay</span><span class="p">(</span>
+        <span class="n">learning_rate</span><span class="p">,</span> <span class="n">decay_steps</span><span class="o">=</span><span class="mi">10000</span><span class="p">,</span> <span class="n">decay_rate</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">staircase</span><span class="o">=</span><span class="kc">False</span>
+    <span class="p">)</span>
+    <span class="k">return</span> <span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">optimizers</span><span class="o">.</span><span class="n">Adam</span><span class="p">(</span><span class="n">lr_schedule</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="get_callbacks">
+<a class="viewcode-back" href="../../autocpd.html#autocpd.neuralnetwork.get_callbacks">[docs]</a>
+<span class="k">def</span> <span class="nf">get_callbacks</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">log_dir</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Get callbacks. This function returns the result of epochs during training, if it satisfies some conditions then the training can stop early. At meanwhile, this function also save the results of training in TensorBoard and csv files.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    name : str</span>
+<span class="sd">        the model name</span>
+<span class="sd">    log_dir : str</span>
+<span class="sd">        the path of log files</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    list</span>
+<span class="sd">        the list of callbacks</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">name1</span> <span class="o">=</span> <span class="n">name</span> <span class="o">+</span> <span class="s2">&quot;/log.csv&quot;</span>
+    <span class="k">return</span> <span class="p">[</span>
+        <span class="n">tfdoc_model</span><span class="o">.</span><span class="n">EpochDots</span><span class="p">(),</span>
+        <span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">callbacks</span><span class="o">.</span><span class="n">EarlyStopping</span><span class="p">(</span>
+            <span class="n">monitor</span><span class="o">=</span><span class="s2">&quot;val_sparse_categorical_crossentropy&quot;</span><span class="p">,</span> <span class="n">patience</span><span class="o">=</span><span class="mi">800</span><span class="p">,</span> <span class="n">min_delta</span><span class="o">=</span><span class="mf">1e-3</span>
+        <span class="p">),</span>
+        <span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">callbacks</span><span class="o">.</span><span class="n">TensorBoard</span><span class="p">(</span><span class="n">Path</span><span class="p">(</span><span class="n">log_dir</span><span class="p">,</span> <span class="n">name</span><span class="p">)),</span>
+        <span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">callbacks</span><span class="o">.</span><span class="n">CSVLogger</span><span class="p">(</span><span class="n">Path</span><span class="p">(</span><span class="n">log_dir</span><span class="p">,</span> <span class="n">name1</span><span class="p">)),</span>
+    <span class="p">]</span></div>
+
+
+
+<div class="viewcode-block" id="compile_and_fit">
+<a class="viewcode-back" href="../../autocpd.html#autocpd.neuralnetwork.compile_and_fit">[docs]</a>
+<span class="k">def</span> <span class="nf">compile_and_fit</span><span class="p">(</span>
+    <span class="n">model</span><span class="p">,</span>
+    <span class="n">x_train</span><span class="p">,</span>
+    <span class="n">y_train</span><span class="p">,</span>
+    <span class="n">batch_size</span><span class="p">,</span>
+    <span class="n">lr</span><span class="p">,</span>
+    <span class="n">name</span><span class="p">,</span>
+    <span class="n">log_dir</span><span class="p">,</span>
+    <span class="n">optimizer</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">validation_split</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span>
+    <span class="n">max_epochs</span><span class="o">=</span><span class="mi">10000</span><span class="p">,</span>
+<span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    To compile and fit the model</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    model : Models object</span>
+<span class="sd">        the simple neural network</span>
+<span class="sd">    x_train : tf.Tensor</span>
+<span class="sd">        the tensor of training data</span>
+<span class="sd">    y_train : tf.Tensor</span>
+<span class="sd">        the tensor of training data, label</span>
+<span class="sd">    batch_size : int</span>
+<span class="sd">        the batch size</span>
+<span class="sd">    lr : float</span>
+<span class="sd">        the learning rate</span>
+<span class="sd">    name : str</span>
+<span class="sd">        the model name</span>
+<span class="sd">    log_dir : str</span>
+<span class="sd">        the path of log files</span>
+<span class="sd">    optimizer : optimizer object or str, optional</span>
+<span class="sd">        the optimizer, by default None</span>
+<span class="sd">    max_epochs : int, optional</span>
+<span class="sd">        the maximum number of epochs, by default 10000</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    model.fit object</span>
+<span class="sd">        a fitted model object</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">optimizer</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">optimizer</span> <span class="o">=</span> <span class="n">get_optimizer</span><span class="p">(</span><span class="n">lr</span><span class="p">)</span>
+    <span class="n">model</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span>
+        <span class="n">optimizer</span><span class="o">=</span><span class="n">optimizer</span><span class="p">,</span>
+        <span class="n">loss</span><span class="o">=</span><span class="n">losses</span><span class="o">.</span><span class="n">SparseCategoricalCrossentropy</span><span class="p">(</span><span class="n">from_logits</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>
+        <span class="n">metrics</span><span class="o">=</span><span class="p">[</span>
+            <span class="n">metrics</span><span class="o">.</span><span class="n">SparseCategoricalCrossentropy</span><span class="p">(</span>
+                <span class="n">from_logits</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;sparse_categorical_crossentropy&quot;</span>
+            <span class="p">),</span>
+            <span class="s2">&quot;accuracy&quot;</span><span class="p">,</span>
+        <span class="p">],</span>
+    <span class="p">)</span>
+    <span class="n">history</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span>
+        <span class="n">x_train</span><span class="p">,</span>
+        <span class="n">y_train</span><span class="p">,</span>
+        <span class="n">epochs</span><span class="o">=</span><span class="n">max_epochs</span><span class="p">,</span>
+        <span class="n">batch_size</span><span class="o">=</span><span class="n">batch_size</span><span class="p">,</span>
+        <span class="n">validation_split</span><span class="o">=</span><span class="n">validation_split</span><span class="p">,</span>
+        <span class="n">callbacks</span><span class="o">=</span><span class="n">get_callbacks</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">log_dir</span><span class="p">),</span>
+        <span class="n">verbose</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="k">return</span> <span class="n">history</span></div>
+
+
+
+<div class="viewcode-block" id="resblock">
+<a class="viewcode-back" href="../../autocpd.html#autocpd.neuralnetwork.resblock">[docs]</a>
+<span class="k">def</span> <span class="nf">resblock</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">kernel_size</span><span class="p">,</span> <span class="n">filters</span><span class="p">,</span> <span class="n">strides</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This function constructs a resblock.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    x : tensor</span>
+<span class="sd">        the input data</span>
+<span class="sd">    kernel_size : int</span>
+<span class="sd">        the kernel size</span>
+<span class="sd">    filters : int</span>
+<span class="sd">        the filter size</span>
+<span class="sd">    strides : int, optional</span>
+<span class="sd">        the stride, by default 1</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    layer</span>
+<span class="sd">        the hidden layer</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">x1</span> <span class="o">=</span> <span class="n">layers</span><span class="o">.</span><span class="n">Conv2D</span><span class="p">(</span><span class="n">filters</span><span class="p">,</span> <span class="n">kernel_size</span><span class="p">,</span> <span class="n">strides</span><span class="o">=</span><span class="n">strides</span><span class="p">,</span> <span class="n">padding</span><span class="o">=</span><span class="s2">&quot;same&quot;</span><span class="p">)(</span><span class="n">x</span><span class="p">)</span>
+    <span class="n">x1</span> <span class="o">=</span> <span class="n">layers</span><span class="o">.</span><span class="n">BatchNormalization</span><span class="p">()(</span><span class="n">x1</span><span class="p">)</span>
+    <span class="n">x1</span> <span class="o">=</span> <span class="n">layers</span><span class="o">.</span><span class="n">ReLU</span><span class="p">()(</span><span class="n">x1</span><span class="p">)</span>
+    <span class="n">x1</span> <span class="o">=</span> <span class="n">layers</span><span class="o">.</span><span class="n">Conv2D</span><span class="p">(</span><span class="n">filters</span><span class="p">,</span> <span class="n">kernel_size</span><span class="p">,</span> <span class="n">padding</span><span class="o">=</span><span class="s2">&quot;same&quot;</span><span class="p">)(</span><span class="n">x1</span><span class="p">)</span>
+    <span class="n">x1</span> <span class="o">=</span> <span class="n">layers</span><span class="o">.</span><span class="n">BatchNormalization</span><span class="p">()(</span><span class="n">x1</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">strides</span> <span class="o">!=</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">layers</span><span class="o">.</span><span class="n">Conv2D</span><span class="p">(</span><span class="n">filters</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">strides</span><span class="o">=</span><span class="n">strides</span><span class="p">,</span> <span class="n">padding</span><span class="o">=</span><span class="s2">&quot;same&quot;</span><span class="p">)(</span><span class="n">x</span><span class="p">)</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">layers</span><span class="o">.</span><span class="n">BatchNormalization</span><span class="p">()(</span><span class="n">x</span><span class="p">)</span>
+
+    <span class="n">x1</span> <span class="o">=</span> <span class="n">layers</span><span class="o">.</span><span class="n">Add</span><span class="p">()([</span><span class="n">x</span><span class="p">,</span> <span class="n">x1</span><span class="p">])</span>
+    <span class="n">x1</span> <span class="o">=</span> <span class="n">layers</span><span class="o">.</span><span class="n">ReLU</span><span class="p">()(</span><span class="n">x1</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">x1</span></div>
+
+
+
+<div class="viewcode-block" id="deep_nn">
+<a class="viewcode-back" href="../../autocpd.html#autocpd.neuralnetwork.deep_nn">[docs]</a>
+<span class="k">def</span> <span class="nf">deep_nn</span><span class="p">(</span>
+    <span class="n">n</span><span class="p">,</span>
+    <span class="n">n_trans</span><span class="p">,</span>
+    <span class="n">kernel_size</span><span class="p">,</span>
+    <span class="n">n_filter</span><span class="p">,</span>
+    <span class="n">dropout_rate</span><span class="p">,</span>
+    <span class="n">n_classes</span><span class="p">,</span>
+    <span class="n">m</span><span class="p">,</span>
+    <span class="n">l</span><span class="p">,</span>
+    <span class="n">model_name</span><span class="o">=</span><span class="s2">&quot;deep_nn&quot;</span><span class="p">,</span>
+<span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This function is used to construct the deep neural network with 21 residual blocks.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    n : int</span>
+<span class="sd">        the length of time series</span>
+<span class="sd">    n_trans : int</span>
+<span class="sd">        the number of transformations</span>
+<span class="sd">    kernel_size : int</span>
+<span class="sd">        the kernel size</span>
+<span class="sd">    n_filter : int</span>
+<span class="sd">        the filter size</span>
+<span class="sd">    dropout_rate : float</span>
+<span class="sd">        the dropout rate</span>
+<span class="sd">    n_classes : int</span>
+<span class="sd">        the number of classes</span>
+<span class="sd">    m : array</span>
+<span class="sd">        the width vector</span>
+<span class="sd">    l : int</span>
+<span class="sd">        the number of dense layers</span>
+
+<span class="sd">    model_name : str, optional</span>
+<span class="sd">        the model name, by default &quot;deep_nn&quot;</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    model</span>
+<span class="sd">        the model of deep neural network</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Note: the following network will cost several hours to train the residual neural network in GPU server.</span>
+    <span class="n">input_layer</span> <span class="o">=</span> <span class="n">layers</span><span class="o">.</span><span class="n">Input</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="n">n_trans</span><span class="p">,</span> <span class="n">n</span><span class="p">),</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;Input&quot;</span><span class="p">)</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">layers</span><span class="o">.</span><span class="n">Reshape</span><span class="p">((</span><span class="n">n_trans</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="mi">1</span><span class="p">))(</span><span class="n">input_layer</span><span class="p">)</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">layers</span><span class="o">.</span><span class="n">Conv2D</span><span class="p">(</span><span class="n">n_filter</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">padding</span><span class="o">=</span><span class="s2">&quot;same&quot;</span><span class="p">)(</span><span class="n">x</span><span class="p">)</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">layers</span><span class="o">.</span><span class="n">BatchNormalization</span><span class="p">()(</span><span class="n">x</span><span class="p">)</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">layers</span><span class="o">.</span><span class="n">ReLU</span><span class="p">()(</span><span class="n">x</span><span class="p">)</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">layers</span><span class="o">.</span><span class="n">MaxPooling2D</span><span class="p">((</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">))(</span><span class="n">x</span><span class="p">)</span>
+
+    <span class="n">x</span> <span class="o">=</span> <span class="n">resblock</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">kernel_size</span><span class="p">,</span> <span class="n">filters</span><span class="o">=</span><span class="n">n_filter</span><span class="p">)</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">resblock</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">kernel_size</span><span class="p">,</span> <span class="n">filters</span><span class="o">=</span><span class="n">n_filter</span><span class="p">)</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">resblock</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">kernel_size</span><span class="p">,</span> <span class="n">filters</span><span class="o">=</span><span class="n">n_filter</span><span class="p">)</span>
+
+    <span class="n">x</span> <span class="o">=</span> <span class="n">resblock</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">kernel_size</span><span class="p">,</span> <span class="n">filters</span><span class="o">=</span><span class="n">n_filter</span><span class="p">,</span> <span class="n">strides</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">resblock</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">kernel_size</span><span class="p">,</span> <span class="n">filters</span><span class="o">=</span><span class="n">n_filter</span><span class="p">)</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">resblock</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">kernel_size</span><span class="p">,</span> <span class="n">filters</span><span class="o">=</span><span class="n">n_filter</span><span class="p">)</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">resblock</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">kernel_size</span><span class="p">,</span> <span class="n">filters</span><span class="o">=</span><span class="n">n_filter</span><span class="p">)</span>
+
+    <span class="n">x</span> <span class="o">=</span> <span class="n">resblock</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">kernel_size</span><span class="p">,</span> <span class="n">filters</span><span class="o">=</span><span class="n">n_filter</span><span class="p">,</span> <span class="n">strides</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">resblock</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">kernel_size</span><span class="p">,</span> <span class="n">filters</span><span class="o">=</span><span class="n">n_filter</span><span class="p">)</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">resblock</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">kernel_size</span><span class="p">,</span> <span class="n">filters</span><span class="o">=</span><span class="n">n_filter</span><span class="p">)</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">resblock</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">kernel_size</span><span class="p">,</span> <span class="n">filters</span><span class="o">=</span><span class="n">n_filter</span><span class="p">)</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">resblock</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">kernel_size</span><span class="p">,</span> <span class="n">filters</span><span class="o">=</span><span class="n">n_filter</span><span class="p">)</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">resblock</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">kernel_size</span><span class="p">,</span> <span class="n">filters</span><span class="o">=</span><span class="n">n_filter</span><span class="p">)</span>
+
+    <span class="n">x</span> <span class="o">=</span> <span class="n">resblock</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">kernel_size</span><span class="p">,</span> <span class="n">filters</span><span class="o">=</span><span class="n">n_filter</span><span class="p">,</span> <span class="n">strides</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">resblock</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">kernel_size</span><span class="p">,</span> <span class="n">filters</span><span class="o">=</span><span class="n">n_filter</span><span class="p">)</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">resblock</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">kernel_size</span><span class="p">,</span> <span class="n">filters</span><span class="o">=</span><span class="n">n_filter</span><span class="p">)</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">resblock</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">kernel_size</span><span class="p">,</span> <span class="n">filters</span><span class="o">=</span><span class="n">n_filter</span><span class="p">)</span>
+
+    <span class="n">x</span> <span class="o">=</span> <span class="n">resblock</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">kernel_size</span><span class="p">,</span> <span class="n">filters</span><span class="o">=</span><span class="n">n_filter</span><span class="p">,</span> <span class="n">strides</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">resblock</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">kernel_size</span><span class="p">,</span> <span class="n">filters</span><span class="o">=</span><span class="n">n_filter</span><span class="p">)</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">resblock</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">kernel_size</span><span class="p">,</span> <span class="n">filters</span><span class="o">=</span><span class="n">n_filter</span><span class="p">)</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">resblock</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">kernel_size</span><span class="p">,</span> <span class="n">filters</span><span class="o">=</span><span class="n">n_filter</span><span class="p">)</span>
+
+    <span class="n">x</span> <span class="o">=</span> <span class="n">layers</span><span class="o">.</span><span class="n">GlobalAveragePooling2D</span><span class="p">()(</span><span class="n">x</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">l</span> <span class="o">-</span> <span class="mi">1</span><span class="p">):</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">layers</span><span class="o">.</span><span class="n">Dense</span><span class="p">(</span><span class="n">m</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">activation</span><span class="o">=</span><span class="s2">&quot;relu&quot;</span><span class="p">,</span> <span class="n">kernel_regularizer</span><span class="o">=</span><span class="s2">&quot;l2&quot;</span><span class="p">)(</span><span class="n">x</span><span class="p">)</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">layers</span><span class="o">.</span><span class="n">Dropout</span><span class="p">(</span><span class="n">dropout_rate</span><span class="p">)(</span><span class="n">x</span><span class="p">)</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">layers</span><span class="o">.</span><span class="n">Dense</span><span class="p">(</span><span class="n">m</span><span class="p">[</span><span class="n">l</span> <span class="o">-</span> <span class="mi">1</span><span class="p">],</span> <span class="n">activation</span><span class="o">=</span><span class="s2">&quot;relu&quot;</span><span class="p">,</span> <span class="n">kernel_regularizer</span><span class="o">=</span><span class="s2">&quot;l2&quot;</span><span class="p">)(</span><span class="n">x</span><span class="p">)</span>
+    <span class="n">output_layer</span> <span class="o">=</span> <span class="n">layers</span><span class="o">.</span><span class="n">Dense</span><span class="p">(</span><span class="n">n_classes</span><span class="p">)(</span><span class="n">x</span><span class="p">)</span>
+    <span class="n">model</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">(</span><span class="n">input_layer</span><span class="p">,</span> <span class="n">output_layer</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">model_name</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">model</span></div>
+
+
+
+<div class="viewcode-block" id="general_deep_nn">
+<a class="viewcode-back" href="../../autocpd.html#autocpd.neuralnetwork.general_deep_nn">[docs]</a>
+<span class="k">def</span> <span class="nf">general_deep_nn</span><span class="p">(</span>
+    <span class="n">n</span><span class="p">,</span>
+    <span class="n">n_trans</span><span class="p">,</span>
+    <span class="n">kernel_size</span><span class="p">,</span>
+    <span class="n">n_filter</span><span class="p">,</span>
+    <span class="n">dropout_rate</span><span class="p">,</span>
+    <span class="n">n_classes</span><span class="p">,</span>
+    <span class="n">n_resblock</span><span class="p">,</span>
+    <span class="n">m</span><span class="p">,</span>
+    <span class="n">l</span><span class="p">,</span>
+    <span class="n">model_name</span><span class="o">=</span><span class="s2">&quot;deep_nn&quot;</span><span class="p">,</span>
+<span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This function is used to construct the deep neural network with 21 residual blocks.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    n : int</span>
+<span class="sd">        the length of time series</span>
+<span class="sd">    n_trans : int</span>
+<span class="sd">        the number of transformations</span>
+<span class="sd">    kernel_size : int</span>
+<span class="sd">        the kernel size</span>
+<span class="sd">    n_filter : int</span>
+<span class="sd">        the filter size</span>
+<span class="sd">    dropout_rate : float</span>
+<span class="sd">        the dropout rate</span>
+<span class="sd">    n_classes : int</span>
+<span class="sd">        the number of classes</span>
+<span class="sd">    n_resnet : int</span>
+<span class="sd">        the number of residual blocks</span>
+<span class="sd">    m : array</span>
+<span class="sd">        the width vector</span>
+<span class="sd">    l : int</span>
+<span class="sd">        the number of dense layers</span>
+<span class="sd">    model_name : str, optional</span>
+<span class="sd">        the model name, by default &quot;deep_nn&quot;</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    model</span>
+<span class="sd">        the model of deep neural network</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Note: the following network will cost several hours to train the residual neural network in GPU server.</span>
+    <span class="n">input_layer</span> <span class="o">=</span> <span class="n">layers</span><span class="o">.</span><span class="n">Input</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="n">n_trans</span><span class="p">,</span> <span class="n">n</span><span class="p">),</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;Input&quot;</span><span class="p">)</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">layers</span><span class="o">.</span><span class="n">Reshape</span><span class="p">((</span><span class="n">n_trans</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="mi">1</span><span class="p">))(</span><span class="n">input_layer</span><span class="p">)</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">layers</span><span class="o">.</span><span class="n">Conv2D</span><span class="p">(</span><span class="n">n_filter</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">padding</span><span class="o">=</span><span class="s2">&quot;same&quot;</span><span class="p">)(</span><span class="n">x</span><span class="p">)</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">layers</span><span class="o">.</span><span class="n">BatchNormalization</span><span class="p">()(</span><span class="n">x</span><span class="p">)</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">layers</span><span class="o">.</span><span class="n">ReLU</span><span class="p">()(</span><span class="n">x</span><span class="p">)</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">layers</span><span class="o">.</span><span class="n">MaxPooling2D</span><span class="p">((</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">))(</span><span class="n">x</span><span class="p">)</span>
+    <span class="n">j1</span> <span class="o">=</span> <span class="n">n_resblock</span> <span class="o">%</span> <span class="mi">4</span>
+    <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">j1</span><span class="p">):</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">resblock</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">kernel_size</span><span class="p">,</span> <span class="n">filters</span><span class="o">=</span><span class="n">n_filter</span><span class="p">)</span>
+    <span class="n">j2</span> <span class="o">=</span> <span class="n">n_resblock</span> <span class="o">//</span> <span class="mi">4</span>
+    <span class="k">if</span> <span class="n">j2</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">j2</span><span class="p">):</span>
+            <span class="n">x</span> <span class="o">=</span> <span class="n">resblock</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">kernel_size</span><span class="p">,</span> <span class="n">filters</span><span class="o">=</span><span class="n">n_filter</span><span class="p">,</span> <span class="n">strides</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
+            <span class="n">x</span> <span class="o">=</span> <span class="n">resblock</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">kernel_size</span><span class="p">,</span> <span class="n">filters</span><span class="o">=</span><span class="n">n_filter</span><span class="p">)</span>
+            <span class="n">x</span> <span class="o">=</span> <span class="n">resblock</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">kernel_size</span><span class="p">,</span> <span class="n">filters</span><span class="o">=</span><span class="n">n_filter</span><span class="p">)</span>
+            <span class="n">x</span> <span class="o">=</span> <span class="n">resblock</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">kernel_size</span><span class="p">,</span> <span class="n">filters</span><span class="o">=</span><span class="n">n_filter</span><span class="p">)</span>
+
+    <span class="n">x</span> <span class="o">=</span> <span class="n">layers</span><span class="o">.</span><span class="n">GlobalAveragePooling2D</span><span class="p">()(</span><span class="n">x</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">l</span> <span class="o">-</span> <span class="mi">1</span><span class="p">):</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">layers</span><span class="o">.</span><span class="n">Dense</span><span class="p">(</span><span class="n">m</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">activation</span><span class="o">=</span><span class="s2">&quot;relu&quot;</span><span class="p">,</span> <span class="n">kernel_regularizer</span><span class="o">=</span><span class="s2">&quot;l2&quot;</span><span class="p">)(</span><span class="n">x</span><span class="p">)</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">layers</span><span class="o">.</span><span class="n">Dropout</span><span class="p">(</span><span class="n">dropout_rate</span><span class="p">)(</span><span class="n">x</span><span class="p">)</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">layers</span><span class="o">.</span><span class="n">Dense</span><span class="p">(</span><span class="n">m</span><span class="p">[</span><span class="n">l</span> <span class="o">-</span> <span class="mi">1</span><span class="p">],</span> <span class="n">activation</span><span class="o">=</span><span class="s2">&quot;relu&quot;</span><span class="p">,</span> <span class="n">kernel_regularizer</span><span class="o">=</span><span class="s2">&quot;l2&quot;</span><span class="p">)(</span><span class="n">x</span><span class="p">)</span>
+    <span class="n">output_layer</span> <span class="o">=</span> <span class="n">layers</span><span class="o">.</span><span class="n">Dense</span><span class="p">(</span><span class="n">n_classes</span><span class="p">)(</span><span class="n">x</span><span class="p">)</span>
+    <span class="n">model</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">(</span><span class="n">input_layer</span><span class="p">,</span> <span class="n">output_layer</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">model_name</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">model</span></div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, Jie Li.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
