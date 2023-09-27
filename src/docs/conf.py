@@ -1,7 +1,7 @@
 """
 Author         : Jie Li, Department of Statistics, London School of Economics.
 Date           : 2023-09-27 10:20:11
-Last Revision  : 2023-09-27 20:09:51
+Last Revision  : 2023-09-27 20:10:53
 Last Author    : Jie Li
 File Path      : /AutoCPD/src/docs/conf.py
 Description    :
@@ -26,7 +26,7 @@ All Rights Reserved.
 import os
 import sys
 
-sys.path.insert(0, os.path.abspath(".."))
+sys.path.insert(0, os.path.abspath("../.."))
 
 project = "AutoCPD"
 copyright = "2023, Jie Li"
