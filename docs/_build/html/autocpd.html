@@ -18,7 +18,8 @@
         <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
-    <link rel="search" title="Search" href="search.html" /> 
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="src" href="modules.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -40,66 +41,69 @@
   </form>
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
-              <!-- Local TOC -->
-              <div class="local-toc"><ul>
-<li><a class="reference internal" href="#">autocpd package</a><ul>
-<li><a class="reference internal" href="#submodules">Submodules</a></li>
-<li><a class="reference internal" href="#module-autocpd.neuralnetwork">autocpd.neuralnetwork module</a><ul>
-<li><a class="reference internal" href="#autocpd.neuralnetwork.compile_and_fit"><code class="docutils literal notranslate"><span class="pre">compile_and_fit()</span></code></a></li>
-<li><a class="reference internal" href="#autocpd.neuralnetwork.deep_nn"><code class="docutils literal notranslate"><span class="pre">deep_nn()</span></code></a></li>
-<li><a class="reference internal" href="#autocpd.neuralnetwork.general_deep_nn"><code class="docutils literal notranslate"><span class="pre">general_deep_nn()</span></code></a></li>
-<li><a class="reference internal" href="#autocpd.neuralnetwork.get_callbacks"><code class="docutils literal notranslate"><span class="pre">get_callbacks()</span></code></a></li>
-<li><a class="reference internal" href="#autocpd.neuralnetwork.get_optimizer"><code class="docutils literal notranslate"><span class="pre">get_optimizer()</span></code></a></li>
-<li><a class="reference internal" href="#autocpd.neuralnetwork.resblock"><code class="docutils literal notranslate"><span class="pre">resblock()</span></code></a></li>
-<li><a class="reference internal" href="#autocpd.neuralnetwork.simple_nn"><code class="docutils literal notranslate"><span class="pre">simple_nn()</span></code></a></li>
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">src</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">autocpd package</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#submodules">Submodules</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-autocpd.neuralnetwork">autocpd.neuralnetwork module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#autocpd.neuralnetwork.compile_and_fit"><code class="docutils literal notranslate"><span class="pre">compile_and_fit()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#autocpd.neuralnetwork.deep_nn"><code class="docutils literal notranslate"><span class="pre">deep_nn()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#autocpd.neuralnetwork.general_deep_nn"><code class="docutils literal notranslate"><span class="pre">general_deep_nn()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#autocpd.neuralnetwork.get_callbacks"><code class="docutils literal notranslate"><span class="pre">get_callbacks()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#autocpd.neuralnetwork.get_optimizer"><code class="docutils literal notranslate"><span class="pre">get_optimizer()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#autocpd.neuralnetwork.resblock"><code class="docutils literal notranslate"><span class="pre">resblock()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#autocpd.neuralnetwork.simple_nn"><code class="docutils literal notranslate"><span class="pre">simple_nn()</span></code></a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#module-autocpd.pre_trained_model">autocpd.pre_trained_model module</a><ul>
-<li><a class="reference internal" href="#autocpd.pre_trained_model.load_pretrained_model"><code class="docutils literal notranslate"><span class="pre">load_pretrained_model()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-autocpd.pre_trained_model">autocpd.pre_trained_model module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#autocpd.pre_trained_model.load_pretrained_model"><code class="docutils literal notranslate"><span class="pre">load_pretrained_model()</span></code></a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#module-autocpd.utils">autocpd.utils module</a><ul>
-<li><a class="reference internal" href="#autocpd.utils.ComputeCUSUM"><code class="docutils literal notranslate"><span class="pre">ComputeCUSUM()</span></code></a></li>
-<li><a class="reference internal" href="#autocpd.utils.ComputeMeanVarNorm"><code class="docutils literal notranslate"><span class="pre">ComputeMeanVarNorm()</span></code></a></li>
-<li><a class="reference internal" href="#autocpd.utils.ComputeMosum"><code class="docutils literal notranslate"><span class="pre">ComputeMosum()</span></code></a></li>
-<li><a class="reference internal" href="#autocpd.utils.DataGenAlternative"><code class="docutils literal notranslate"><span class="pre">DataGenAlternative()</span></code></a></li>
-<li><a class="reference internal" href="#autocpd.utils.DataGenScenarios"><code class="docutils literal notranslate"><span class="pre">DataGenScenarios()</span></code></a></li>
-<li><a class="reference internal" href="#autocpd.utils.DataSetGen"><code class="docutils literal notranslate"><span class="pre">DataSetGen()</span></code></a></li>
-<li><a class="reference internal" href="#autocpd.utils.ExtractSubject"><code class="docutils literal notranslate"><span class="pre">ExtractSubject()</span></code></a></li>
-<li><a class="reference internal" href="#autocpd.utils.GenDataMean"><code class="docutils literal notranslate"><span class="pre">GenDataMean()</span></code></a></li>
-<li><a class="reference internal" href="#autocpd.utils.GenDataMeanAR"><code class="docutils literal notranslate"><span class="pre">GenDataMeanAR()</span></code></a></li>
-<li><a class="reference internal" href="#autocpd.utils.GenDataMeanARH"><code class="docutils literal notranslate"><span class="pre">GenDataMeanARH()</span></code></a></li>
-<li><a class="reference internal" href="#autocpd.utils.GenDataMeanARrho"><code class="docutils literal notranslate"><span class="pre">GenDataMeanARrho()</span></code></a></li>
-<li><a class="reference internal" href="#autocpd.utils.GenDataSlope"><code class="docutils literal notranslate"><span class="pre">GenDataSlope()</span></code></a></li>
-<li><a class="reference internal" href="#autocpd.utils.GenDataVariance"><code class="docutils literal notranslate"><span class="pre">GenDataVariance()</span></code></a></li>
-<li><a class="reference internal" href="#autocpd.utils.GenerateAR"><code class="docutils literal notranslate"><span class="pre">GenerateAR()</span></code></a></li>
-<li><a class="reference internal" href="#autocpd.utils.GenerateARAll"><code class="docutils literal notranslate"><span class="pre">GenerateARAll()</span></code></a></li>
-<li><a class="reference internal" href="#autocpd.utils.MaxCUSUM"><code class="docutils literal notranslate"><span class="pre">MaxCUSUM()</span></code></a></li>
-<li><a class="reference internal" href="#autocpd.utils.Standardize"><code class="docutils literal notranslate"><span class="pre">Standardize()</span></code></a></li>
-<li><a class="reference internal" href="#autocpd.utils.Transform2D"><code class="docutils literal notranslate"><span class="pre">Transform2D()</span></code></a></li>
-<li><a class="reference internal" href="#autocpd.utils.Transform2D2TR"><code class="docutils literal notranslate"><span class="pre">Transform2D2TR()</span></code></a></li>
-<li><a class="reference internal" href="#autocpd.utils.extract"><code class="docutils literal notranslate"><span class="pre">extract()</span></code></a></li>
-<li><a class="reference internal" href="#autocpd.utils.get_asyvar_window"><code class="docutils literal notranslate"><span class="pre">get_asyvar_window()</span></code></a></li>
-<li><a class="reference internal" href="#autocpd.utils.get_cusum_location"><code class="docutils literal notranslate"><span class="pre">get_cusum_location()</span></code></a></li>
-<li><a class="reference internal" href="#autocpd.utils.get_key"><code class="docutils literal notranslate"><span class="pre">get_key()</span></code></a></li>
-<li><a class="reference internal" href="#autocpd.utils.get_label"><code class="docutils literal notranslate"><span class="pre">get_label()</span></code></a></li>
-<li><a class="reference internal" href="#autocpd.utils.get_label_hasc"><code class="docutils literal notranslate"><span class="pre">get_label_hasc()</span></code></a></li>
-<li><a class="reference internal" href="#autocpd.utils.get_loc_3"><code class="docutils literal notranslate"><span class="pre">get_loc_3()</span></code></a></li>
-<li><a class="reference internal" href="#autocpd.utils.get_mosum_loc_double"><code class="docutils literal notranslate"><span class="pre">get_mosum_loc_double()</span></code></a></li>
-<li><a class="reference internal" href="#autocpd.utils.get_mosum_loc_nn"><code class="docutils literal notranslate"><span class="pre">get_mosum_loc_nn()</span></code></a></li>
-<li><a class="reference internal" href="#autocpd.utils.get_wilcoxon_test"><code class="docutils literal notranslate"><span class="pre">get_wilcoxon_test()</span></code></a></li>
-<li><a class="reference internal" href="#autocpd.utils.labelSubject"><code class="docutils literal notranslate"><span class="pre">labelSubject()</span></code></a></li>
-<li><a class="reference internal" href="#autocpd.utils.labelTransition"><code class="docutils literal notranslate"><span class="pre">labelTransition()</span></code></a></li>
-<li><a class="reference internal" href="#autocpd.utils.seqPlot"><code class="docutils literal notranslate"><span class="pre">seqPlot()</span></code></a></li>
-<li><a class="reference internal" href="#autocpd.utils.tsExtract"><code class="docutils literal notranslate"><span class="pre">tsExtract()</span></code></a></li>
-<li><a class="reference internal" href="#autocpd.utils.wilcoxon"><code class="docutils literal notranslate"><span class="pre">wilcoxon()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-autocpd.utils">autocpd.utils module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#autocpd.utils.ComputeCUSUM"><code class="docutils literal notranslate"><span class="pre">ComputeCUSUM()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#autocpd.utils.ComputeMeanVarNorm"><code class="docutils literal notranslate"><span class="pre">ComputeMeanVarNorm()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#autocpd.utils.ComputeMosum"><code class="docutils literal notranslate"><span class="pre">ComputeMosum()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#autocpd.utils.DataGenAlternative"><code class="docutils literal notranslate"><span class="pre">DataGenAlternative()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#autocpd.utils.DataGenScenarios"><code class="docutils literal notranslate"><span class="pre">DataGenScenarios()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#autocpd.utils.DataSetGen"><code class="docutils literal notranslate"><span class="pre">DataSetGen()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#autocpd.utils.ExtractSubject"><code class="docutils literal notranslate"><span class="pre">ExtractSubject()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#autocpd.utils.GenDataMean"><code class="docutils literal notranslate"><span class="pre">GenDataMean()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#autocpd.utils.GenDataMeanAR"><code class="docutils literal notranslate"><span class="pre">GenDataMeanAR()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#autocpd.utils.GenDataMeanARH"><code class="docutils literal notranslate"><span class="pre">GenDataMeanARH()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#autocpd.utils.GenDataMeanARrho"><code class="docutils literal notranslate"><span class="pre">GenDataMeanARrho()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#autocpd.utils.GenDataSlope"><code class="docutils literal notranslate"><span class="pre">GenDataSlope()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#autocpd.utils.GenDataVariance"><code class="docutils literal notranslate"><span class="pre">GenDataVariance()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#autocpd.utils.GenerateAR"><code class="docutils literal notranslate"><span class="pre">GenerateAR()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#autocpd.utils.GenerateARAll"><code class="docutils literal notranslate"><span class="pre">GenerateARAll()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#autocpd.utils.MaxCUSUM"><code class="docutils literal notranslate"><span class="pre">MaxCUSUM()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#autocpd.utils.Standardize"><code class="docutils literal notranslate"><span class="pre">Standardize()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#autocpd.utils.Transform2D"><code class="docutils literal notranslate"><span class="pre">Transform2D()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#autocpd.utils.Transform2D2TR"><code class="docutils literal notranslate"><span class="pre">Transform2D2TR()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#autocpd.utils.extract"><code class="docutils literal notranslate"><span class="pre">extract()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#autocpd.utils.get_asyvar_window"><code class="docutils literal notranslate"><span class="pre">get_asyvar_window()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#autocpd.utils.get_cusum_location"><code class="docutils literal notranslate"><span class="pre">get_cusum_location()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#autocpd.utils.get_key"><code class="docutils literal notranslate"><span class="pre">get_key()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#autocpd.utils.get_label"><code class="docutils literal notranslate"><span class="pre">get_label()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#autocpd.utils.get_label_hasc"><code class="docutils literal notranslate"><span class="pre">get_label_hasc()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#autocpd.utils.get_loc_3"><code class="docutils literal notranslate"><span class="pre">get_loc_3()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#autocpd.utils.get_mosum_loc_double"><code class="docutils literal notranslate"><span class="pre">get_mosum_loc_double()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#autocpd.utils.get_mosum_loc_nn"><code class="docutils literal notranslate"><span class="pre">get_mosum_loc_nn()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#autocpd.utils.get_wilcoxon_test"><code class="docutils literal notranslate"><span class="pre">get_wilcoxon_test()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#autocpd.utils.labelSubject"><code class="docutils literal notranslate"><span class="pre">labelSubject()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#autocpd.utils.labelTransition"><code class="docutils literal notranslate"><span class="pre">labelTransition()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#autocpd.utils.seqPlot"><code class="docutils literal notranslate"><span class="pre">seqPlot()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#autocpd.utils.tsExtract"><code class="docutils literal notranslate"><span class="pre">tsExtract()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#autocpd.utils.wilcoxon"><code class="docutils literal notranslate"><span class="pre">wilcoxon()</span></code></a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#module-autocpd">Module contents</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-autocpd">Module contents</a></li>
 </ul>
 </li>
 </ul>
-</div>
+</li>
+</ul>
+
         </div>
       </div>
     </nav>
@@ -114,6 +118,7 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="modules.html">src</a></li>
       <li class="breadcrumb-item active">autocpd package</li>
       <li class="wy-breadcrumbs-aside">
             <a href="_sources/autocpd.rst.txt" rel="nofollow"> View page source</a>
@@ -133,7 +138,7 @@
 <span id="autocpd-neuralnetwork-module"></span><h2>autocpd.neuralnetwork module<a class="headerlink" href="#module-autocpd.neuralnetwork" title="Link to this heading"></a></h2>
 <p>Author         : Jie Li, Department of Statistics, London School of Economics.
 Date           : 2023-09-19 14:18:47
-Last Revision  : 2023-09-20 12:35:00
+Last Revision  : 2023-09-27 21:25:59
 Last Author    : Jie Li
 File Path      : /AutoCPD/src/autocpd/neuralnetwork.py
 Description    :</p>
@@ -141,7 +146,7 @@ Description    :</p>
 All Rights Reserved.</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="autocpd.neuralnetwork.compile_and_fit">
-<span class="sig-prename descclassname"><span class="pre">autocpd.neuralnetwork.</span></span><span class="sig-name descname"><span class="pre">compile_and_fit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x_train</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_train</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">batch_size</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lr</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">log_dir</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">optimizer</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">validation_split</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_epochs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10000</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/autocpd/neuralnetwork.html#compile_and_fit"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#autocpd.neuralnetwork.compile_and_fit" title="Link to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">autocpd.neuralnetwork.</span></span><span class="sig-name descname"><span class="pre">compile_and_fit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x_train</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_train</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">batch_size</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lr</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">log_dir</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">epochdots</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">optimizer</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">validation_split</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_epochs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10000</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/autocpd/neuralnetwork.html#compile_and_fit"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#autocpd.neuralnetwork.compile_and_fit" title="Link to this definition"></a></dt>
 <dd><p>To compile and fit the model</p>
 <section id="parameters">
 <h3>Parameters<a class="headerlink" href="#parameters" title="Link to this heading"></a></h3>
@@ -159,6 +164,8 @@ All Rights Reserved.</p>
 <dt>name<span class="classifier">str</span></dt><dd><p>the model name</p>
 </dd>
 <dt>log_dir<span class="classifier">str</span></dt><dd><p>the path of log files</p>
+</dd>
+<dt>epochdots<span class="classifier">object</span></dt><dd><p>the EpochDots object from tensorflow_docs</p>
 </dd>
 <dt>optimizer<span class="classifier">optimizer object or str, optional</span></dt><dd><p>the optimizer, by default None</p>
 </dd>
@@ -251,7 +258,7 @@ All Rights Reserved.</p>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="autocpd.neuralnetwork.get_callbacks">
-<span class="sig-prename descclassname"><span class="pre">autocpd.neuralnetwork.</span></span><span class="sig-name descname"><span class="pre">get_callbacks</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">log_dir</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/autocpd/neuralnetwork.html#get_callbacks"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#autocpd.neuralnetwork.get_callbacks" title="Link to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">autocpd.neuralnetwork.</span></span><span class="sig-name descname"><span class="pre">get_callbacks</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">log_dir</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">epochdots</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/autocpd/neuralnetwork.html#get_callbacks"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#autocpd.neuralnetwork.get_callbacks" title="Link to this definition"></a></dt>
 <dd><p>Get callbacks. This function returns the result of epochs during training, if it satisfies some conditions then the training can stop early. At meanwhile, this function also save the results of training in TensorBoard and csv files.</p>
 <section id="id5">
 <h3>Parameters<a class="headerlink" href="#id5" title="Link to this heading"></a></h3>
@@ -259,6 +266,8 @@ All Rights Reserved.</p>
 <dt>name<span class="classifier">str</span></dt><dd><p>the model name</p>
 </dd>
 <dt>log_dir<span class="classifier">str</span></dt><dd><p>the path of log files</p>
+</dd>
+<dt>epochdots<span class="classifier">object</span></dt><dd><p>the EpochDots object from tensorflow_docs</p>
 </dd>
 </dl>
 </section>
@@ -1301,7 +1310,9 @@ All Rights Reserved.</p>
 
            </div>
           </div>
-          <footer>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="modules.html" class="btn btn-neutral float-left" title="src" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
 
   <hr/>
 
