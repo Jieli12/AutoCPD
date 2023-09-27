@@ -138,7 +138,7 @@
 <span id="autocpd-neuralnetwork-module"></span><h2>autocpd.neuralnetwork module<a class="headerlink" href="#module-autocpd.neuralnetwork" title="Link to this heading"></a></h2>
 <p>Author         : Jie Li, Department of Statistics, London School of Economics.
 Date           : 2023-09-19 14:18:47
-Last Revision  : 2023-09-20 12:35:00
+Last Revision  : 2023-09-27 21:25:59
 Last Author    : Jie Li
 File Path      : /AutoCPD/src/autocpd/neuralnetwork.py
 Description    :</p>
@@ -146,7 +146,7 @@ Description    :</p>
 All Rights Reserved.</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="autocpd.neuralnetwork.compile_and_fit">
-<span class="sig-prename descclassname"><span class="pre">autocpd.neuralnetwork.</span></span><span class="sig-name descname"><span class="pre">compile_and_fit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x_train</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_train</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">batch_size</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lr</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">log_dir</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">optimizer</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">validation_split</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_epochs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10000</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/autocpd/neuralnetwork.html#compile_and_fit"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#autocpd.neuralnetwork.compile_and_fit" title="Link to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">autocpd.neuralnetwork.</span></span><span class="sig-name descname"><span class="pre">compile_and_fit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x_train</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_train</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">batch_size</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lr</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">log_dir</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">epochdots</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">optimizer</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">validation_split</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_epochs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10000</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/autocpd/neuralnetwork.html#compile_and_fit"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#autocpd.neuralnetwork.compile_and_fit" title="Link to this definition"></a></dt>
 <dd><p>To compile and fit the model</p>
 <section id="parameters">
 <h3>Parameters<a class="headerlink" href="#parameters" title="Link to this heading"></a></h3>
@@ -164,6 +164,8 @@ All Rights Reserved.</p>
 <dt>name<span class="classifier">str</span></dt><dd><p>the model name</p>
 </dd>
 <dt>log_dir<span class="classifier">str</span></dt><dd><p>the path of log files</p>
+</dd>
+<dt>epochdots<span class="classifier">object</span></dt><dd><p>the EpochDots object from tensorflow_docs</p>
 </dd>
 <dt>optimizer<span class="classifier">optimizer object or str, optional</span></dt><dd><p>the optimizer, by default None</p>
 </dd>
@@ -256,7 +258,7 @@ All Rights Reserved.</p>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="autocpd.neuralnetwork.get_callbacks">
-<span class="sig-prename descclassname"><span class="pre">autocpd.neuralnetwork.</span></span><span class="sig-name descname"><span class="pre">get_callbacks</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">log_dir</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/autocpd/neuralnetwork.html#get_callbacks"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#autocpd.neuralnetwork.get_callbacks" title="Link to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">autocpd.neuralnetwork.</span></span><span class="sig-name descname"><span class="pre">get_callbacks</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">log_dir</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">epochdots</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/autocpd/neuralnetwork.html#get_callbacks"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#autocpd.neuralnetwork.get_callbacks" title="Link to this definition"></a></dt>
 <dd><p>Get callbacks. This function returns the result of epochs during training, if it satisfies some conditions then the training can stop early. At meanwhile, this function also save the results of training in TensorBoard and csv files.</p>
 <section id="id5">
 <h3>Parameters<a class="headerlink" href="#id5" title="Link to this heading"></a></h3>
@@ -264,6 +266,8 @@ All Rights Reserved.</p>
 <dt>name<span class="classifier">str</span></dt><dd><p>the model name</p>
 </dd>
 <dt>log_dir<span class="classifier">str</span></dt><dd><p>the path of log files</p>
+</dd>
+<dt>epochdots<span class="classifier">object</span></dt><dd><p>the EpochDots object from tensorflow_docs</p>
 </dd>
 </dl>
 </section>

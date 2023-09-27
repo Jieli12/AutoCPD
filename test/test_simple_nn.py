@@ -1,7 +1,7 @@
 """
 Author         : Jie Li, Department of Statistics, London School of Economics.
 Date           : 2023-09-14 18:57:05
-Last Revision  : 2023-09-20 12:37:18
+Last Revision  : 2023-09-27 21:28:27
 Last Author    : Jie Li
 File Path      : /AutoCPD/test/test_simple_nn.py
 Description    :
@@ -22,6 +22,7 @@ from pathlib import Path
 import matplotlib.pyplot as plt
 import numpy as np
 import tensorflow as tf
+import tensorflow_docs.modeling as tfdoc_model
 import tensorflow_docs.plots as tfdoc_plot
 from sklearn.utils import shuffle
 
@@ -86,6 +87,7 @@ model = simple_nn(n=n, l=l, m=m, num_classes=2, model_name=model_name)
 model.summary()
 
 size_histories = {}
+epochdots = tfdoc_model.EpochDots()
 size_histories[model_name] = compile_and_fit(
     model,
     x_train,
@@ -94,6 +96,7 @@ size_histories[model_name] = compile_and_fit(
     learning_rate,
     model_name,
     logdir,
+    epochdots,
     max_epochs=epochs,
 )
 plotter = tfdoc_plot.HistoryPlotter(metric="accuracy", smoothing_std=10)
