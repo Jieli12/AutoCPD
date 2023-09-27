@@ -14,7 +14,8 @@ build:
     # nodejs: "19"
     # rust: "1.64"
     # golang: "1.19"
-
+submodules:
+  include: all
 # Build documentation in the "docs/" directory with Sphinx
 sphinx:
   configuration: docs/conf.py
