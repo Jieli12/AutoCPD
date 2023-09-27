@@ -1,21 +1,3 @@
-"""
-Author         : Jie Li, Department of Statistics, London School of Economics.
-Date           : 2023-09-27 10:20:11
-Last Revision  : 2023-09-27 20:10:53
-Last Author    : Jie Li
-File Path      : /AutoCPD/src/docs/conf.py
-Description    :
-
-
-
-
-
-
-
-
-Copyright (c) 2023 by Jie Li, j.li196@lse.ac.uk
-All Rights Reserved.
-"""
 # Configuration file for the Sphinx documentation builder.
 #
 # For the full list of built-in configuration values, see the documentation:
@@ -23,11 +5,11 @@ All Rights Reserved.
 
 # -- Project information -----------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#project-information
+
 import os
 import sys
 
-sys.path.insert(0, os.path.abspath("../.."))
-
+sys.path.append(os.path.relpath("../src"))
 project = "AutoCPD"
 copyright = "2023, Jie Li"
 author = "Jie Li"
