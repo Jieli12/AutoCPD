@@ -363,5 +363,6 @@ temp/
 # only for this project
 .history
 __pycache__
-test/
+project-words.txt
 dist/
+test/tensorboard_logs/
