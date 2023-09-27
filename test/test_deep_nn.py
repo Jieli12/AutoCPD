@@ -1,7 +1,7 @@
 """
 Author         : Jie Li, Department of Statistics, London School of Economics.
 Date           : 2023-09-20 12:37:17
-Last Revision  : 2023-09-20 19:35:05
+Last Revision  : 2023-09-27 22:30:06
 Last Author    : Jie Li
 File Path      : /AutoCPD/test/test_deep_nn.py
 Description    :
@@ -23,6 +23,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 import seaborn as sns
 import tensorflow as tf
+import tensorflow_docs.modeling as tfdoc_model
 import tensorflow_docs.plots as tfdoc_plot
 from sklearn.model_selection import train_test_split
 
@@ -92,6 +93,7 @@ model = general_deep_nn(
 model.summary()
 
 size_histories = {}
+epochdots = tfdoc_model.EpochDots()
 size_histories[model_name] = compile_and_fit(
     model,
     x_train,
@@ -100,6 +102,7 @@ size_histories[model_name] = compile_and_fit(
     learning_rate,
     model_name,
     logdir,
+    epochdots,
     validation_split=0.25,
     max_epochs=epochs,
 )
