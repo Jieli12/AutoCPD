@@ -26,12 +26,11 @@ In this section, we demonstrate 3 examples to show how to train simple and deep 
 
 ### Simple Neural Network
 
-The Python script `test_simple_nn.py` consists of four parts:
+The Python script `test_simple_nn.py` consists of three parts:
 
 * Data Generation
 * Model Construction
 * Model Compilation and Fitting
-* Model Prediction
 
 #### Data Generation
 
@@ -168,105 +167,8 @@ model_path = Path(logdir, model_name, "model")
 model.save(model_path)
 ```
 
-**Note:**  The default value of `validation_split` in `compile_and_fit()` is 0.2, which means that in this example, the validation data set contains the 80 samples.
+**Note:**  The default value of `validation_split` in `compile_and_fit()` is 0.2, which means that in this example, the validation data set contains the 80 samples.  Because we use the module `tensorflow-docs` to record the training history and plot the validation accuracy,  please check [tensorflow-docs](https://github.com/tensorflow/docs) is correctly installed and loaded before running Python script. The training and validation accuracies are displayed in the following figure:
 
-### The result for multiple layer neural network
+![example1](./test/figs/test_simple_nnn100N400m50+acc.png)
 
-To obtain the result of multiple layer neural network:
-$\mathcal{H}_{5,m^{(1)}\mathbf{1}_{5}}$ and $\mathcal{H}_{10,m^{(1)}\mathbf{1}_{10}}$, please run the following scripts in order:
-
-* ScenarioS1Rho0L5Train.py;
-* ScenarioARho0L5Predict.py;
-* ScenarioS1Rho0L10Train.py;
-* ScenarioARho0L10Predict.py;
-
-Finally, run the following script to generate Fig. 2(a):
-
-* ScenarioS1Rho0MultiLPredictReplot.py;
-
-The figure is automatically saved in folder ’./Figures’. Note: You can only see the plotted figure using Ipython.
-
-## HASC data analysis (Note: please wait for our Python package AutoCPD)
-
-**If you still tried to run the scripts in the current repository, please be careful with the parameters settings.**
-
-The HASC data downloaded from [here](http://hasc.jp/hc2011/index-en.html) is in folder ”./datasets/HASC/”. The architecture details of residual neural network can be found in supplementary material. The script “RealDataKS25.py” trains the model and saves the trained model in the folder ”./Code/tensorboard_logs/Trial/”.
-
-**Note:** it costs several hours to train the residual neural network in GPU server. For convenience, I also put the trained model ``RealDataKS25’’ in folder ”./Code/tensorboard_logs/Trial/”. To obtain the Figure 4 in the main text, please run the file “RealDataCPDTestNewSeq1.py”.
-
-## Extra Simulation for Multiple Change-types
-
-**Please do not run these scripts as it was not updated since the first submission and wait for our Python package AutoCPD.**
-
-In supplementary material, we also provide an extra simulation for one-change-point but with multiple change-types: change in mean, change in slope and change in variance.
-
-For likelihood-ratio-based methods, we employ the Narrowest-Over-Threshold (NOT) (Baranowski et al., 2019) and single variance change-point detection (Chen and Gupta, 2012) algorithms to detect the change in mean, slope and variance respectively. The algorithms are available in **R** packages: [not](https://CRAN.R-project.org/package=not) and [changepoint](https://CRAN.R-project.org/package=changepoint).
-
-The scripts “ResNetN1kE8tanhDecay10kScale.py” and “ResNetN1kE8tanhStrongDecay10kScale.py” can produce confusion matrices for weak and strong signal scenarios respectively. For convenience, the trained models are also available in ”./Code/tensorboard_logs/Trial/”.
-
-To generate Table 1 in main text, please run the following scripts in order:
-
-* RNWeak21T2N2500R10SaveForR.py;
-* RNStrong21T2N2500R10SaveForR.py;
-* RNWeakoracle-revisionTestR10.r;
-* RNStrongoracle-revisionTestR10.r;
-
-## Simulations in supplement
-
-### Simulation for simultaneous changes
-
-By running the following two Python scripts, we can get the results displayed in Table S2 of supplement.
-
-* DataGenForRStrong2ClassTesting.py;
-* DataGenForRWeak2ClassTesting.py;
-
-### Simulation for heavy-tailed noise
-
-The trained models can be found in ”./Code/tensorboard_logs/Trial/”.
-
-By running the following two Python scripts, we can get the results displayed in Figure S1 of supplement.
-
-* S3R0Predict.py;
-* S3R0PredictPlot.py;
-
-### Simulation for robustness study
-
-The trained models can be found in ”./Code/tensorboard_logs/Trial/”.
-
-By running the following two Python scripts, we can get the results displayed in Figure S2 of supplement.
-
-* SARhoToOthersPredict.py;
-* SARhoToOthersPredictReplot.py;
-
-### Simulation for change in autocorrelation
-
-The trained models can be found in ”./Code/tensorboard_logs/Trial/”.
-
-By running the following four Python scripts, we can get the results displayed in Figure S3 of supplement.
-
-* SAPredict.py;
-* SASquarePredict.py;
-* SASquareResNetPredict.py;
-* SARPlot.py;
-
-### Simulation on change-point location estimation
-
-The trained models can be found in ”./Code/tensorboard_logs/Trial/”. There are four panels in Fig.S4 of supplement. The top two panels can be generated by running the following scripts:
-
-* DS1WeakResult.py; # Note: it will cost serval hours.
-* DS1StrongResult.py; # Note: it will cost serval hours.
-* DS1WeakResultMosumAdjust.py;
-* DS1StrongResultMosumAdjust.py;
-* DS1ReportWilcox.py;
-
-Similarly, the bottom two panels can be generated by running the following scripts:
-
-* DS3WeakResult.py; # Note: it will cost serval hours.
-* DS3StrongResult.py; # Note: it will cost serval hours.
-* DS3WeakResultMosumAdjust.py;
-* DS3StrongResultMosumAdjust.py;
-* DS3WeakResultWilcoxR.py;
-* DS3StrongResultWilcoxR.py;
-* DS3WeakWilcox.r;
-* DS3StrongWilcox.r;
-* DS3ReportWilcox.py;
+### Deep Neural Network
