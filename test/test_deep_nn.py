@@ -1,7 +1,7 @@
 """
 Author         : Jie Li, Department of Statistics, London School of Economics.
 Date           : 2023-09-20 12:37:17
-Last Revision  : 2023-09-28 15:10:26
+Last Revision  : 2023-09-28 18:52:17
 Last Author    : Jie Li
 File Path      : /AutoCPD/test/test_deep_nn.py
 Description    :
@@ -34,15 +34,15 @@ from autocpd.utils import DataSetGen, Transform2D2TR
 np.random.seed(2022)  # numpy seed fixing
 tf.random.set_seed(2022)  # tensorflow seed fixing
 n = 400  # the length of time series
-N_sub = 500
+N_sub = 3000
 n_trim = 40
-mean_arg = np.array([0.7, 5, -5, 0.5, 0.25])
-var_arg = np.array([0, 0.7, 0.3, 0.24, 0.12])
-slope_arg = np.array([0.5, 0.025, -0.025, 0.012, 0.006])
+mean_arg = np.array([0.7, 5, -5, 1.2, 0.6])
+var_arg = np.array([0, 0.7, 0.3, 0.4, 0.2])
+slope_arg = np.array([0.5, 0.025, -0.025, 0.03, 0.015])
 dataset = DataSetGen(N_sub, n, mean_arg, var_arg, slope_arg, n_trim)
 data_x = dataset["data_x"]
 # delete change in variance and no change in non-zero slope.
-data_x = np.delete(data_x, np.arange(3 * N_sub, 5 * N_sub), 0)
+data_x = np.delete(data_x, np.arange(0 * N_sub, 2 * N_sub), 0)
 # %% normalization
 data_x = Transform2D2TR(data_x, rescale=True, times=3)
 num_dataset = 3
@@ -63,13 +63,13 @@ print(current_file)
 logdir = Path("tensorboard_logs", "Trial")
 
 learning_rate = 1e-3
-epochs = 200
+epochs = 100
 batch_size = 64
 dropout_rate = 0.3
 n_filter = 16
 n = x_train.shape[-1]
 num_tran = x_train.shape[1]
-kernel_size = (num_tran // 2, 30)
+kernel_size = (num_tran // 2, 10)
 num_classes = 3
 
 # %%

@@ -175,7 +175,7 @@ model.save(model_path)
 
 In this section, we introduce how to construct a deep neural network, train it to classify multiple categories and test it on one unseen dataset. The code can be found in the Python script [./test/test_deep_nn.py](https://github.com/Jieli12/AutoCPD/tree/master/test). Compared with `test_simple_nn.py`, the script`test_test_nn.py` consists of four steps: data generation, model construction, model compilation and fitting and Model prediction. To be concise, we will omit the data generation, model compilation and fitting.
 
-In this example, we try to construct a deep neural network with 3 residual blocks followed by 5 hidden layers, the width vector of hidden layers is $[50,40,30,20,10]$. The dataset can be grouped into 3 categories: change in variance only, no change in non-zero slope and change in slope labelled by 0, 1 and 2 respectively. The length of time series is $n=400$, each class has 500 observations.
+In this example, we try to construct a deep neural network with 3 residual blocks followed by 5 hidden layers, the width vector of hidden layers is $[50,40,30,20,10]$. The dataset can be grouped into 3 categories: change in variance only, no change in non-zero slope and change in slope labelled by 0, 1 and 2 respectively. The length of time series $n$ is 400, each class has 500 observations.
 
 ```python
 np.random.seed(2022)  # numpy seed
