@@ -1,7 +1,7 @@
 """
 Author         : Jie Li, Department of Statistics, London School of Economics.
 Date           : 2023-09-14 18:57:05
-Last Revision  : 2023-09-27 21:28:27
+Last Revision  : 2023-09-28 11:37:24
 Last Author    : Jie Li
 File Path      : /AutoCPD/test/test_simple_nn.py
 Description    :
@@ -26,7 +26,7 @@ import tensorflow_docs.modeling as tfdoc_model
 import tensorflow_docs.plots as tfdoc_plot
 from sklearn.utils import shuffle
 
-from autocpd.neuralnetwork import compile_and_fit, simple_nn
+from autocpd.neuralnetwork import compile_and_fit, general_simple_nn
 from autocpd.utils import DataGenAlternative, GenDataMean
 
 # %%
@@ -83,7 +83,7 @@ model_name = current_file + "n" + str(n) + "N" + str(2 * N) + "m" + str(m)
 print(model_name)
 # build the model
 l = 2
-model = simple_nn(n=n, l=l, m=m, num_classes=2, model_name=model_name)
+model = general_simple_nn(n=n, l=l, m=m, num_classes=2, model_name=model_name)
 model.summary()
 
 size_histories = {}

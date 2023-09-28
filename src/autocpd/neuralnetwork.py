@@ -6,7 +6,7 @@ import tensorflow as tf
 from keras import layers, losses, metrics, models
 
 
-def simple_nn(n, l, m, num_classes, model_name="simple_nn"):
+def general_simple_nn(n, l, m, num_classes, model_name="simple_nn"):
     """
     To construct a simple neural network.
 
