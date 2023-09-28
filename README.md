@@ -181,19 +181,19 @@ In this example, we try to construct a deep neural network with 3 residual block
 np.random.seed(2022)  # numpy seed
 tf.random.set_seed(2022)  # tensorflow seed
 n = 400  # the length of time series
-N_sub = 500
+N_sub = 3000
 num_dataset = 3
 labels = [0, 1, 2]
 num_classes = len(set(labels))
 
 learning_rate = 1e-3
-epochs = 200
+epochs = 100
 batch_size = 64
 dropout_rate = 0.3
 n_filter = 16
 n = x_train.shape[-1]
 num_tran = x_train.shape[1]
-kernel_size = (num_tran // 2, 30)
+kernel_size = (num_tran // 2, 10)
 num_classes = 3
 
 # %%
@@ -216,3 +216,136 @@ model = general_deep_nn(
 )
 model.summary()
 ```
+
+The architecture of neural network with 3 residual blocks is displayed as below:
+
+```python
+test_deep_nnn400N3000L3
+Model: "test_deep_nnn400N3000L3"
+__________________________________________________________________________________________________
+ Layer (type)                   Output Shape         Param #     Connected to
+==================================================================================================
+ Input (InputLayer)             [(None, 6, 400)]     0           []
+                                                                                                  
+ reshape (Reshape)              (None, 6, 400, 1)    0           ['Input[0][0]']
+                                                                                                  
+ conv2d (Conv2D)                (None, 6, 400, 16)   80          ['reshape[0][0]']
+                                                                                                  
+ batch_normalization (BatchNorm  (None, 6, 400, 16)  64          ['conv2d[0][0]']
+ alization)
+                                                                                                  
+ re_lu (ReLU)                   (None, 6, 400, 16)   0           ['batch_normalization[0][0]']
+                                                                                                  
+ max_pooling2d (MaxPooling2D)   (None, 3, 200, 16)   0           ['re_lu[0][0]']
+                                                                                                  
+ conv2d_1 (Conv2D)              (None, 3, 200, 16)   7696        ['max_pooling2d[0][0]']
+                                                                                                  
+ batch_normalization_1 (BatchNo  (None, 3, 200, 16)  64          ['conv2d_1[0][0]']
+ rmalization)
+                                                                                                  
+ re_lu_1 (ReLU)                 (None, 3, 200, 16)   0           ['batch_normalization_1[0][0]']
+                                                                                                  
+ conv2d_2 (Conv2D)              (None, 3, 200, 16)   7696        ['re_lu_1[0][0]']
+                                                                                                  
+ batch_normalization_2 (BatchNo  (None, 3, 200, 16)  64          ['conv2d_2[0][0]']
+ rmalization)
+                                                                                                  
+ add (Add)                      (None, 3, 200, 16)   0           ['max_pooling2d[0][0]',
+                                                                  'batch_normalization_2[0][0]']
+                                                                                                  
+ re_lu_2 (ReLU)                 (None, 3, 200, 16)   0           ['add[0][0]']
+                                                                                                  
+ conv2d_3 (Conv2D)              (None, 3, 200, 16)   7696        ['re_lu_2[0][0]']
+                                                                                                  
+ batch_normalization_3 (BatchNo  (None, 3, 200, 16)  64          ['conv2d_3[0][0]']
+ rmalization)
+                                                                                                  
+ re_lu_3 (ReLU)                 (None, 3, 200, 16)   0           ['batch_normalization_3[0][0]']
+                                                                                                  
+ conv2d_4 (Conv2D)              (None, 3, 200, 16)   7696        ['re_lu_3[0][0]']
+                                                                                                  
+ batch_normalization_4 (BatchNo  (None, 3, 200, 16)  64          ['conv2d_4[0][0]']
+ rmalization)
+                                                                                                  
+ add_1 (Add)                    (None, 3, 200, 16)   0           ['re_lu_2[0][0]',
+                                                                  'batch_normalization_4[0][0]']
+                                                                                                  
+ re_lu_4 (ReLU)                 (None, 3, 200, 16)   0           ['add_1[0][0]']
+                                                                                                  
+ conv2d_5 (Conv2D)              (None, 3, 200, 16)   7696        ['re_lu_4[0][0]']
+                                                                                                  
+ batch_normalization_5 (BatchNo  (None, 3, 200, 16)  64          ['conv2d_5[0][0]']
+ rmalization)
+                                                                                                  
+ re_lu_5 (ReLU)                 (None, 3, 200, 16)   0           ['batch_normalization_5[0][0]']
+                                                                                                  
+ conv2d_6 (Conv2D)              (None, 3, 200, 16)   7696        ['re_lu_5[0][0]']
+                                                                                                  
+ batch_normalization_6 (BatchNo  (None, 3, 200, 16)  64          ['conv2d_6[0][0]']
+ rmalization)
+                                                                                                  
+ add_2 (Add)                    (None, 3, 200, 16)   0           ['re_lu_4[0][0]',
+                                                                  'batch_normalization_6[0][0]']
+                                                                                                  
+ re_lu_6 (ReLU)                 (None, 3, 200, 16)   0           ['add_2[0][0]']
+                                                                                                  
+ global_average_pooling2d (Glob  (None, 16)          0           ['re_lu_6[0][0]']
+ alAveragePooling2D)
+                                                                                                  
+ dense (Dense)                  (None, 50)           850         ['global_average_pooling2d[0][0]'
+                                                                 ]
+                                                                                                  
+ dropout (Dropout)              (None, 50)           0           ['dense[0][0]']
+                                                                                                  
+ dense_1 (Dense)                (None, 40)           2040        ['dropout[0][0]']
+                                                                                                  
+ dropout_1 (Dropout)            (None, 40)           0           ['dense_1[0][0]']
+                                                                                                  
+ dense_2 (Dense)                (None, 30)           1230        ['dropout_1[0][0]']
+                                                                                                  
+ dropout_2 (Dropout)            (None, 30)           0           ['dense_2[0][0]']
+                                                                                                  
+ dense_3 (Dense)                (None, 20)           620         ['dropout_2[0][0]']
+                                                                                                  
+ dropout_3 (Dropout)            (None, 20)           0           ['dense_3[0][0]']
+                                                                                                  
+ dense_4 (Dense)                (None, 10)           210         ['dropout_3[0][0]']
+                                                                                                  
+ dense_5 (Dense)                (None, 3)            33          ['dense_4[0][0]']
+                                                                                                  
+==================================================================================================
+Total params: 51,687
+Trainable params: 51,463
+Non-trainable params: 224
+__________________________________________________________________________________________________
+```
+
+There are 51,463 trainable parameters in the above neural network. When the number of residual blocks increases, the number of trainable parameters increases dramatically. As a result,  it will take more time to obtain a well-trained neural network. We recommend using GPU server to speed up training neural networks. For instance, it only took 7 minutes to train the above neural network on an HP laptop with Intel Core i7 and NVIDIA T500. The following figure shows the training and validation accuracies of neural network. After 100 epochs, the validation accuracy is close to 93\%.
+
+![example2](./test/figs/test_deep_nnn400N3000L3+acc.png)
+
+The following figure shows The confusion matrix of prediction, the accuracy is 93.56\%.
+
+![example3](./test/figs/test_deep_nnn400N3000L3Confusion_matrix.png)
+
+**Note:** To improve the accuracy of validation, one can either increase the number of residual blocks or increase the number of epochs.
+
+### Load Pretrained Deep Neural Network
+
+The script `test_load_pretrained_model.py` demonstrates how to load the pre-trained deep neural network with 21 residual blocks for [HASC](http://hasc.jp/hc2011/index-en.html) data analysis as described in [Jie et al. (2023)](https://arxiv.org/abs/2211.03860). The pre-trained model, named `Demo` in this example, was trained on Lancaster HEC cluster which has NVIDIA V100 cards. To load the pre-trained model, one can just add the following code at the top of Python script.
+
+```python
+import os
+import pathlib
+import posixpath
+
+import autocpd
+from autocpd.pre_trained_model import load_pretrained_model
+
+root_path = os.path.dirname(autocpd.__file__)
+model_path = pathlib.Path(root_path, "Demo", "model")
+
+model = load_pretrained_model(model_path)
+```
+
+Alternatively, one can re-train the above deep neural network on your available GPU server by using the script [./test/RealDataHASC.py]().
