@@ -1,6 +1,18 @@
 # AutoCPD -- Automatic Change-Point Detection in Time Series via Deep Learning
 
-`AutoCPD` is a Python package for detecting the multiple change-points and change-types using deep neural networks.
+`AutoCPD` is a Python package for detecting the multiple change-points and change-types in time series using deep neural networks.
+
+**How to cite?** If you are interested in `AutoCPD` and use it in academic publications, please cite:
+
+```bibtex
+@article{JieAutoCPD2023,
+	author  = {Li, Jie and Fearnhead, Paul and Fryzlewicz, Piotr and Wang, Tengyao},
+	journal = {Journal of Royal Statistical Society, Series B (discussion, to appear)},
+	title   = {Automatic Change-Point Detection in Time Series via Deep Learning},
+	pages   = {arxiv:2211.03860},
+	year    = {2023},
+}
+```
 
 ## Installation
 
@@ -10,7 +22,7 @@ Install via pip with
 python3 -m pip install autocpd
 ```
 
-**Note**: This package requires [tensorflow>=2.7](https://www.tensorflow.org/install) and [tensorflow-docs](https://github.com/tensorflow/docs), please install these two libraries in your virtual environment. For other requirements on the Python libraries, see [AutoCPD]().
+**Note**: This package requires [tensorflow>=2.7](https://www.tensorflow.org/install) and [tensorflow-docs](https://github.com/tensorflow/docs), please install these two libraries in your virtual environment. For other requirements on the Python libraries, see [AutoCPD](https://autocpd.readthedocs.io/en/latest/index.html).
 
 ## Basic Usage
 
@@ -22,7 +34,7 @@ from autocpd.neuralnetwork import general_deep_nn, general_simple_nn
 
 ## Examples
 
-In this section, we demonstrate 3 examples to show how to train simple and deep neural networks, compile and train them and how to detect the change-points. Each example has a corresponding Python script which can be found in the folder [./test](https://github.com/Jieli12/AutoCPD/tree/master/test)
+In this section, we demonstrate 3 examples to show how to train simple and deep neural networks, compile and train them and how to detect the change-points. Each example has a corresponding Python script which can be found in the folder [./test](https://github.com/Jieli12/AutoCPD/tree/master/test).
 
 ### Simple Neural Network
 
@@ -167,7 +179,7 @@ model_path = Path(logdir, model_name, "model")
 model.save(model_path)
 ```
 
-**Note:**  The default value of `validation_split` in `compile_and_fit()` is 0.2, which means that in this example, the validation data set contains the 80 samples.  Because we use the module `tensorflow-docs` to record the training history and plot the validation accuracy,  please check [tensorflow-docs](https://github.com/tensorflow/docs) is correctly installed and loaded before running Python script. The training and validation accuracies are displayed in the following figure:
+**Note:**  The default value of `validation_split` in `compile_and_fit()` is 0.2, which means that in this example, the validation data set contains the 80 samples.  Because we use the module `tensorflow-docs` to record the training history and plot the validation accuracy,  please check [tensorflow-docs](https://github.com/tensorflow/docs) is correctly installed and loaded before running Python script. It takes less than 3 minutes (depending on the CPU) to train the simple neural network on a laptop. The training and validation accuracies are displayed in the following figure:
 
 ![example1](./test/figs/test_simple_nnn100N400m50+acc.png)
 
@@ -332,7 +344,7 @@ The following figure shows The confusion matrix of prediction, the accuracy is 9
 
 ### Load Pretrained Deep Neural Network
 
-The script `test_load_pretrained_model.py` demonstrates how to load the pre-trained deep neural network with 21 residual blocks for [HASC](http://hasc.jp/hc2011/index-en.html) data analysis as described in [Jie et al. (2023)](https://arxiv.org/abs/2211.03860). The pre-trained model, named `Demo` in this example, was trained on Lancaster HEC cluster which has NVIDIA V100 cards. To load the pre-trained model, one can just add the following code at the top of Python script.
+The script `test_load_pretrained_model.py` demonstrates how to load the pre-trained deep neural network with 21 residual blocks for [HASC](http://hasc.jp/hc2011/index-en.html) data analysis as described in [Jie et al. (2023)](https://arxiv.org/abs/2211.03860). The pre-trained model, named `Demo` in this example, was trained on [Lancaster HEC cluster](https://www.lancaster.ac.uk/iss/info/IThandouts/hec/HEC-flyer.pdf) which has NVIDIA V100 cards. To load the pre-trained model, one can just add the following code at the top of Python script.
 
 ```python
 import os
@@ -348,4 +360,19 @@ model_path = pathlib.Path(root_path, "Demo", "model")
 model = load_pretrained_model(model_path)
 ```
 
-Alternatively, one can re-train the above deep neural network on your available GPU server by using the script [./test/RealDataHASC.py]().
+Alternatively, one can re-train the above deep neural network on your available GPU server by using the script [./test/RealDataHASC.py](https://github.com/Jieli12/AutoCPD/blob/master/test/RealDataHASC.py). Please note that, even on 1 NVIDIA V100 GPU card, it still needs 1~2 hours to train the deep neural network.
+
+To predict the change-points, please run the following command (<=2 minutes):
+
+```python
+cd ./test
+python test_load_pretrained_model.py
+```
+
+You can obtain the following figure:
+
+![example4](./test/figs/HASCSubject7Seq1.png)
+
+## License
+
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
