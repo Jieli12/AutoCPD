@@ -1,7 +1,7 @@
 """
 Author         : Jie Li, Department of Statistics, London School of Economics.
 Date           : 2023-09-20 12:37:17
-Last Revision  : 2023-09-27 22:30:06
+Last Revision  : 2023-09-28 15:10:26
 Last Author    : Jie Li
 File Path      : /AutoCPD/test/test_deep_nn.py
 Description    :
@@ -73,11 +73,11 @@ kernel_size = (num_tran // 2, 30)
 num_classes = 3
 
 # %%
-model_name = current_file + "n" + str(n) + "N" + str(N_sub) + "L" + str(7)
+num_resblock = 3
+model_name = current_file + "n" + str(n) + "N" + str(N_sub) + "L" + str(num_resblock)
 print(model_name)
 # build the model
 m = np.array([50, 40, 30, 20, 10])
-num_resblock = 3
 model = general_deep_nn(
     n,
     num_tran,

@@ -172,3 +172,47 @@ model.save(model_path)
 ![example1](./test/figs/test_simple_nnn100N400m50+acc.png)
 
 ### Deep Neural Network
+
+In this section, we introduce how to construct a deep neural network, train it to classify multiple categories and test it on one unseen dataset. The code can be found in the Python script [./test/test_deep_nn.py](https://github.com/Jieli12/AutoCPD/tree/master/test). Compared with `test_simple_nn.py`, the script`test_test_nn.py` consists of four steps: data generation, model construction, model compilation and fitting and Model prediction. To be concise, we will omit the data generation, model compilation and fitting.
+
+In this example, we try to construct a deep neural network with 3 residual blocks followed by 5 hidden layers, the width vector of hidden layers is $[50,40,30,20,10]$. The dataset can be grouped into 3 categories: change in variance only, no change in non-zero slope and change in slope labelled by 0, 1 and 2 respectively. The length of time series is $n=400$, each class has 500 observations.
+
+```python
+np.random.seed(2022)  # numpy seed
+tf.random.set_seed(2022)  # tensorflow seed
+n = 400  # the length of time series
+N_sub = 500
+num_dataset = 3
+labels = [0, 1, 2]
+num_classes = len(set(labels))
+
+learning_rate = 1e-3
+epochs = 200
+batch_size = 64
+dropout_rate = 0.3
+n_filter = 16
+n = x_train.shape[-1]
+num_tran = x_train.shape[1]
+kernel_size = (num_tran // 2, 30)
+num_classes = 3
+
+# %%
+model_name = current_file + "n" + str(n) + "N" + str(N_sub) + "L" + str(3)
+print(model_name)
+# build the model
+m = np.array([50, 40, 30, 20, 10])
+num_resblock = 3
+model = general_deep_nn(
+    n,
+    num_tran,
+    kernel_size,
+    n_filter,
+    dropout_rate,
+    num_classes,
+    num_resblock,
+    m,
+    5,
+    model_name=model_name,
+)
+model.summary()
+```
