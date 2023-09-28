@@ -1,7 +1,7 @@
 """
 Author         : Jie Li, Department of Statistics, London School of Economics.
 Date           : 2023-09-25 11:11:18
-Last Revision  : 2023-09-26 20:49:06
+Last Revision  : 2023-09-28 23:45:28
 Last Author    : Jie Li
 File Path      : /AutoCPD/test/test_load_pretrained_model.py
 Description    :
@@ -124,8 +124,8 @@ label_list, prob_list = get_label_hasc(model, x_test, label_dict)
 # label-based
 trans_sym = "->"
 L = np.zeros((len(label_list),), dtype=np.int32)
-for i, label in enumerate(label_list):
-    if trans_sym in label:
+for i, lab in enumerate(label_list):
+    if trans_sym in lab:
         L[i] = 1
 
 width = 700
@@ -158,3 +158,5 @@ plt.ylabel("Signal", fontsize=20)
 plt.xticks(fontsize=15)
 plt.yticks(fontsize=15)
 plt.legend(fontsize=11, loc="upper right")
+plt.savefig("./figs/HASCSubject7Seq1.png")
+# %%
