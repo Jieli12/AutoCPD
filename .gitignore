@@ -366,3 +366,4 @@ __pycache__
 project-words.txt
 dist/
 test/tensorboard_logs/
+!test/figs/*.png
