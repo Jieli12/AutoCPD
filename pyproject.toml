@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "autocpd"
-version = "0.2.1"
+version = "0.1.0"
 authors = [
     { name="Jie Li, et al.", email="j.li196@lse.ac.uk" },
     { name="Paul Fearnhead", email="p.fearnhead@lancaster.ac.uk"},
@@ -16,6 +16,14 @@ maintainers = [{ name="Jie Li", email="j.li196@lse.ac.uk" },]
 description = "The implementation of algorithm in AutoCPD"
 readme = "README.md"
 requires-python = ">=3.9"
+dependencies = [
+    'matplotlib',
+    'numpy',
+    'pandas',
+    'scipy',
+    'scikit-learn',
+    'statsmodels',
+]
 classifiers = [
     "Programming Language :: Python :: 3",
     "License :: OSI Approved :: MIT License",

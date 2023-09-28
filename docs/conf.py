@@ -13,7 +13,7 @@ sys.path.append(os.path.relpath("../src"))
 project = "AutoCPD"
 copyright = "2023, Jie Li, Paul Fearnhead, Piotr Fryzlewicz and Tengyao Wang"
 author = "Jie Li, Paul Fearnhead, Piotr Fryzlewicz and Tengyao Wang"
-release = "0.1.7"
+release = "0.1.0"
 
 # -- General configuration ---------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration

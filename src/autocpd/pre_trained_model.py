@@ -2,13 +2,13 @@ import tensorflow as tf
 
 
 def load_pretrained_model(path):
-    """
-    Load the pretrained model
+    """Load the pretrained model
 
     Parameters
     ----------
     path : str
         the path of pre-trained model
+
     Returns
     -------
     tf.Model

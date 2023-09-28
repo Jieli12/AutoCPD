@@ -258,8 +258,7 @@ def Standardize(data):
 
 
 def Transform2D(data_y, rescale=False, cumsum=False):
-    """
-    Apply 4 transformations (original, squared, log squared, tanh) to the same dataset
+    """Apply 4 transformations (original, squared, log squared, tanh) to the same dataset
 
     Parameters
     ----------
@@ -269,6 +268,7 @@ def Transform2D(data_y, rescale=False, cumsum=False):
         default False
     cusum : logical bool
         replace tanh transformation with cusum transformation, default False
+
     Returns
     -------
     numpy array
@@ -762,8 +762,7 @@ def MaxCUSUM(x):
 
 
 def Transform2D2TR(data_y, rescale=False, times=2):
-    """
-    Apply 2 transformations (original, squared) to the same dataset, each
+    """Apply 2 transformations (original, squared) to the same dataset, each
     transformation is repeated user-specified times.
 
     Parameters
@@ -774,6 +773,7 @@ def Transform2D2TR(data_y, rescale=False, times=2):
         default False
     times : integer
         the number of repetitions
+
     Returns
     -------
     numpy array
@@ -1204,8 +1204,7 @@ def get_label(model, x_test, n):
 
 
 def get_mosum_loc_nn(pred, n):
-    """
-    This function return the estimation of change-point based on MOSUM using NN.
+    """This function return the estimation of change-point based on MOSUM using NN.
 
     Parameters
     ----------
@@ -1213,6 +1212,7 @@ def get_mosum_loc_nn(pred, n):
         The vector of predicted labels
     n : int
         The width of moving window
+
     Returns
     -------
     int
@@ -1240,8 +1240,7 @@ def get_mosum_loc_nn(pred, n):
 
 
 def get_mosum_loc_double(x, n, width, use_prob):
-    """
-    This function return the estimation of change-point based on MOSUM by second moving average.
+    """This function return the estimation of change-point based on MOSUM by second moving average.
 
     Parameters
     ----------
@@ -1249,6 +1248,7 @@ def get_mosum_loc_double(x, n, width, use_prob):
         either the predicted labels or probabilities
     n : int
         The width of moving window
+
     Returns
     -------
     int
