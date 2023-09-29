@@ -181,7 +181,7 @@ model.save(model_path)
 
 **Note:**  The default value of `validation_split` in `compile_and_fit()` is 0.2, which means that in this example, the validation data set contains the 80 samples.  Because we use the module `tensorflow-docs` to record the training history and plot the validation accuracy,  please check [tensorflow-docs](https://github.com/tensorflow/docs) is correctly installed and loaded before running Python script. It takes less than 3 minutes (depending on the CPU) to train the simple neural network on a laptop. The training and validation accuracies are displayed in the following figure:
 
-![example1](./test/figs/test_simple_nnn100N400m50+acc.png)
+![example1](https://github.com/Jieli12/AutoCPD/blob/master/test/figs/test_simple_nnn100N400m50%2Bacc.png)
 
 ### Deep Neural Network
 
