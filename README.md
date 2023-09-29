@@ -1,6 +1,6 @@
 # AutoCPD -- Automatic Change-Point Detection in Time Series via Deep Learning
 
-[![PyPI version](https://badge.fury.io/py/autocpd.svg)](https://badge.fury.io/py/autocpd)
+[![PyPI version](https://badge.fury.io/py/autocpd.svg)](https://badge.fury.io/py/autocpd)  [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 `AutoCPD` is a Python package for detecting the multiple change-points and change-types in time series using deep neural networks.
 
@@ -375,7 +375,3 @@ python test_load_pretrained_model.py
 You can obtain the following figure:
 
 ![example4](https://github.com/Jieli12/AutoCPD/raw/master/test/figs/HASCSubject7Seq1.png)
-
-## License
-
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
