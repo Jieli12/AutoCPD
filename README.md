@@ -181,7 +181,7 @@ model.save(model_path)
 
 **Note:**  The default value of `validation_split` in `compile_and_fit()` is 0.2, which means that in this example, the validation data set contains the 80 samples.  Because we use the module `tensorflow-docs` to record the training history and plot the validation accuracy,  please check [tensorflow-docs](https://github.com/tensorflow/docs) is correctly installed and loaded before running Python script. It takes less than 3 minutes (depending on the CPU) to train the simple neural network on a laptop. The training and validation accuracies are displayed in the following figure:
 
-![example1](https://github.com/Jieli12/AutoCPD/blob/master/test/figs/test_simple_nnn100N400m50%2Bacc.png)
+![example1](https://github.com/Jieli12/AutoCPD/raw/master/test/figs/test_simple_nnn100N400m50%2Bacc.png)
 <https://github.com/Jieli12/AutoCPD/blob/master/test/figs/test_simple_nnn100N400m50%2Bacc.png>
 
 ### Deep Neural Network
@@ -335,11 +335,11 @@ ________________________________________________________________________________
 
 There are 51,463 trainable parameters in the above neural network. When the number of residual blocks increases, the number of trainable parameters increases dramatically. As a result,  it will take more time to obtain a well-trained neural network. We recommend using GPU server to speed up training neural networks. For instance, it only took 7 minutes to train the above neural network on an HP laptop with Intel Core i7 and NVIDIA T500. The following figure shows the training and validation accuracies of neural network. After 100 epochs, the validation accuracy is close to 93\%.
 
-![example2](./test/figs/test_deep_nnn400N3000L3+acc.png)
+![example2](https://github.com/Jieli12/AutoCPD/raw/master/test/figs/test_deep_nnn400N3000L3%2Bacc.png)
 
 The following figure shows The confusion matrix of prediction, the accuracy is 93.56\%.
 
-![example3](https://github.com/Jieli12/AutoCPD/blob/master/test/figs/test_deep_nnn400N3000L3Confusion_matrix.png)
+![example3](https://github.com/Jieli12/AutoCPD/raw/master/test/figs/test_deep_nnn400N3000L3Confusion_matrix.png)
 
 **Note:** To improve the accuracy of validation, one can either increase the number of residual blocks or increase the number of epochs.
 
@@ -372,7 +372,7 @@ python test_load_pretrained_model.py
 
 You can obtain the following figure:
 
-![example4](./test/figs/HASCSubject7Seq1.png)
+![example4](https://github.com/Jieli12/AutoCPD/raw/master/test/figs/HASCSubject7Seq1.png)
 
 ## License
 
