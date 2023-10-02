@@ -347,7 +347,7 @@ The following figure shows The confusion matrix of prediction, the accuracy is 9
 
 ### Load Pretrained Deep Neural Network
 
-The script `test_load_pretrained_model.py` demonstrates how to load the pre-trained deep neural network with 21 residual blocks for [HASC](http://hasc.jp/hc2011/index-en.html) data analysis as described in [Jie et al. (2023)](https://arxiv.org/abs/2211.03860). The pre-trained model, named `Demo` in this example, was trained on [Lancaster HEC cluster](https://www.lancaster.ac.uk/iss/info/IThandouts/hec/HEC-flyer.pdf) which has NVIDIA V100 cards. To load the pre-trained model, one can just add the following code at the top of Python script.
+The script `test_load_pretrained_model.py` demonstrates how to load the pre-trained deep neural network with 21 residual blocks for [HASC](http://hasc.jp/hc2011/index-en.html) data analysis as described in [Jie et al. (2023)](https://arxiv.org/abs/2211.03860). The pre-trained model, named `Demo` in this example, was trained on [Lancaster HEC cluster](https://www.lancaster.ac.uk/iss/info/IThandouts/hec/HEC-flyer.pdf) which has NVIDIA V100 card. To load the pre-trained model, one can just add the following code at the top of Python script.
 
 ```python
 import os
