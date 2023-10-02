@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "autocpd"
-version = "0.1.4"
+version = "0.1.5"
 authors = [
     { name="Jie Li, et al.", email="j.li196@lse.ac.uk" },
     { name="Paul Fearnhead", email="p.fearnhead@lancaster.ac.uk"},
