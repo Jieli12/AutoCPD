@@ -28,7 +28,7 @@ python3 -m pip install autocpd
 
 ## Basic Usage
 
-Please refer to the online [documentations](https://autocpd.readthedocs.io/en/latest/) for each module in `AutoCPD`. The two important functions to construct shallow and deep neural network are `general_simple_nn()` and `general_deep_nn()` respectively. For `general_simple_nn()`, one can specify the number of layers, the width vector and the number of classes, see more details [here](https://autocpd.readthedocs.io/en/latest/autocpd.html#autocpd.neuralnetwork.simple_nn). For the function `general_deep_nn()`, one can specify the number of transformations, kernel size, filter size, number of classes, number of [residual blocks](https://autocpd.readthedocs.io/en/latest/autocpd.html#autocpd.neuralnetwork.resblock), etc, see more arguments description [here](https://autocpd.readthedocs.io/en/latest/autocpd.html#autocpd.neuralnetwork.general_deep_nn). To call these functions, just import them into Python script as:
+Please refer to the online [documentations](https://autocpd.readthedocs.io/en/latest/) for each module in `AutoCPD`. The two important functions to construct shallow and deep neural networks are `general_simple_nn()` and `general_deep_nn()` respectively. For `general_simple_nn()`, one can specify the number of layers, the width vector and the number of classes, see more details [here](https://autocpd.readthedocs.io/en/latest/autocpd.html#autocpd.neuralnetwork.simple_nn). For the function `general_deep_nn()`, one can specify the number of transformations, kernel size, filter size, number of classes, number of [residual blocks](https://autocpd.readthedocs.io/en/latest/autocpd.html#autocpd.neuralnetwork.resblock), etc, see more arguments description [here](https://autocpd.readthedocs.io/en/latest/autocpd.html#autocpd.neuralnetwork.general_deep_nn). To call these functions, just import them into Python script as:
 
 ```python
 from autocpd.neuralnetwork import general_deep_nn, general_simple_nn
@@ -48,7 +48,7 @@ The Python script `test_simple_nn.py` consists of three parts:
 
 #### Data Generation
 
-We set the length of time series $n=100$, the training data size $N=400$. The sample size of Class 0 (without change-point) and Class 1 (with only 1 change-point) are equal. This example considers detecting change in mean for the piecewise constant signal + Gaussian noise model. Other parameter settings can be found in our [paper](https://arxiv.org/abs/2211.03860). Here lists the Python script for generating training data set:
+We set the length of time series $n=100$, the training data size $N=400$. The sample size of Class 0 (without change-point) and Class 1 (with only 1 change-point) are equal. This example considers detecting change in mean for the piecewise constant signal + Gaussian noise model. Other parameter settings can be found in our [paper](https://arxiv.org/abs/2211.03860). Here is the Python script for generating training data set:
 
 ```python
 from pathlib import Path
@@ -102,7 +102,7 @@ x_train, y_train, tau_train, mu_R_train = shuffle(
 )
 ```
 
-**Note:** `AutoCPD` also offers the utility functions to generate the training data set for change in variance and slope with/without Gaussian noise. For non-Gaussian noise, only Cauchy noise and AR(1) noise are available in current version, please see more functions in `autocpd.utils` [module](https://autocpd.readthedocs.io/en/latest/autocpd.html#module-autocpd.utils).
+**Note:** `AutoCPD` also offers the utility functions to generate the training data set for change in variance and slope with/without Gaussian noise. For non-Gaussian noise, only Cauchy noise and AR(1) noise are available in the current version, please see more functions in `autocpd.utils` [module](https://autocpd.readthedocs.io/en/latest/autocpd.html#module-autocpd.utils).
 
 #### Model Construction
 
@@ -181,7 +181,7 @@ model_path = Path(logdir, model_name, "model")
 model.save(model_path)
 ```
 
-**Note:**  The default value of `validation_split` in `compile_and_fit()` is 0.2, which means that in this example, the validation data set contains the 80 samples.  Because we use the module `tensorflow-docs` to record the training history and plot the validation accuracy,  please check [tensorflow-docs](https://github.com/tensorflow/docs) is correctly installed and loaded before running Python script. It takes less than 3 minutes (depending on the CPU) to train the simple neural network on a laptop. The training and validation accuracies are displayed in the following figure:
+**Note:**  The default value of `validation_split` in `compile_and_fit()` is 0.2, which means that in this example, the validation data set contains 80 samples.  Because we use the module `tensorflow-docs` to record the training history and plot the validation accuracy,  please check [tensorflow-docs](https://github.com/tensorflow/docs) is correctly installed and loaded before running Python script. It takes less than 3 minutes (depending on the CPU) to train the simple neural network on a laptop. The training and validation accuracies are displayed in the following figure:
 
 ![example1](https://github.com/Jieli12/AutoCPD/raw/master/test/figs/test_simple_nnn100N400m50%2Bacc.png)
 
@@ -231,7 +231,7 @@ model = general_deep_nn(
 model.summary()
 ```
 
-The architecture of neural network with 3 residual blocks is displayed as below:
+The architecture of the neural network with 3 residual blocks is displayed as below:
 
 ```python
 test_deep_nnn400N3000L3
@@ -334,7 +334,7 @@ Non-trainable params: 224
 __________________________________________________________________________________________________
 ```
 
-There are 51,463 trainable parameters in the above neural network. When the number of residual blocks increases, the number of trainable parameters increases dramatically. As a result,  it will take more time to obtain a well-trained neural network. We recommend using GPU server to speed up training neural networks. For instance, it only took 7 minutes to train the above neural network on an HP laptop with Intel Core i7 and NVIDIA T500. The following figure shows the training and validation accuracies of neural network. After 100 epochs, the validation accuracy is close to 93\%.
+There are 51,463 trainable parameters in the above neural network. When the number of residual blocks increases, the number of trainable parameters increases dramatically. As a result, it will take more time to obtain a well-trained neural network. We recommend using GPU server to speed up training neural networks. For instance, it only took 7 minutes to train the above neural network on an HP laptop with Intel Core i7 and NVIDIA T500. The following figure shows the training and validation accuracies of neural networks. After 100 epochs, the validation accuracy is close to 93\%.
 
 ![example2](https://github.com/Jieli12/AutoCPD/raw/master/test/figs/test_deep_nnn400N3000L3%2Bacc.png)
 
